@@ -1,5 +1,9 @@
 {
-  "base-store-component": {
-    "component": "Example"
+  "payment": {
+    "component": "*"
+  },
+
+  "payment.example": {
+    "component": "Payment"
   }
 }
