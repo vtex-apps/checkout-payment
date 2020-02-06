@@ -12,6 +12,23 @@ interface Card {
   cardCvv: string
 }
 
+const IFRAME_APP_VERSION = '0.1.1'
+const LOCAL_IFRAME_DEVELOPMENT = true
+const PORT = 3001
+
+let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
+
+if (LOCAL_IFRAME_DEVELOPMENT) {
+  iframeURL = `https://checkoutio.vtexlocal.com.br:${PORT}/`
+}
+
+interface Card {
+  cardNumber: string
+  cardName: string
+  cardDate: string
+  cardCvv: string
+}
+
 const Payment: React.FC = () => {
   const [iframeData, setIframeData] = useState<Card | null>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -46,7 +63,7 @@ const Payment: React.FC = () => {
         title="card-form-ui"
         width="400px"
         height="300px"
-        src={'https://io.vtexpayments.com.br/card-form-ui/0.1.0/index.html'}
+        src={iframeURL}
         onLoad={handleLoad}
         ref={iframeRef}
       />
