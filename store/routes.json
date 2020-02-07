@@ -1,5 +1,5 @@
 {
-    "payment.example": {
-      "path": "/example"
-    }
+  "payment.example": {
+    "path": "/payment"
   }
+}
