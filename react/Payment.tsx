@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { useSSR } from 'vtex.render-runtime'
 
 if (window && window.document) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -23,11 +24,12 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
 }
 
 const Payment: React.FC = () => {
-  const [rendered, setRendered] = useState(false)
-  const [iframeData, setIframeData] = useState<Card | null>(null)
+  const [cardData, setCardData] = useState<Card | null>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const setupIframe = () => {
+  const isSSR = useSSR()
+
+  const setupIframe = useCallback(() => {
     const stylesheetsUrls = Array.from(
       document.head.querySelectorAll<HTMLLinkElement>('link[rel=stylesheet]')
     ).map(link => link.href)
@@ -35,15 +37,11 @@ const Payment: React.FC = () => {
     postRobot.send(iframeRef.current!.contentWindow, 'setup', {
       stylesheetsUrls,
     })
-  }
-
-  useEffect(() => {
-    setRendered(true)
   }, [])
 
   useEffect(() => {
     const listener = postRobot.on('card', ({ data }: { data: Card }) => {
-      setIframeData(data)
+      setCardData(data)
       return {
         status: 'ok',
       }
@@ -51,7 +49,7 @@ const Payment: React.FC = () => {
     return () => listener.cancel()
   })
 
-  if (!rendered) {
+  if (isSSR) {
     return null
   }
 
@@ -65,7 +63,7 @@ const Payment: React.FC = () => {
         onLoad={() => setupIframe()}
         ref={iframeRef}
       />
-      {iframeData && <p>{JSON.stringify(iframeData)}</p>}
+      {cardData && <p>{JSON.stringify(cardData)}</p>}
     </div>
   )
 }

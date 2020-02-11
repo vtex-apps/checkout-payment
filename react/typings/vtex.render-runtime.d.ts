@@ -26,7 +26,6 @@ declare module 'vtex.render-runtime' {
 
   export const ChildBlock: ComponentType<ChildBlockProps>
   export const useChildBlock = function({ id: string }): object {}
-
   export const Helmet: ReactElement
   export const Link: ReactType
   export const NoSSR: ReactElement
@@ -35,4 +34,5 @@ declare module 'vtex.render-runtime' {
   export const withRuntimeContext: <TOriginalProps extends {}>(
     Component: ComponentType<TOriginalProps & RenderContextProps>
   ) => ComponentType<TOriginalProps>
+  export const useSSR: () => boolean
 }
