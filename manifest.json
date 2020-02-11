@@ -1,6 +1,6 @@
 {
   "vendor": "vtex",
-  "name": "payment",
+  "name": "checkout-payment",
   "version": "0.2.2",
   "title": "IO Base Component",
   "description": "IO Base component",
