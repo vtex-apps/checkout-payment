@@ -23,6 +23,7 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
 }
 
 const Payment: React.FC = () => {
+  const [rendered, setRendered] = useState(false)
   const [iframeData, setIframeData] = useState<Card | null>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -37,6 +38,10 @@ const Payment: React.FC = () => {
   }
 
   useEffect(() => {
+    setRendered(true)
+  }, [])
+
+  useEffect(() => {
     const listener = postRobot.on('card', ({ data }: { data: Card }) => {
       setIframeData(data)
       return {
@@ -45,6 +50,10 @@ const Payment: React.FC = () => {
     })
     return () => listener.cancel()
   })
+
+  if (!rendered) {
+    return null
+  }
 
   return (
     <div>
