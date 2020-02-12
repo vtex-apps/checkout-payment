@@ -47,7 +47,7 @@ const Payment: React.FC = () => {
       }
     })
     return () => listener.cancel()
-  })
+  }, [])
 
   if (isSSR) {
     return null
