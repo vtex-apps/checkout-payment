@@ -24,6 +24,7 @@ declare module 'vtex.render-runtime' {
     id: string
   }
 
+  export const Loading: React.FC
   export const ChildBlock: ComponentType<ChildBlockProps>
   export const useChildBlock = function({ id: string }): object {}
   export const Helmet: ReactElement

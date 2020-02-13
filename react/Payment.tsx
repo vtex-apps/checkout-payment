@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useSSR } from 'vtex.render-runtime'
+import { Button, Spinner } from 'vtex.styleguide'
+//import PageSubTitle from './components/PageSubTitle'
 
 if (window && window.document) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -14,7 +16,7 @@ interface Card {
 }
 
 const IFRAME_APP_VERSION = '0.1.1'
-const LOCAL_IFRAME_DEVELOPMENT = false
+const LOCAL_IFRAME_DEVELOPMENT = true
 
 let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
 
@@ -24,19 +26,22 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
 }
 
 const Payment: React.FC = () => {
+  const [iframeLoading, setIframeLoading] = useState(true)
   const [cardData, setCardData] = useState<Card | null>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const isSSR = useSSR()
 
-  const setupIframe = useCallback(() => {
+  const setupIframe = useCallback(async () => {
     const stylesheetsUrls = Array.from(
       document.head.querySelectorAll<HTMLLinkElement>('link[rel=stylesheet]')
     ).map(link => link.href)
 
-    postRobot.send(iframeRef.current!.contentWindow, 'setup', {
+    await postRobot.send(iframeRef.current!.contentWindow, 'setup', {
       stylesheetsUrls,
     })
+
+    setIframeLoading(false)
   }, [])
 
   useEffect(() => {
@@ -54,16 +59,31 @@ const Payment: React.FC = () => {
   }
 
   return (
-    <div>
-      <iframe
-        title="card-form-ui"
-        width="400px"
-        height="300px"
-        src={iframeURL}
-        onLoad={() => setupIframe()}
-        ref={iframeRef}
-      />
-      {cardData && <p>{JSON.stringify(cardData)}</p>}
+    <div className="relative">
+      {iframeLoading && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-white-70 z-1 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
+      <div className="flex-none">
+        <div className="">
+          <iframe
+            title="card-form-ui"
+            width="30%"
+            height="350px"
+            src={iframeURL}
+            onLoad={() => setupIframe()}
+            ref={iframeRef}
+            frameBorder="0"
+          />
+          <div className="mt2 pa5 w-30 bg-white">
+            <Button type="submit" block>
+              Escolher parcelamento
+            </Button>
+          </div>
+          {cardData && <p>{JSON.stringify(cardData)}</p>}
+        </div>
+      </div>
     </div>
   )
 }
