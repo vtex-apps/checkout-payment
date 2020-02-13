@@ -1,6 +1,6 @@
 First of all (even before the block's name), its README.md should contain the following sentence at the very beginning:
 
-`ðŸ“¢ Use this project, [contribute](https://github.com/{OrganizationName/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).`
+`=â Use this project, [contribute](https://github.com/{OrganizationName/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).`
 
 # BLOCK NAME
 
@@ -55,3 +55,8 @@ If there are none, add the following sentence instead:
 Check out some documentation models that are already live: 
 - [Breadcrumb](https://github.com/vtex-apps/breadcrumb)
 - [Image](https://vtex.io/docs/components/general/vtex.store-components/image)
+
+
+**Upcoming documentation:**
+
+ - [Checkout payment](https://github.com/vtex-apps/checkout-payment/pull/1)
