@@ -36,4 +36,5 @@ declare module 'vtex.render-runtime' {
     Component: ComponentType<TOriginalProps & RenderContextProps>
   ) => ComponentType<TOriginalProps>
   export const useSSR: () => boolean
+  export const useRuntime: () => any
 }

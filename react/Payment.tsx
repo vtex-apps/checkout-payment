@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { useSSR } from 'vtex.render-runtime'
+import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
-//import PageSubTitle from './components/PageSubTitle'
+import { FormattedMessage } from 'react-intl'
 
 if (window && window.document) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -30,6 +30,9 @@ const Payment: React.FC = () => {
   const [cardData, setCardData] = useState<Card | null>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
+  const runtime = useRuntime()
+  const { locale } = runtime.culture
+
   const isSSR = useSSR()
 
   const setupIframe = useCallback(async () => {
@@ -40,7 +43,6 @@ const Payment: React.FC = () => {
     await postRobot.send(iframeRef.current!.contentWindow, 'setup', {
       stylesheetsUrls,
     })
-
     setIframeLoading(false)
   }, [])
 
@@ -69,16 +71,16 @@ const Payment: React.FC = () => {
         <div className="">
           <iframe
             title="card-form-ui"
-            width="30%"
+            width="40%"
             height="350px"
-            src={iframeURL}
+            src={`${iframeURL}?locale=${locale}`}
             onLoad={() => setupIframe()}
             ref={iframeRef}
             frameBorder="0"
           />
-          <div className="mt2 pa5 w-30 bg-white">
+          <div className="mt2 pa5 w-40 bg-white">
             <Button type="submit" block>
-              Escolher parcelamento
+              <FormattedMessage id="checkout-payment.button.save" />
             </Button>
           </div>
           {cardData && <p>{JSON.stringify(cardData)}</p>}
