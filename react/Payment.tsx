@@ -3,6 +3,8 @@ import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 
+import { paymentSystems } from './utils/paymentData'
+
 let postRobot: any = null
 
 if (window?.document) {
@@ -14,10 +16,11 @@ interface Card {
   cardName: string
   cardDate: string
   cardCvv: string
+  paymentSystemName: string | null
 }
 
 const IFRAME_APP_VERSION = '0.2.1'
-const LOCAL_IFRAME_DEVELOPMENT = false
+const LOCAL_IFRAME_DEVELOPMENT = true
 
 let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
 
@@ -45,6 +48,7 @@ const Payment: React.FC = () => {
 
     await postRobot.send(iframeRef.current!.contentWindow, 'setup', {
       stylesheetsUrls,
+      paymentSystems,
     })
     setIframeLoading(false)
   }, [])

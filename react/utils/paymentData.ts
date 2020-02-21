@@ -1,0 +1,63 @@
+export const paymentSystems = [
+  {
+    id: 1,
+    name: 'American Express',
+    validator: {
+      regex: '^3[47][0-9]{13}$',
+      mask: '9999 999999 99999',
+      cardCodeRegex: '^[0-9]{4}$',
+      cardCodeMask: '9999',
+      weights: [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+      useCvv: true,
+      useExpirationDate: true,
+      useCardHolderName: true,
+      useBillingAddress: true,
+    },
+  },
+  {
+    id: 4,
+    name: 'Mastercard',
+    validator: {
+      regex:
+        '^((5(([1-2]|[4-5])[0-9]{8}|0((1|6)([0-9]{7}))|3(0(4((0|[2-9])[0-9]{5})|([0-3]|[5-9])[0-9]{6})|[1-9][0-9]{7})))|((508116)d{4,10})|((502121)d{4,10})|((589916)d{4,10})|(2[0-9]{15})|(67[0-9]{14})|(506387)d{4,10})',
+      mask: '9999 9999 9999 9999',
+      cardCodeRegex: '^[0-9]{3}$',
+      cardCodeMask: '999',
+      weights: [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+      useCvv: true,
+      useExpirationDate: true,
+      useCardHolderName: true,
+      useBillingAddress: true,
+    },
+  },
+  {
+    id: 2,
+    name: 'Visa',
+    validator: {
+      regex: '^4[0-9]{15}$',
+      mask: '9999 9999 9999 9999',
+      cardCodeRegex: '^[0-9]{3}$',
+      cardCodeMask: '999',
+      weights: [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+      useCvv: true,
+      useExpirationDate: true,
+      useCardHolderName: true,
+      useBillingAddress: true,
+    },
+  },
+  {
+    id: 8,
+    name: 'Hipercard',
+    validator: {
+      regex: '^606282|^3841(?:[0|4|6]{1})0',
+      mask: '9999999999999999999',
+      cardCodeRegex: '^[0-9]{3}$',
+      cardCodeMask: '999',
+      weights: [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
+      useCvv: true,
+      useExpirationDate: true,
+      useCardHolderName: true,
+      useBillingAddress: true,
+    },
+  },
+]
