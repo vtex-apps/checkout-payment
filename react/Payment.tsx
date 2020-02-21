@@ -31,7 +31,9 @@ const Payment: React.FC = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const runtime = useRuntime()
-  const { locale } = runtime.culture
+  const {
+    culture: { locale },
+  } = runtime
 
   const isSSR = useSSR()
 
