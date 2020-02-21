@@ -70,7 +70,7 @@ const Payment: React.FC = () => {
         </div>
       )}
       <div className="flex-none">
-        <div className="">
+        <div>
           <iframe
             title="card-form-ui"
             width="40%"
