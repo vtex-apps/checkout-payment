@@ -69,24 +69,22 @@ const Payment: React.FC = () => {
           <Spinner />
         </div>
       )}
-      <div className="flex-none">
-        <div>
-          <iframe
-            title="card-form-ui"
-            width="40%"
-            height="350px"
-            src={`${iframeURL}?locale=${locale}`}
-            onLoad={() => setupIframe()}
-            ref={iframeRef}
-            frameBorder="0"
-          />
-          <div className="mt2 pa5 w-40 bg-white">
-            <Button type="submit" block>
-              <FormattedMessage id="checkout-payment.button.save" />
-            </Button>
-          </div>
-          {cardData && <p>{JSON.stringify(cardData)}</p>}
+      <div>
+        <iframe
+          title="card-form-ui"
+          width="40%"
+          height="350px"
+          src={`${iframeURL}?locale=${locale}`}
+          onLoad={() => setupIframe()}
+          ref={iframeRef}
+          frameBorder="0"
+        />
+        <div className="mt2 pa5 w-40 bg-white">
+          <Button type="submit" block>
+            <FormattedMessage id="checkout-payment.button.save" />
+          </Button>
         </div>
+        {cardData && <p>{JSON.stringify(cardData)}</p>}
       </div>
     </div>
   )
