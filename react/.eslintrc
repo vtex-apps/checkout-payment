@@ -1,11 +1,14 @@
 {
-  "extends": "vtex-react",
+  "extends": "vtex-react/io",
   "env": {
     "browser": true,
     "es6": true,
     "jest": true
   },
   "rules": {
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "global-require": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-require-import": "off"
   }
 }

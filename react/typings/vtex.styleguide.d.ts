@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/order
+import * as Styleguide from 'vtex.styleguide'
+
 declare module 'vtex.styleguide' {
   import React from 'react'
 

@@ -3,9 +3,10 @@ import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 
-if (window && window.document) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  var postRobot = require('post-robot')
+let postRobot: any = null
+
+if (window?.document) {
+  postRobot = require('post-robot')
 }
 
 interface Card {
