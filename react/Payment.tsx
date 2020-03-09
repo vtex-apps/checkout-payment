@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
-import { Button, Spinner } from 'vtex.styleguide'
+import { Button, Spinner, Input } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
+import msk from 'msk'
+import { OrderPayment } from 'vtex.order-payment'
 
-import { paymentSystems } from './utils/paymentData'
+import { paymentSystems } from './utils/payment'
 
 let postRobot: any = null
 
@@ -11,12 +13,33 @@ if (window?.document) {
   postRobot = require('post-robot')
 }
 
+interface Field {
+  value: string
+  isValid: boolean
+  error: string | null
+}
 interface Card {
-  cardNumber: string
-  cardName: string
-  cardDate: string
-  cardCvv: string
-  paymentSystemName: string | null
+  cardNumber: Field
+  cardHolder: Field
+  expiryDate: Field
+  csc: Field
+  paymentSystem: PaymentSystem | null
+}
+
+interface Validator {
+  regex: string
+  mask: string
+  cardCodeRegex: string
+  cardCodeMask: string
+  weights: number[]
+  useExpirationDate: boolean
+  useCardHolderName: boolean
+  useBillingAddress: boolean
+}
+interface PaymentSystem {
+  id: number
+  name: string
+  validator: Validator
 }
 
 const IFRAME_APP_VERSION = '0.2.1'
@@ -29,9 +52,37 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
   iframeURL = `https://checkoutio.vtexlocal.com.br:${PORT}/`
 }
 
+const { useOrderPayment, OrderPaymentProvider } = OrderPayment
+
+const paymentData = {
+  paymentSystem: '',
+  cardHolder: '',
+  cardNumber: '',
+  expiryDate: '',
+  csc: '',
+  document: '',
+  documentType: 'CPF',
+  partnerId: '12345',
+  address: {
+    postalCode: '22775-130',
+    street: 'Rua Jaime Poggi',
+    neighborhood: 'Jacarepagua',
+    city: 'Rio de Janeiro',
+    state: 'RJ',
+    country: 'BRA',
+    number: '5001',
+    complement: 'Apto 007',
+  },
+}
+
 const Payment: React.FC = () => {
   const [iframeLoading, setIframeLoading] = useState(true)
   const [cardData, setCardData] = useState<Card | null>(null)
+  const [doc, setDoc] = useState<Field>({
+    value: '',
+    isValid: true,
+    error: '',
+  })
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const runtime = useRuntime()
@@ -40,6 +91,8 @@ const Payment: React.FC = () => {
   } = runtime
 
   const isSSR = useSSR()
+
+  const { savePaymentData } = useOrderPayment()
 
   const setupIframe = useCallback(async () => {
     const stylesheetsUrls = Array.from(
@@ -63,6 +116,30 @@ const Payment: React.FC = () => {
     return () => listener.cancel()
   }, [])
 
+  const sendPaymentData = async () => {
+    if (!cardData) {
+      return
+    }
+    const { cardHolder, expiryDate, cardNumber, csc, paymentSystem } = cardData
+    paymentData.cardHolder = cardHolder.value
+    paymentData.cardNumber = cardNumber.value.replace(/\s+/g, '')
+    paymentData.csc = csc.value
+    paymentData.expiryDate = expiryDate.value
+    paymentData.paymentSystem = paymentSystem!.name
+    paymentData.document = doc.value.replace(/\D/g, '')
+    await savePaymentData(paymentData)
+  }
+  const handleDoc = (evt: any) => {
+    setDoc({ ...doc, value: evt.target.value })
+  }
+
+  const handleBlurDoc = () => {
+    setDoc((prevDoc: any) => ({
+      ...prevDoc,
+      value: msk.fit(prevDoc.value, '999.999.999-99'),
+    }))
+  }
+
   if (isSSR) {
     return null
   }
@@ -84,6 +161,16 @@ const Payment: React.FC = () => {
           ref={iframeRef}
           frameBorder="0"
         />
+        <div className="pa5 w-20 flex items-center justify-center">
+          <Input
+            size="large"
+            value={doc.value}
+            name="cpf"
+            label="Cardholder document"
+            onChange={handleDoc}
+            onBlur={handleBlurDoc}
+          />
+        </div>
         <div className="mt2 pa5 w-40 bg-white">
           <Button type="submit" block>
             <FormattedMessage id="checkout-payment.button.save" />
@@ -94,5 +181,9 @@ const Payment: React.FC = () => {
     </div>
   )
 }
-
-export default Payment
+const EnhancedPayment = () => (
+  <OrderPaymentProvider>
+    <Payment />
+  </OrderPaymentProvider>
+)
+export default EnhancedPayment
