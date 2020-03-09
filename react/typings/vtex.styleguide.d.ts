@@ -1,9 +1,10 @@
+// eslint-disable-next-line import/order
+import * as Styleguide from 'vtex.styleguide'
+
 declare module 'vtex.styleguide' {
-  import { ComponentType } from 'react'
+  import React from 'react'
 
-  export const Input: ComponentType<InputProps>
+  export const Button: React.FC<{ type?: string; block?: boolean }>
 
-  interface InputProps {
-    [key: string]: any
-  }
+  export const Spinner: React.FC
 }
