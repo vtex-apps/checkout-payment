@@ -3,9 +3,8 @@ import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner, Input } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import msk from 'msk'
-import { OrderPayment } from 'vtex.order-payment'
-
-import { paymentSystems } from './utils/payment'
+import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
 let postRobot: any = null
 
@@ -52,8 +51,6 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
   iframeURL = `https://checkoutio.vtexlocal.com.br:${PORT}/`
 }
 
-const { useOrderPayment, OrderPaymentProvider } = OrderPayment
-
 const paymentData = {
   paymentSystem: '',
   cardHolder: '',
@@ -76,6 +73,11 @@ const paymentData = {
 }
 
 const Payment: React.FC = () => {
+  const {
+    orderForm: {
+      paymentData: { paymentSystems },
+    },
+  } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
   const [cardData, setCardData] = useState<Card | null>(null)
   const [doc, setDoc] = useState<Field>({
@@ -104,7 +106,7 @@ const Payment: React.FC = () => {
       paymentSystems,
     })
     setIframeLoading(false)
-  }, [])
+  }, [paymentSystems])
 
   useEffect(() => {
     const listener = postRobot.on('card', ({ data }: { data: Card }) => {
@@ -127,8 +129,9 @@ const Payment: React.FC = () => {
     paymentData.expiryDate = expiryDate.value
     paymentData.paymentSystem = paymentSystem!.name
     paymentData.document = doc.value.replace(/\D/g, '')
-    await savePaymentData(paymentData)
+    await savePaymentData([paymentData])
   }
+
   const handleDoc = (evt: any) => {
     setDoc({ ...doc, value: evt.target.value })
   }
@@ -145,7 +148,7 @@ const Payment: React.FC = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-100">
       {iframeLoading && (
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-white-70 z-1 flex items-center justify-center">
           <Spinner />
@@ -172,18 +175,13 @@ const Payment: React.FC = () => {
           />
         </div>
         <div className="mt2 pa5 w-40 bg-white">
-          <Button type="submit" block>
+          <Button type="submit" block onClick={sendPaymentData}>
             <FormattedMessage id="checkout-payment.button.save" />
           </Button>
         </div>
-        {cardData && <p>{JSON.stringify(cardData)}</p>}
       </div>
     </div>
   )
 }
-const EnhancedPayment = () => (
-  <OrderPaymentProvider>
-    <Payment />
-  </OrderPaymentProvider>
-)
-export default EnhancedPayment
+
+export default Payment
