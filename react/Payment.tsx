@@ -42,8 +42,8 @@ interface PaymentSystem {
   validator: Validator
 }
 
-const IFRAME_APP_VERSION = '0.2.1'
-const LOCAL_IFRAME_DEVELOPMENT = true
+const IFRAME_APP_VERSION = '0.3.0'
+const LOCAL_IFRAME_DEVELOPMENT = false
 
 let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
 
