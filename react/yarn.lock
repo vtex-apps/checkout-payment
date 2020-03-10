@@ -4883,17 +4883,21 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+"vtex.order-manager@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.2/public/@types/vtex.order-manager":
+  version "0.8.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.2/public/@types/vtex.order-manager#99a926da2acbfe7612306be3648228cf3469ce45"
+
 "vtex.order-payment@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.1.0/public/@types/vtex.order-payment":
   version "0.1.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.1.0/public/@types/vtex.order-payment#0e86e3391813f03e90163af2fc274e9374c51ad3"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime":
-  version "8.94.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime#e79eb9a66801476b66e7ed354a83a7ff1f1c72c7"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.0/public/@types/vtex.render-runtime":
+  version "8.95.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.0/public/@types/vtex.render-runtime#83fadce267c67a81eb99f4cc77afbd54d4c9b650"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide":
-  version "9.112.13"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide#625c2d44fb3cb07e7207b3efb9380134b62df62c"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.14/public/@types/vtex.styleguide":
+  version "9.112.14"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.14/public/@types/vtex.styleguide#3ad332c14335505fe50545af11331a2d54e681ae"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

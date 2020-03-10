@@ -7,4 +7,6 @@ declare module 'vtex.styleguide' {
   export const Button: React.FC<{ type?: string; block?: boolean }>
 
   export const Spinner: React.FC
+
+  export const Input: React.FC
 }
