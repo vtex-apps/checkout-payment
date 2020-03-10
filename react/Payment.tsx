@@ -157,7 +157,7 @@ const Payment: React.FC = () => {
       <div>
         <iframe
           title="card-form-ui"
-          width="40%"
+          width="100%"
           height="350px"
           src={`${iframeURL}?locale=${locale}`}
           onLoad={() => setupIframe()}
