@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner, Input } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
@@ -14,15 +14,14 @@ if (window?.document) {
 
 interface Field {
   value: string
-  isValid: boolean
   error: string | null
 }
-interface Card {
-  cardNumber: Field
-  cardHolder: Field
-  expiryDate: Field
-  csc: Field
-  paymentSystem: PaymentSystem | null
+
+interface EncryptedCard {
+  encryptedCardNumber: string
+  encryptedCardHolder: string
+  encryptedExpiryDate: string
+  encryptedCsc: string
 }
 
 interface Validator {
@@ -42,7 +41,7 @@ interface PaymentSystem {
 }
 
 const IFRAME_APP_VERSION = '0.3.0'
-const LOCAL_IFRAME_DEVELOPMENT = false
+const LOCAL_IFRAME_DEVELOPMENT = true
 
 let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
 
@@ -79,14 +78,15 @@ const Payment: React.FC = () => {
     },
   } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
-  const [cardData, setCardData] = useState<Card | null>(null)
+  const [
+    selectedPaymentSystem,
+    setSelectedPaymentSystem,
+  ] = useState<PaymentSystem | null>(null)
   const [doc, setDoc] = useState<Field>({
     value: '',
-    isValid: true,
-    error: '',
+    error: null,
   })
   const iframeRef = useRef<HTMLIFrameElement>(null)
-
   const runtime = useRuntime()
   const {
     culture: { locale },
@@ -96,6 +96,15 @@ const Payment: React.FC = () => {
 
   const { savePaymentData } = useOrderPayment()
 
+  const creditCardPaymentSystems = useMemo(
+    () =>
+      paymentSystems.filter(
+        (paymentSystem: any) =>
+          paymentSystem.groupName === 'creditCardPaymentGroup'
+      ),
+    [paymentSystems]
+  )
+
   const setupIframe = useCallback(async () => {
     const stylesheetsUrls = Array.from(
       document.head.querySelectorAll<HTMLLinkElement>('link[rel=stylesheet]')
@@ -103,33 +112,29 @@ const Payment: React.FC = () => {
 
     await postRobot.send(iframeRef.current!.contentWindow, 'setup', {
       stylesheetsUrls,
-      paymentSystems,
+      paymentSystems: creditCardPaymentSystems,
     })
     setIframeLoading(false)
-  }, [paymentSystems])
+  }, [creditCardPaymentSystems])
 
   useEffect(() => {
-    const listener = postRobot.on('card', ({ data }: { data: Card }) => {
-      setCardData(data)
-      return {
-        status: 'ok',
+    const listener = postRobot.on(
+      'paymentSystem',
+      ({ data }: { data: PaymentSystem }) => {
+        setSelectedPaymentSystem(data)
       }
-    })
+    )
     return () => listener.cancel()
   }, [])
 
   const sendPaymentData = async () => {
-    if (!cardData) {
+    if (!selectedPaymentSystem) {
       return
     }
-    const { cardHolder, expiryDate, cardNumber, csc, paymentSystem } = cardData
-    paymentData.cardHolder = cardHolder.value
-    paymentData.cardNumber = cardNumber.value.replace(/\s+/g, '')
-    paymentData.csc = csc.value
-    paymentData.expiryDate = expiryDate.value
-    paymentData.paymentSystem = paymentSystem!.name
-    paymentData.document = doc.value.replace(/\D/g, '')
-    await savePaymentData([paymentData])
+    const { data } = await postRobot.send(
+      iframeRef.current!.contentWindow,
+      'encryptedCard'
+    )
   }
 
   const handleDoc = (evt: any) => {
@@ -164,7 +169,7 @@ const Payment: React.FC = () => {
           ref={iframeRef}
           frameBorder="0"
         />
-        <div className="pa5 w-20 flex items-center justify-center">
+        <div className="pa5 w-50 flex items-center justify-center">
           <Input
             size="large"
             value={doc.value}
@@ -174,7 +179,7 @@ const Payment: React.FC = () => {
             onBlur={handleBlurDoc}
           />
         </div>
-        <div className="mt2 pa5 w-40 bg-white">
+        <div className="mt2 pa5 w-100 bg-white">
           <Button type="submit" block onClick={sendPaymentData}>
             <FormattedMessage id="checkout-payment.button.save" />
           </Button>
