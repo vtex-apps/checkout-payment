@@ -1,3 +1,4 @@
 {
-  "checkout-payment.button.save": "Save new card"
+  "checkout-payment.button.save": "Save new card",
+  "checkout-payment.input.document": "Cardholder document"
 }

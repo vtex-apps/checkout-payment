@@ -1,3 +1,4 @@
 {
-  "checkout-payment.button.save": "Salvar novo cartão"
+  "checkout-payment.button.save": "Salvar novo cartão",
+  "checkout-payment.input.document": "Documento do titular do cartão"
 }

@@ -7,9 +7,10 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
 let postRobot: any = null
-
+let iFrameResize: any = null
 if (window?.document) {
   postRobot = require('post-robot')
+  iFrameResize = require('iframe-resizer/js/iframeResizer')
 }
 
 interface Field {
@@ -50,25 +51,36 @@ if (LOCAL_IFRAME_DEVELOPMENT) {
   iframeURL = `https://checkoutio.vtexlocal.com.br:${PORT}/`
 }
 
-const paymentData = {
-  paymentSystem: '',
-  cardHolder: '',
-  cardNumber: '',
-  expiryDate: '',
-  csc: '',
-  document: '',
-  documentType: 'CPF',
-  partnerId: '12345',
-  address: {
-    postalCode: '22775-130',
-    street: 'Rua Jaime Poggi',
-    neighborhood: 'Jacarepagua',
-    city: 'Rio de Janeiro',
-    state: 'RJ',
-    country: 'BRA',
-    number: '5001',
-    complement: 'Apto 007',
-  },
+const getPaymentData = (
+  {
+    encryptedCardHolder,
+    encryptedCardNumber,
+    encryptedCsc,
+    encryptedExpiryDate,
+  }: EncryptedCard,
+  selectedPaymentSystem: PaymentSystem,
+  document: string
+) => {
+  return {
+    paymentSystem: selectedPaymentSystem.name,
+    cardHolder: encryptedCardHolder,
+    cardNumber: encryptedCardNumber,
+    csc: encryptedCsc,
+    expiryDate: encryptedExpiryDate,
+    document,
+    documentType: 'CPF',
+    partnerId: '12345',
+    address: {
+      postalCode: '22775-130',
+      street: 'Rua Jaime Poggi',
+      neighborhood: 'Jacarepagua',
+      city: 'Rio de Janeiro',
+      state: 'RJ',
+      country: 'BRA',
+      number: '5001',
+      complement: 'Apto 007',
+    },
+  }
 }
 
 const Payment: React.FC = () => {
@@ -86,6 +98,10 @@ const Payment: React.FC = () => {
     value: '',
     error: null,
   })
+
+  const [loading, setLoading] = useState(false)
+  const [savedCard, setSavedCard] = useState<any>(null)
+
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const runtime = useRuntime()
   const {
@@ -106,6 +122,16 @@ const Payment: React.FC = () => {
   )
 
   const setupIframe = useCallback(async () => {
+    iFrameResize(
+      {
+        heightCalculationMethod: 'max',
+        checkOrigin: false,
+        resizeFrom: 'parent',
+        autoResize: true,
+      },
+      iframeRef.current
+    )
+
     const stylesheetsUrls = Array.from(
       document.head.querySelectorAll<HTMLLinkElement>('link[rel=stylesheet]')
     ).map(link => link.href)
@@ -117,6 +143,14 @@ const Payment: React.FC = () => {
     setIframeLoading(false)
   }, [creditCardPaymentSystems])
 
+  const getEncryptedCard = useCallback(async (): Promise<EncryptedCard | null> => {
+    const { data } = await postRobot.send(
+      iframeRef.current!.contentWindow,
+      'encryptedCard'
+    )
+    return data
+  }, [])
+
   useEffect(() => {
     const listener = postRobot.on(
       'paymentSystem',
@@ -127,14 +161,27 @@ const Payment: React.FC = () => {
     return () => listener.cancel()
   }, [])
 
-  const sendPaymentData = async () => {
-    if (!selectedPaymentSystem) {
+  useEffect(() => {
+    if (savedCard) {
+      setLoading(false)
+    }
+  }, [savedCard])
+
+  const handleSubmit = async () => {
+    const encryptedCard = await getEncryptedCard()
+
+    if (!selectedPaymentSystem || !encryptedCard) {
       return
     }
-    const { data } = await postRobot.send(
-      iframeRef.current!.contentWindow,
-      'encryptedCard'
+
+    setLoading(true)
+    const paymentData = getPaymentData(
+      encryptedCard,
+      selectedPaymentSystem,
+      doc.value
     )
+    const newSavedCard = await savePaymentData([paymentData])
+    setSavedCard(newSavedCard)
   }
 
   const handleDoc = (evt: any) => {
@@ -152,6 +199,11 @@ const Payment: React.FC = () => {
     return null
   }
 
+  // The card was saved
+  if (savedCard && !savedCard.error) {
+    return <div>{JSON.stringify(savedCard.value)}</div>
+  }
+
   return (
     <div className="relative w-100">
       {iframeLoading && (
@@ -159,31 +211,36 @@ const Payment: React.FC = () => {
           <Spinner />
         </div>
       )}
-      <div>
-        <iframe
-          title="card-form-ui"
-          width="100%"
-          height="350px"
-          src={`${iframeURL}?locale=${locale}`}
-          onLoad={() => setupIframe()}
-          ref={iframeRef}
-          frameBorder="0"
+
+      <iframe
+        title="card-form-ui"
+        // Using min-width to set the width of the iFrame, works around an issue in iOS that can prevent the iFrame from sizing correctly.
+        style={{ minWidth: '100%', minHeight: '200px' }}
+        // The scrolling attribute is set to 'no' in the iFrame tag, as older versions of IE don't allow this to be turned off in code and can just slightly add a bit of extra space to the bottom of the content that it doesn't report when it returns the height.
+        scrolling="no"
+        frameBorder="0"
+        src={`${iframeURL}?locale=${locale}`}
+        onLoad={() => setupIframe()}
+        ref={iframeRef}
+      />
+      <div className="pa5 w-50 flex items-center justify-center">
+        <Input
+          size="large"
+          value={doc.value}
+          name="cpf"
+          label={<FormattedMessage id="checkout-payment.input.document" />}
+          onChange={handleDoc}
+          onBlur={handleBlurDoc}
         />
-        <div className="pa5 w-50 flex items-center justify-center">
-          <Input
-            size="large"
-            value={doc.value}
-            name="cpf"
-            label="Cardholder document"
-            onChange={handleDoc}
-            onBlur={handleBlurDoc}
-          />
-        </div>
-        <div className="mt2 pa5 w-100 bg-white">
-          <Button type="submit" block onClick={sendPaymentData}>
+      </div>
+      <div className="flex mt5">
+        <Button block disabled={loading} onClick={handleSubmit}>
+          {loading ? (
+            <Spinner size={24} />
+          ) : (
             <FormattedMessage id="checkout-payment.button.save" />
-          </Button>
-        </div>
+          )}
+        </Button>
       </div>
     </div>
   )
