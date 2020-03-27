@@ -7,6 +7,7 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
 import SavedCard from './SavedCard'
+import styles from './CreditCard.css'
 
 const messages = defineMessages({
   requiredField: {
@@ -252,12 +253,13 @@ const CreditCard: React.FC = () => {
           <Spinner />
         </div>
       )}
-      <div style={{ width: '100%' }}>
+      <div className="w-100">
         <iframe
+          className={styles.iframe}
           title="card-form-ui"
-          // Using min-width to set the width of the iFrame, works around an issue in iOS that can prevent the iFrame from sizing correctly.
-          style={{ minWidth: '100%', minHeight: '200px' }}
-          // The scrolling attribute is set to 'no' in the iFrame tag, as older versions of IE don't allow this to be turned off in code and can just slightly add a bit of extra space to the bottom of the content that it doesn't report when it returns the height.
+          /* The scrolling attribute is set to 'no' in the iFrame tag, as older versions of IE don't allow
+          this to be turned off in code and can  just slightly add a bit of extra space to the bottom
+          of the content that it doesn't report when it returns the height. */
           scrolling="no"
           frameBorder="0"
           src={`${iframeURL}?locale=${locale}`}
