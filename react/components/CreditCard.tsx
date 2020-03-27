@@ -63,14 +63,17 @@ interface PaymentSystem {
 }
 
 const IFRAME_APP_VERSION = '0.4.1'
-const LOCAL_IFRAME_DEVELOPMENT = false
+const PORT = 3000
 
-let iframeURL = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
+const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
+const iframeURLDev = `https://checkoutio.vtexlocal.com.br:${PORT}/`
 
-if (LOCAL_IFRAME_DEVELOPMENT) {
-  const PORT = 3000
-  iframeURL = `https://checkoutio.vtexlocal.com.br:${PORT}/`
-}
+const { production, query } = __RUNTIME__
+
+const LOCAL_IFRAME_DEVELOPMENT =
+  !production && query.__localCardUi !== undefined
+
+const iframeURL = LOCAL_IFRAME_DEVELOPMENT ? iframeURLDev : iframeURLProd
 
 const getPaymentData = (
   {
@@ -128,11 +131,9 @@ const CreditCard: React.FC = () => {
   const [savedCard, setSavedCard] = useState<any>(null)
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const runtime = useRuntime()
   const {
     culture: { locale },
-  } = runtime
-
+  } = useRuntime()
   const isSSR = useSSR()
   const intl = useIntl()
   const { savePaymentData } = useOrderPayment()
