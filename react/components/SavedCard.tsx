@@ -37,7 +37,7 @@ const SavedCard: React.FC<Props> = ({ lastDigits }) => {
     <div className="flex">
       <PaymentSystemIcon />
       <div className="ml5">
-        {`${intl.formatMessage(messages.creditCardLabel)} ****${lastDigits}`}
+        {intl.formatMessage(messages.creditCardLabel)} ****{lastDigits}
       </div>
     </div>
   )

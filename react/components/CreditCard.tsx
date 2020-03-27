@@ -290,7 +290,9 @@ const CreditCard: React.FC = () => {
           {saveLoading ? (
             <Spinner size={24} />
           ) : (
-            intl.formatMessage(messages.saveInfoLabel)
+            <span className="f5">
+              {intl.formatMessage(messages.saveInfoLabel)}
+            </span>
           )}
         </Button>
       </div>
