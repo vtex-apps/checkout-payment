@@ -2,11 +2,26 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntl, defineMessages } from 'react-intl'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
 import SavedCard from './SavedCard'
+
+const messages = defineMessages({
+  requiredField: {
+    id: 'checkout-payment.input.requiredField',
+  },
+  invalidDigits: {
+    id: 'checkout-payment.input.invalidDigits',
+  },
+  doucmentLabel: {
+    id: 'checkout-payment.input.document',
+  },
+  saveInfoLabel: {
+    id: 'checkout-payment.button.save',
+  },
+})
 
 let postRobot: any = null
 let iFrameResize: any = null
@@ -176,9 +191,7 @@ const CreditCard: React.FC = () => {
         ...doc,
         showError: true,
         error: true,
-        errorMessage: intl.formatMessage({
-          id: 'checkout-payment.input.requiredField',
-        }),
+        errorMessage: intl.formatMessage(messages.requiredField),
       })
       return false
     }
@@ -186,9 +199,7 @@ const CreditCard: React.FC = () => {
       setDoc({
         ...doc,
         showError: true,
-        errorMessage: intl.formatMessage({
-          id: 'checkout-payment.input.requiredField',
-        }),
+        errorMessage: intl.formatMessage(messages.invalidDigits),
       })
       return false
     }
@@ -256,7 +267,7 @@ const CreditCard: React.FC = () => {
       </div>
       <div className="pa5 w-50 flex items-center justify-center">
         <DocumentField
-          label={<FormattedMessage id="checkout-payment.input.document" />}
+          label={intl.formatMessage(messages.doucmentLabel)}
           documentType="cpf"
           onChange={handleChangeDoc}
           onBlur={validateDoc}
@@ -267,11 +278,16 @@ const CreditCard: React.FC = () => {
         />
       </div>
       <div className="flex mt5">
-        <Button block disabled={saveLoading} onClick={handleSubmit}>
+        <Button
+          size="large"
+          block
+          disabled={saveLoading}
+          onClick={handleSubmit}
+        >
           {saveLoading ? (
             <Spinner size={24} />
           ) : (
-            <FormattedMessage id="checkout-payment.button.save" />
+            intl.formatMessage(messages.saveInfoLabel)
           )}
         </Button>
       </div>
