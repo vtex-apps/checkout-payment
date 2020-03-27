@@ -24,10 +24,11 @@
     "@types/react": "^16.9.2",
     "@vtex/test-tools": "^1.1.0",
     "apollo-client": "^2.5.1",
+    "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field",
     "vtex.order-manager": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.2/public/@types/vtex.order-manager",
     "vtex.order-payment": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.1.0/public/@types/vtex.order-payment",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.0/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.14/public/@types/vtex.styleguide"
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime",
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide"
   },
   "version": "0.3.0"
 }
