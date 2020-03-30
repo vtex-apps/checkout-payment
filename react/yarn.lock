@@ -2451,6 +2451,11 @@ identity-obj-proxy@^3.0.0:
   dependencies:
     harmony-reflect "^1.4.6"
 
+iframe-resizer@^4.2.10:
+  version "4.2.10"
+  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.2.10.tgz#c61c9119bb1bf31931fc3c3bb025e1891b18502c"
+  integrity sha512-9T/AWavGI5Q7nw2ch7qatkKvhK6S11eatuSh0SXpPXN3MV0HtN97KyifWJSuMj47rD6jbqe1CXT91PLQbexvEQ==
+
 ignore-walk@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
@@ -4878,13 +4883,25 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime":
-  version "8.94.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime#e79eb9a66801476b66e7ed354a83a7ff1f1c72c7"
+"vtex.document-field@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field":
+  version "0.1.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field#dc2b3ee50609ef7abb3ec997a547e14e34d0c61a"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide":
-  version "9.112.13"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide#625c2d44fb3cb07e7207b3efb9380134b62df62c"
+"vtex.order-manager@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.2/public/@types/vtex.order-manager":
+  version "0.8.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.2/public/@types/vtex.order-manager#99a926da2acbfe7612306be3648228cf3469ce45"
+
+"vtex.order-payment@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.1.0/public/@types/vtex.order-payment":
+  version "0.1.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.1.0/public/@types/vtex.order-payment#0e86e3391813f03e90163af2fc274e9374c51ad3"
+
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime":
+  version "8.97.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime#b1097168c8d8c8b8b9a1d1e715d67d1d55fd10d6"
+
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide":
+  version "9.112.27"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide#30fa53650c1bb08e25d2252d7c3af4285daccd95"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

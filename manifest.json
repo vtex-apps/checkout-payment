@@ -16,7 +16,10 @@
     "postreleasy": "vtex publish --verbose"
   },
   "dependencies": {
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.order-manager": "0.x",
+    "vtex.order-payment": "0.x",
+    "vtex.document-field": "0.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

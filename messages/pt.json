@@ -1,3 +1,7 @@
 {
-  "checkout-payment.button.save": "Salvar novo cartão"
+  "checkout-payment.button.save": "Salvar novo cartão",
+  "checkout-payment.input.document": "Documento do titular do cartão",
+  "checkout-payment.input.requiredField": "Campo obrigatório.",
+  "checkout-payment.input.invalidDigits": "Dígitos inválidos",
+  "checkout-payment.credit-card.label": "Cartão de Credito"
 }

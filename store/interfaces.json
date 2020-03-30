@@ -1,9 +1,5 @@
 {
   "payment": {
-    "component": "*"
-  },
-
-  "payment.example": {
     "component": "Payment"
   }
 }
