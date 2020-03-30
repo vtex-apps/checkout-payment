@@ -62,6 +62,13 @@ interface PaymentSystem {
   groupName: string
 }
 
+interface TokenizedCard {
+  token: string
+  bin: string
+  lastDigits: string
+  paymentSystem: number
+}
+
 const IFRAME_APP_VERSION = '0.4.1'
 const PORT = 3000
 
@@ -128,7 +135,7 @@ const CreditCard: React.FC = () => {
   })
 
   const [saveLoading, setSaveLoading] = useState(false)
-  const [savedCard, setSavedCard] = useState<any>(null)
+  const [savedCard, setSavedCard] = useState<TokenizedCard | null>(null)
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const {
@@ -177,7 +184,7 @@ const CreditCard: React.FC = () => {
     return data
   }, [])
 
-  useEffect(function createPaymenteSystemListener() {
+  useEffect(function createPaymentSystemListener() {
     const listener = postRobot.on(
       'paymentSystem',
       ({ data }: { data: PaymentSystem }) => {
@@ -225,7 +232,9 @@ const CreditCard: React.FC = () => {
     const result = await savePaymentData([paymentData])
 
     if (!result.error) {
-      setSavedCard(result.value[0])
+      const tokenizedCard =
+        typeof result.value === 'string' ? null : result.value[0]
+      setSavedCard(tokenizedCard)
     }
     setSaveLoading(false)
   }
@@ -258,8 +267,8 @@ const CreditCard: React.FC = () => {
         <iframe
           className={styles.iframe}
           title="card-form-ui"
-          /* The scrolling attribute is set to 'no' in the iFrame tag, as older versions of IE don't allow
-          this to be turned off in code and can  just slightly add a bit of extra space to the bottom
+          /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
+          this to be turned off in code and can just slightly add a bit of extra space to the bottom
           of the content that it doesn't report when it returns the height. */
           scrolling="no"
           frameBorder="0"
