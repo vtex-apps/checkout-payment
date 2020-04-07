@@ -1,18 +1,4 @@
-import React from 'react'
-import { useIntl, defineMessages } from 'react-intl'
-
-const messages = defineMessages({
-  creditCardLabel: {
-    id: 'checkout-payment.credit-card.label',
-  },
-})
-
-interface Props {
-  lastDigits: string
-}
-
-const PaymentSystemIcon: React.FC = () => (
-  <svg
+<svg
     className="db"
     width="28"
     height="18"
@@ -29,18 +15,4 @@ const PaymentSystemIcon: React.FC = () => (
       d="M13.1222 10.9336H2.62775C2.14298 10.9336 1.75 11.3266 1.75 11.8113C1.75 12.2961 2.14298 12.6891 2.62775 12.6891H13.1222C13.607 12.6891 14 12.2961 14 11.8113C14 11.3266 13.607 10.9336 13.1222 10.9336Z"
       fill="#727273"
     />
-  </svg>
-)
-const SavedCard: React.FC<Props> = ({ lastDigits }) => {
-  const intl = useIntl()
-  return (
-    <div className="flex">
-      <PaymentSystemIcon />
-      <div className="ml5">
-        {intl.formatMessage(messages.creditCardLabel)} ****{lastDigits}
-      </div>
-    </div>
-  )
-}
-
-export default SavedCard
+</svg>

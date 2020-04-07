@@ -1,5 +1,5 @@
 {
-  "checkout-payment.button.save": "Salvar novo cartão",
+  "checkout-payment.button.installments": "Escolha os parcelamentos",
   "checkout-payment.input.document": "Documento do titular do cartão",
   "checkout-payment.input.requiredField": "Campo obrigatório.",
   "checkout-payment.input.invalidDigits": "Dígitos inválidos",

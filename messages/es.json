@@ -1,5 +1,5 @@
 {
-  "checkout-payment.button.save": "Guardar tarjeta",
+  "checkout-payment.button.installments": "Escolha os parcelamentos",
   "checkout-payment.input.document": "Documento del titular de la tarjeta",
   "checkout-payment.input.requiredField": "Este campo es obligatorio.",
   "checkout-payment.input.invalidDigits": "Dígitos inválidos",

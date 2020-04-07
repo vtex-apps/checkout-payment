@@ -1,5 +1,5 @@
 {
-  "checkout-payment.button.save": "Save new card",
+  "checkout-payment.button.installments": "Choose installments",
   "checkout-payment.input.document": "Cardholder document",
   "checkout-payment.input.requiredField": "This field is required.",
   "checkout-payment.input.invalidDigits": "Invalid Digits",

@@ -6,7 +6,7 @@ import { useIntl, defineMessages } from 'react-intl'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
-import SavedCard from './SavedCard'
+// import SavedCard from './SavedCard'
 import styles from './CreditCard.css'
 
 const messages = defineMessages({
@@ -19,10 +19,16 @@ const messages = defineMessages({
   doucmentLabel: {
     id: 'checkout-payment.input.document',
   },
-  saveInfoLabel: {
-    id: 'checkout-payment.button.save',
+  installmentsButton: {
+    id: 'checkout-payment.button.installments',
   },
 })
+
+const getLastDigits = (number: string) =>
+  number
+    .split('')
+    .slice(number.length - 4, number.length)
+    .join('')
 
 let postRobot: any = null
 let iFrameResize: any = null
@@ -62,11 +68,8 @@ interface PaymentSystem {
   groupName: string
 }
 
-interface TokenizedCard {
-  token: string
-  bin: string
-  lastDigits: string
-  paymentSystem: number
+interface Props {
+  onCardFormCompleted: (cardForm: CardFormData) => void
 }
 
 const IFRAME_APP_VERSION = '0.4.1'
@@ -82,44 +85,14 @@ const LOCAL_IFRAME_DEVELOPMENT =
 
 const iframeURL = LOCAL_IFRAME_DEVELOPMENT ? iframeURLDev : iframeURLProd
 
-const getPaymentData = (
-  {
-    encryptedCardHolder,
-    encryptedCardNumber,
-    encryptedCsc,
-    encryptedExpiryDate,
-  }: EncryptedCard,
-  selectedPaymentSystem: PaymentSystem,
-  document: string
-) => {
-  return {
-    paymentSystem: selectedPaymentSystem.name,
-    cardHolder: encryptedCardHolder,
-    cardNumber: encryptedCardNumber,
-    csc: encryptedCsc,
-    expiryDate: encryptedExpiryDate,
-    document,
-    documentType: 'CPF',
-    partnerId: '12345',
-    address: {
-      postalCode: '22775-130',
-      street: 'Rua Jaime Poggi',
-      neighborhood: 'Jacarepagua',
-      city: 'Rio de Janeiro',
-      state: 'RJ',
-      country: 'BRA',
-      number: '5001',
-      complement: 'Apto 007',
-    },
-  }
-}
-
-const CreditCard: React.FC = () => {
+const CreditCard: React.FC<Props> = ({ onCardFormCompleted }) => {
   const {
     orderForm: {
       paymentData: { paymentSystems },
+      totalizers,
     },
   } = useOrderForm()
+
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -134,16 +107,13 @@ const CreditCard: React.FC = () => {
     showError: false,
   })
 
-  const [saveLoading, setSaveLoading] = useState(false)
-  const [savedCard, setSavedCard] = useState<TokenizedCard | null>(null)
-
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const {
     culture: { locale },
   } = useRuntime()
   const isSSR = useSSR()
   const intl = useIntl()
-  const { savePaymentData } = useOrderPayment()
+  const { setOrderPayment } = useOrderPayment()
 
   const creditCardPaymentSystems = useMemo(
     () =>
@@ -223,20 +193,20 @@ const CreditCard: React.FC = () => {
       return
     }
 
-    setSaveLoading(true)
-    const paymentData = getPaymentData(
-      encryptedCard,
-      selectedPaymentSystem,
-      doc.value
-    )
-    const result = await savePaymentData([paymentData])
+    setOrderPayment({
+      payments: [
+        {
+          paymentSystem: selectedPaymentSystem.id,
+          referenceValue: totalizers[0].value,
+        },
+      ],
+    })
 
-    if (!result.error) {
-      const tokenizedCard =
-        typeof result.value === 'string' ? null : result.value[0]
-      setSavedCard(tokenizedCard)
-    }
-    setSaveLoading(false)
+    onCardFormCompleted({
+      ...encryptedCard,
+      paymentSystemId: `${selectedPaymentSystem.id}`,
+      lastDigits: getLastDigits(encryptedCard.encryptedCardNumber),
+    })
   }
 
   const handleChangeDoc = (data: any) => {
@@ -250,10 +220,6 @@ const CreditCard: React.FC = () => {
 
   if (isSSR) {
     return null
-  }
-
-  if (savedCard) {
-    return <SavedCard lastDigits={savedCard.lastDigits} />
   }
 
   return (
@@ -289,20 +255,9 @@ const CreditCard: React.FC = () => {
           size="large"
         />
       </div>
-      <div className="flex mt5">
-        <Button
-          size="large"
-          block
-          disabled={saveLoading}
-          onClick={handleSubmit}
-        >
-          {saveLoading ? (
-            <Spinner size={24} />
-          ) : (
-            <span className="f5">
-              {intl.formatMessage(messages.saveInfoLabel)}
-            </span>
-          )}
+      <div className="flex mt5 f5">
+        <Button size="large" block onClick={handleSubmit}>
+          {intl.formatMessage(messages.installmentsButton)}
         </Button>
       </div>
     </div>
