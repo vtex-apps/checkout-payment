@@ -17,16 +17,22 @@ const Payment: React.FC = () => {
     setStep(Step.InstallmentsStep)
   }
 
+  const backToCreditCard = () => {
+    setStep(Step.CreditCardFormStep)
+  }
+
   return (
     <>
-      {step === Step.CreditCardFormStep ? (
+      <div className={step === Step.CreditCardFormStep ? '' : 'dn'}>
         <CreditCard onCardFormCompleted={onCardFormCompleted} />
-      ) : (
+      </div>
+      {step === Step.InstallmentsStep ? (
         <Installments
+          backToCreditCard={backToCreditCard}
           paymentSystem={cardFormData!.paymentSystemId}
           lastDigits={cardFormData!.lastDigits}
         />
-      )}
+      ) : null}
     </>
   )
 }

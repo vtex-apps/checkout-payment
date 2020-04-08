@@ -14,7 +14,7 @@ const PaymentSystemIcon: React.FC<{ paymentSystem?: string }> = ({
   paymentSystem,
 }) => (
   <img
-    src={paymentSystem ? flags[paymentSystem] : flags[0]}
+    src={paymentSystem ? flags[paymentSystem] : flags.DefaultFlag}
     width="40"
     height="40"
     alt=""
@@ -24,9 +24,14 @@ const PaymentSystemIcon: React.FC<{ paymentSystem?: string }> = ({
 interface Props {
   paymentSystem: string
   lastDigits: string
+  handleClick: () => void
 }
 
-const CardSummary: React.FC<Props> = ({ paymentSystem, lastDigits }) => {
+const CardSummary: React.FC<Props> = ({
+  paymentSystem,
+  lastDigits,
+  handleClick,
+}) => {
   const intl = useIntl()
   return (
     <div className="flex items-center">
@@ -36,7 +41,7 @@ const CardSummary: React.FC<Props> = ({ paymentSystem, lastDigits }) => {
         &middot; &middot;{lastDigits}
       </span>
       <div className="dib ml4">
-        <ButtonPlain>
+        <ButtonPlain onClick={handleClick}>
           <IconEdit solid />
         </ButtonPlain>
       </div>

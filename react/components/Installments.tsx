@@ -7,10 +7,12 @@ import CardSummary from './CardSummary'
 interface Props {
   paymentSystem: string
   lastDigits: string
+  backToCreditCard: () => void
 }
 const Installments: React.FC<Props> = ({
   paymentSystem: selectedPaymentSystem,
   lastDigits,
+  backToCreditCard,
 }) => {
   const {
     orderForm: {
@@ -29,8 +31,11 @@ const Installments: React.FC<Props> = ({
       <CardSummary
         lastDigits={lastDigits}
         paymentSystem={selectedPaymentSystem}
+        handleClick={backToCreditCard}
       />
-      <div className="fw6 mt6">Choose a payment method</div>
+      <div className="fw6 mt6 bb b--muted-4 pb5">
+        Escola um método de pagamento
+      </div>
       <div>
         {installments.map((installment: any) => {
           return (
