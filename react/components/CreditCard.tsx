@@ -5,6 +5,7 @@ import { DocumentField } from 'vtex.document-field'
 import { useIntl, defineMessages } from 'react-intl'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { PaymentSystem } from 'vtex.checkout-graphql'
 
 // import SavedCard from './SavedCard'
 import styles from './CreditCard.css'
@@ -49,23 +50,6 @@ interface EncryptedCard {
   encryptedCardHolder: string
   encryptedExpiryDate: string
   encryptedCsc: string
-}
-
-interface Validator {
-  regex: string
-  mask: string
-  cardCodeRegex: string
-  cardCodeMask: string
-  weights: number[]
-  useExpirationDate: boolean
-  useCardHolderName: boolean
-  useBillingAddress: boolean
-}
-interface PaymentSystem {
-  id: number
-  name: string
-  validator: Validator
-  groupName: string
 }
 
 interface Props {
@@ -200,15 +184,15 @@ const CreditCard: React.FC<Props> = ({ onCardFormCompleted }) => {
       payments: [
         {
           ...payment,
-          paymentSystem: selectedPaymentSystem.id,
-          referenceValue: totalizers[0].value,
+          paymentSystem: Number(selectedPaymentSystem.id),
+          referenceValue: totalizers[0]!.value,
         },
       ],
     })
 
     onCardFormCompleted({
       ...encryptedCard,
-      paymentSystemId: `${selectedPaymentSystem.id}`,
+      paymentSystemId: selectedPaymentSystem.id,
       lastDigits: getLastDigits(encryptedCard.encryptedCardNumber),
     })
   }

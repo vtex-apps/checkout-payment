@@ -1,5 +1,6 @@
 import React from 'react'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 
 import InstallmentItem from './InstallmentItem'
 import CardSummary from './CardSummary'
@@ -21,10 +22,11 @@ const Installments: React.FC<Props> = ({
   } = useOrderForm()
 
   const installmentOption = installmentOptions.find(
-    ({ paymentSystem }: any) => paymentSystem === selectedPaymentSystem
+    ({ paymentSystem }: InstallmentOption) =>
+      paymentSystem === selectedPaymentSystem
   )
 
-  const { installments } = installmentOption
+  const { installments } = installmentOption!
 
   return (
     <div>
@@ -37,10 +39,10 @@ const Installments: React.FC<Props> = ({
         Escola um método de pagamento
       </div>
       <div>
-        {installments.map((installment: any) => {
+        {installments.map((installment: Installment) => {
           return (
             <InstallmentItem
-              key={installment.count}
+              key={`${installment.count}`}
               installment={installment}
             />
           )
