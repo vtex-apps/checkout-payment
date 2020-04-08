@@ -88,7 +88,7 @@ const iframeURL = LOCAL_IFRAME_DEVELOPMENT ? iframeURLDev : iframeURLProd
 const CreditCard: React.FC<Props> = ({ onCardFormCompleted }) => {
   const {
     orderForm: {
-      paymentData: { paymentSystems },
+      paymentData: { paymentSystems, payments },
       totalizers,
     },
   } = useOrderForm()
@@ -189,13 +189,17 @@ const CreditCard: React.FC<Props> = ({ onCardFormCompleted }) => {
   const handleSubmit = async () => {
     const encryptedCard = await getEncryptedCard()
     const docIsValid = validateDoc()
+
     if (!selectedPaymentSystem || !encryptedCard || !docIsValid) {
       return
     }
 
+    const payment = payments[0] || {}
+
     setOrderPayment({
       payments: [
         {
+          ...payment,
           paymentSystem: selectedPaymentSystem.id,
           referenceValue: totalizers[0].value,
         },
