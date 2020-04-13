@@ -29,7 +29,6 @@ const Payment: React.FC = () => {
       {step === Step.InstallmentsStep ? (
         <Installments
           backToCreditCard={backToCreditCard}
-          paymentSystem={cardFormData!.paymentSystemId}
           lastDigits={cardFormData!.lastDigits}
         />
       ) : null}

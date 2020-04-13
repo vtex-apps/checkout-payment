@@ -13,22 +13,26 @@ const messages = defineMessages({
 })
 
 interface Props {
-  paymentSystem: string
   lastDigits: string
   backToCreditCard: () => void
 }
-const Installments: React.FC<Props> = ({
-  paymentSystem: selectedPaymentSystem,
-  lastDigits,
-  backToCreditCard,
-}) => {
+
+const Installments: React.FC<Props> = ({ lastDigits, backToCreditCard }) => {
   const intl = useIntl()
 
   const {
     orderForm: {
-      paymentData: { installmentOptions },
+      paymentData: { installmentOptions, payments },
     },
   } = useOrderForm()
+
+  const [payment] = payments
+
+  if (!payment || !payment.paymentSystem) {
+    return null
+  }
+
+  const { paymentSystem: selectedPaymentSystem } = payment
 
   const installmentOption = installmentOptions.find(
     ({ paymentSystem }: InstallmentOption) =>
