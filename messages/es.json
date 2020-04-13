@@ -3,5 +3,9 @@
   "checkout-payment.input.document": "Documento del titular de la tarjeta",
   "checkout-payment.input.requiredField": "Este campo es obligatorio.",
   "checkout-payment.input.invalidDigits": "Dígitos inválidos",
-  "checkout-payment.credit-card.label": "Tarjeta de Crédito"
+  "checkout-payment.credit-card.label": "Tarjeta de Crédito",
+  "checkout-payment.paymentMethodLabel": "Elige un método de pago",
+  "checkout-payment.installmentValue": "{installments}x {value}",
+  "checkout-payment.singleInstallmentValue": "{value} à vista",
+  "checkout-payment.interestFree": "Sem juros"
 }

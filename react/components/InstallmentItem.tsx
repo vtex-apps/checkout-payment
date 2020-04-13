@@ -1,5 +1,18 @@
 import React from 'react'
 import { useFormattedPrice } from 'vtex.formatted-price'
+import { useIntl, defineMessages } from 'react-intl'
+
+const messages = defineMessages({
+  installmentValue: {
+    id: 'checkout-payment.installmentValue',
+  },
+  singleInstallmentValue: {
+    id: 'checkout-payment.singleInstallmentValue',
+  },
+  interestFree: {
+    id: 'checkout-payment.interestFree',
+  },
+})
 
 const InstallmentIcon: React.FC = () => (
   <svg
@@ -28,14 +41,23 @@ interface Props {
 }
 
 const InstallmentItem: React.FC<Props> = ({ installment }) => {
+  const intl = useIntl()
+
   const formattedPrice = useFormattedPrice(installment.value / 100)
 
   const primaryInfo =
     installment.count === 1
-      ? `${formattedPrice} à vista`
-      : `${installment.count}x ${formattedPrice}`
+      ? intl.formatMessage(messages.singleInstallmentValue, {
+          value: formattedPrice,
+        })
+      : intl.formatMessage(messages.installmentValue, {
+          installments: installment.count,
+          value: formattedPrice,
+        })
 
-  const secondaryInfo = installment.hasInterestRate ? 'Sem juros' : ''
+  const secondaryInfo = installment.hasInterestRate
+    ? intl.formatMessage(messages.interestFree)
+    : ''
 
   return (
     <div className="flex mv2 pv5 ml5 pr5 bb b--muted-4">

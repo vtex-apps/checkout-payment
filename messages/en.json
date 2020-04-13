@@ -3,5 +3,9 @@
   "checkout-payment.input.document": "Cardholder document",
   "checkout-payment.input.requiredField": "This field is required.",
   "checkout-payment.input.invalidDigits": "Invalid Digits",
-  "checkout-payment.credit-card.label": "Credit Card"
+  "checkout-payment.credit-card.label": "Credit Card",
+  "checkout-payment.paymentMethodLabel": "Choose a payment method",
+  "checkout-payment.installmentValue": "{installments}x {value}",
+  "checkout-payment.singleInstallmentValue": "{value} à vista",
+  "checkout-payment.interestFree": "Sem juros"
 }

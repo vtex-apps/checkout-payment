@@ -1,9 +1,16 @@
 import React from 'react'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
+import { useIntl, defineMessages } from 'react-intl'
 
 import InstallmentItem from './InstallmentItem'
 import CardSummary from './CardSummary'
+
+const messages = defineMessages({
+  paymentMethodLabel: {
+    id: 'checkout-payment.paymentMethodLabel',
+  },
+})
 
 interface Props {
   paymentSystem: string
@@ -15,6 +22,8 @@ const Installments: React.FC<Props> = ({
   lastDigits,
   backToCreditCard,
 }) => {
+  const intl = useIntl()
+
   const {
     orderForm: {
       paymentData: { installmentOptions },
@@ -36,7 +45,7 @@ const Installments: React.FC<Props> = ({
         handleClick={backToCreditCard}
       />
       <div className="fw6 mt6 bb b--muted-4 pb5">
-        Escola um método de pagamento
+        {intl.formatMessage(messages.paymentMethodLabel)}
       </div>
       <div>
         {installments.map((installment: Installment) => {
