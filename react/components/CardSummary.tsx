@@ -6,7 +6,7 @@ import flags from '../flags'
 
 const messages = defineMessages({
   creditCardLabel: {
-    id: 'checkout-payment.credit-card.label',
+    id: 'checkout-payment.creditCardLabel',
   },
 })
 

@@ -1,10 +1,10 @@
 {
-  "checkout-payment.button.installments": "Escolha os parcelamentos",
-  "checkout-payment.input.document": "Documento do titular do cartão",
-  "checkout-payment.input.requiredField": "Campo obrigatório.",
-  "checkout-payment.input.invalidDigits": "Dígitos inválidos",
-  "checkout-payment.credit-card.label": "Cartão de Credito",
-  "checkout-payment.paymentMethodLabel": "Escolha um método de pagamento",
+  "checkout-payment.installmentsButton": "Escolha os parcelamentos",
+  "checkout-payment.documentLabel": "Documento do titular do cartão",
+  "checkout-payment.requiredField": "Campo obrigatório.",
+  "checkout-payment.invalidDigits": "Dígitos inválidos",
+  "checkout-payment.creditCardLabel": "Cartão de Credito",
+  "checkout-payment.paymentOptionLabel": "Escolha uma opção de pagamento",
   "checkout-payment.installmentValue": "{installments}x {value}",
   "checkout-payment.singleInstallmentValue": "{value} à vista",
   "checkout-payment.interestFree": "Sem juros"

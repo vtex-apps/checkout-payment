@@ -12,24 +12,18 @@ import styles from './CreditCard.css'
 
 const messages = defineMessages({
   requiredField: {
-    id: 'checkout-payment.input.requiredField',
+    id: 'checkout-payment.requiredField',
   },
   invalidDigits: {
-    id: 'checkout-payment.input.invalidDigits',
+    id: 'checkout-payment.invalidDigits',
   },
   doucmentLabel: {
-    id: 'checkout-payment.input.document',
+    id: 'checkout-payment.documentLabel',
   },
   installmentsButton: {
-    id: 'checkout-payment.button.installments',
+    id: 'checkout-payment.installmentsButton',
   },
 })
-
-const getLastDigits = (number: string) =>
-  number
-    .split('')
-    .slice(number.length - 4, number.length)
-    .join('')
 
 let postRobot: any = null
 let iFrameResize: any = null
@@ -50,6 +44,7 @@ interface EncryptedCard {
   encryptedCardHolder: string
   encryptedExpiryDate: string
   encryptedCsc: string
+  lastDigits: string
 }
 
 interface Props {
@@ -193,7 +188,6 @@ const CreditCard: React.FC<Props> = ({ onCardFormCompleted }) => {
     onCardFormCompleted({
       ...encryptedCard,
       paymentSystemId: selectedPaymentSystem.id,
-      lastDigits: getLastDigits(encryptedCard.encryptedCardNumber),
     })
   }
 

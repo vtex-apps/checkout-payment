@@ -7,8 +7,8 @@ import InstallmentItem from './InstallmentItem'
 import CardSummary from './CardSummary'
 
 const messages = defineMessages({
-  paymentMethodLabel: {
-    id: 'checkout-payment.paymentMethodLabel',
+  paymentOptionLabel: {
+    id: 'checkout-payment.paymentOptionLabel',
   },
 })
 
@@ -49,7 +49,7 @@ const Installments: React.FC<Props> = ({ lastDigits, backToCreditCard }) => {
         handleClick={backToCreditCard}
       />
       <div className="fw6 mt6 bb b--muted-4 pb5">
-        {intl.formatMessage(messages.paymentMethodLabel)}
+        {intl.formatMessage(messages.paymentOptionLabel)}
       </div>
       <div>
         {installments.map((installment: Installment) => {

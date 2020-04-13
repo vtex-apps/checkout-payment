@@ -1,10 +1,10 @@
 {
-  "checkout-payment.button.installments": "Choose installments",
-  "checkout-payment.input.document": "Cardholder document",
-  "checkout-payment.input.requiredField": "This field is required.",
-  "checkout-payment.input.invalidDigits": "Invalid Digits",
-  "checkout-payment.credit-card.label": "Credit Card",
-  "checkout-payment.paymentMethodLabel": "Choose a payment method",
+  "checkout-payment.installmentsButton": "Choose installments",
+  "checkout-payment.documentLabel": "Cardholder document",
+  "checkout-payment.requiredField": "This field is required.",
+  "checkout-payment.invalidDigits": "Invalid Digits",
+  "checkout-payment.creditCardLabel": "Credit Card",
+  "checkout-payment.paymentOptionLabel": "Choose a payment option",
   "checkout-payment.installmentValue": "{installments}x {value}",
   "checkout-payment.singleInstallmentValue": "{value} à vista",
   "checkout-payment.interestFree": "Sem juros"
