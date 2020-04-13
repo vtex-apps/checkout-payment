@@ -14,15 +14,13 @@ const PaymentSystemIcon: React.FC<{ paymentSystem?: string }> = ({
   paymentSystem,
 }) => (
   <img
-    src={paymentSystem ? flags[paymentSystem] : flags.DefaultFlag}
-    width="40"
-    height="40"
+    src={paymentSystem ? flags[paymentSystem] : flags.NewPaymentMethod}
     alt=""
   />
 )
 
 interface Props {
-  paymentSystem: string
+  paymentSystem?: string
   lastDigits: string
   handleClick: () => void
 }

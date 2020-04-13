@@ -43,11 +43,7 @@ const Installments: React.FC<Props> = ({ lastDigits, backToCreditCard }) => {
 
   return (
     <div>
-      <CardSummary
-        lastDigits={lastDigits}
-        paymentSystem={selectedPaymentSystem}
-        handleClick={backToCreditCard}
-      />
+      <CardSummary lastDigits={lastDigits} handleClick={backToCreditCard} />
       <div className="fw6 mt6 bb b--muted-4 pb5">
         {intl.formatMessage(messages.paymentOptionLabel)}
       </div>
