@@ -8,9 +8,3 @@ export enum PaymentType {
   CREDIT_CARD,
   BANK_SLIP,
 }
-
-export enum PaymentAction {
-  CREATE,
-  UPDATE,
-  EDIT,
-}

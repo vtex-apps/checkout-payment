@@ -7,7 +7,7 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { PaymentSystem } from 'vtex.checkout-graphql'
 
-import { PaymentType, PaymentAction } from './enums/PaymentEnums'
+import { PaymentType } from './enums/PaymentEnums'
 // import SavedCard from './SavedCard'
 import styles from './CreditCard.css'
 import CardSummary from './CardSummary'
@@ -219,9 +219,8 @@ const CreditCard: React.FC<Props> = ({
       )}
       <div className="mb4">
         <CardSummary
-          handleClick={() => backToPaymentList()}
+          onClick={() => backToPaymentList()}
           type={PaymentType.CREDIT_CARD}
-          action={PaymentAction.UPDATE}
         />
       </div>
       <div className="w-100">
