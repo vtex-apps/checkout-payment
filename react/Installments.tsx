@@ -1,6 +1,12 @@
 import React from 'react'
-import { useFormattedPrice } from 'vtex.formatted-price'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 import { useIntl, defineMessages } from 'react-intl'
+import { useFormattedPrice } from 'vtex.formatted-price'
+
+import CardSummary from './CardSummary'
+import PageSubTitle from './components/PageSubTitle'
+import { PaymentAction, PaymentType } from './enums/PaymentEnums'
 
 const messages = defineMessages({
   installmentValue: {
@@ -12,9 +18,12 @@ const messages = defineMessages({
   interestFree: {
     id: 'checkout-payment.interestFree',
   },
+  paymentOptionLabel: {
+    id: 'checkout-payment.paymentOptionLabel',
+  },
 })
 
-const InstallmentIcon: React.FC = () => (
+const ArrowIcon: React.FC = () => (
   <svg
     width="12"
     height="12"
@@ -36,11 +45,9 @@ const InstallmentIcon: React.FC = () => (
   </svg>
 )
 
-interface Props {
-  installment: any
-}
-
-const InstallmentItem: React.FC<Props> = ({ installment }) => {
+const InstallmentItem: React.FC<{ installment: Installment }> = ({
+  installment,
+}) => {
   const intl = useIntl()
 
   const formattedPrice = useFormattedPrice(installment.value / 100)
@@ -64,10 +71,68 @@ const InstallmentItem: React.FC<Props> = ({ installment }) => {
       <div className="flex-auto">{primaryInfo}</div>
       <div className="flex-none c-success">{secondaryInfo}</div>
       <div className="flex-none pl5">
-        <InstallmentIcon />
+        <ArrowIcon />
       </div>
     </div>
   )
 }
 
-export default InstallmentItem
+interface Props {
+  lastDigits: string
+  backToCreditCard: () => void
+}
+
+const Installments: React.FC<Props> = ({ lastDigits, backToCreditCard }) => {
+  const intl = useIntl()
+
+  const {
+    orderForm: {
+      paymentData: { installmentOptions, payments },
+    },
+  } = useOrderForm()
+
+  const [payment] = payments
+
+  if (!payment || !payment.paymentSystem) {
+    return null
+  }
+
+  const { paymentSystem: selectedPaymentSystem } = payment
+
+  const installmentOption = installmentOptions.find(
+    ({ paymentSystem }: InstallmentOption) =>
+      paymentSystem === selectedPaymentSystem
+  )
+
+  const { installments } = installmentOption!
+
+  return (
+    <div>
+      <div className="mb4">
+        <CardSummary
+          lastDigits={lastDigits}
+          handleClick={backToCreditCard}
+          type={PaymentType.CREDIT_CARD}
+          action={PaymentAction.UPDATE}
+        />
+      </div>
+      <div className="bb b--muted-4">
+        <PageSubTitle>
+          {intl.formatMessage(messages.paymentOptionLabel)}
+        </PageSubTitle>
+      </div>
+      <div>
+        {installments.map((installment: Installment) => {
+          return (
+            <InstallmentItem
+              key={`${installment.count}`}
+              installment={installment}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+export default Installments

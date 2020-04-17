@@ -7,5 +7,7 @@
   "checkout-payment.paymentOptionLabel": "Elige una opción de pago",
   "checkout-payment.installmentValue": "{installments}x {value}",
   "checkout-payment.singleInstallmentValue": "{value} à vista",
-  "checkout-payment.interestFree": "Sem juros"
+  "checkout-payment.interestFree": "Sem juros",
+  "checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
+  "checkout-payment.choosePaymentMethodLabel": "Elija un método de pago"
 }
