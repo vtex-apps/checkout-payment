@@ -77,7 +77,6 @@ const CreditCard: React.FC<Props> = ({
       totalizers,
     },
   } = useOrderForm()
-
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [

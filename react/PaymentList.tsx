@@ -1,5 +1,7 @@
 import React from 'react'
 import { useIntl, defineMessages } from 'react-intl'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { AvailableAccount } from 'vtex.checkout-graphql'
 
 import PageSubTitle from './components/PageSubTitle'
 import PaymentSystemIcon from './components/PaymentSystemIcon'
@@ -19,12 +21,23 @@ const messages = defineMessages({
 
 const CardInfo: React.FC<{
   paymentSystem?: string
-  label: string
-}> = ({ paymentSystem, label }) => {
+  lastDigits?: string
+}> = ({ paymentSystem, lastDigits }) => {
+  const intl = useIntl()
+
   return (
-    <div className="flex items-center">
+    <div className="flex items-center c-muted-1">
       <PaymentSystemIcon paymentSystem={paymentSystem} />
-      <span className="c-base ml5">{label}</span>
+      {lastDigits ? (
+        <span className="ml5">
+          {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;
+          &middot; &middot;{lastDigits}
+        </span>
+      ) : (
+        <span className="ml5">
+          {intl.formatMessage(messages.newCreditCardLabel)}
+        </span>
+      )}
     </div>
   )
 }
@@ -35,7 +48,11 @@ interface Props {
 
 const PaymentList: React.FC<Props> = ({ newCreditCard }) => {
   const intl = useIntl()
-
+  const {
+    orderForm: {
+      paymentData: { availableAccounts },
+    },
+  } = useOrderForm()
   return (
     <div>
       <div className="bb b--muted-4">
@@ -43,13 +60,26 @@ const PaymentList: React.FC<Props> = ({ newCreditCard }) => {
           {intl.formatMessage(messages.choosePaymentMethod)}
         </PageSubTitle>
       </div>
-      <SelectableListItem
-        primaryInfo={
-          <CardInfo
-            label={intl.formatMessage(messages.newCreditCardLabel)}
-            paymentSystem="2"
+
+      {availableAccounts.map((payment: AvailableAccount) => {
+        const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
+
+        return (
+          <SelectableListItem
+            key={payment.accountId}
+            primaryInfo={
+              <CardInfo
+                paymentSystem={payment.paymentSystem}
+                lastDigits={lastDigits}
+              />
+            }
+            secondaryInfo="Up to 12x interest-free"
+            onClick={() => {}}
           />
-        }
+        )
+      })}
+      <SelectableListItem
+        primaryInfo={<CardInfo />}
         secondaryInfo="Up to 12x interest-free"
         onClick={newCreditCard}
       />
