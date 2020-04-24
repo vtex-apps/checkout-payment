@@ -34,12 +34,12 @@ const CardSummary: React.FC<Props> = ({
       <div className="flex items-center">
         <PaymentSystemIcon paymentSystem={paymentSystem} />
         {lastDigits ? (
-          <span className="ml5">
+          <span className="ml3">
             {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;
             &middot; &middot;{lastDigits}
           </span>
         ) : (
-          <span className="ml5">
+          <span className="ml3">
             {intl.formatMessage(messages.newCreditCardLabel)}
           </span>
         )}

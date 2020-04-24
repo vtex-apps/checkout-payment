@@ -38,8 +38,7 @@ const SelectableListItem: React.FC<Props> = ({
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       onClick={onClick}
-      className="flex items-center mv2 pv5 ml5 pr5 bb b--muted-4"
-      style={{ cursor: 'pointer' }}
+      className="flex items-center mv2 pv5 ml5 pr5 bb b--muted-4 pointer"
     >
       <div className="flex-auto">{primaryInfo}</div>
       <div className="flex-none c-success">{secondaryInfo}</div>

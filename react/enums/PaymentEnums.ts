@@ -6,5 +6,5 @@ export enum PaymentStage {
 
 export enum PaymentType {
   CREDIT_CARD,
-  BANK_SLIP,
+  DEBIT_CARD,
 }

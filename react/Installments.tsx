@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 import { useIntl, defineMessages } from 'react-intl'
 import { useFormattedPrice } from 'vtex.formatted-price'
+import { ListGroup, GroupOption } from 'vtex.checkout-components'
 
 import CardSummary from './CardSummary'
-import PageSubTitle from './components/PageSubTitle'
+import Header from './components/Header'
 import { PaymentType } from './enums/PaymentEnums'
-import SelectableListItem from './components/SelectableListItem'
 
 const messages = defineMessages({
   installmentValue: {
@@ -24,14 +24,14 @@ const messages = defineMessages({
   },
 })
 
-const InstallmentItem: React.FC<{ installment: Installment }> = ({
-  installment,
-}) => {
+const InstallmentItem: React.FC<{
+  installment: Installment
+}> = ({ installment }) => {
   const intl = useIntl()
 
   const formattedPrice = useFormattedPrice(installment.value / 100)
 
-  const primaryInfo =
+  const installmentValue =
     installment.count === 1
       ? intl.formatMessage(messages.singleInstallmentValue, {
           value: formattedPrice,
@@ -41,72 +41,78 @@ const InstallmentItem: React.FC<{ installment: Installment }> = ({
           value: formattedPrice,
         })
 
-  const secondaryInfo = installment.hasInterestRate
+  const interestRate = installment.hasInterestRate
     ? intl.formatMessage(messages.interestFree)
     : ''
 
   return (
-    <SelectableListItem
-      onClick={() => {}}
-      primaryInfo={primaryInfo}
-      secondaryInfo={secondaryInfo}
-    />
+    <>
+      <div className="flex-auto">{installmentValue}</div>
+      <div className="flex-none c-success">{interestRate}</div>
+    </>
   )
 }
 
 interface Props {
   lastDigits: string
+  selectedPaymentSystem: string
+  onInstallmentSelected: (installment: number) => void
   backToCreditCard: () => void
 }
 
-const Installments: React.FC<Props> = ({ lastDigits, backToCreditCard }) => {
+const Installments: React.FC<Props> = ({
+  lastDigits,
+  selectedPaymentSystem,
+  backToCreditCard,
+  onInstallmentSelected,
+}) => {
   const intl = useIntl()
 
   const {
     orderForm: {
-      paymentData: { installmentOptions, payments },
+      paymentData: { installmentOptions },
     },
   } = useOrderForm()
 
-  const [payment] = payments
+  const installmentOption = useMemo(
+    () =>
+      installmentOptions.find(
+        ({ paymentSystem }: InstallmentOption) =>
+          paymentSystem === selectedPaymentSystem
+      ),
+    [installmentOptions, selectedPaymentSystem]
+  )
 
-  if (!payment || !payment.paymentSystem) {
+  if (!installmentOption) {
     return null
   }
 
-  const { paymentSystem: selectedPaymentSystem } = payment
-
-  const installmentOption = installmentOptions.find(
-    ({ paymentSystem }: InstallmentOption) =>
-      paymentSystem === selectedPaymentSystem
-  )
-
-  const { installments } = installmentOption!
+  const { installments } = installmentOption
 
   return (
     <div>
-      <div className="mb4">
+      <div className="mb3">
         <CardSummary
           lastDigits={lastDigits}
           onClick={backToCreditCard}
           type={PaymentType.CREDIT_CARD}
         />
       </div>
-      <div className="bb b--muted-4">
-        <PageSubTitle>
-          {intl.formatMessage(messages.paymentOptionLabel)}
-        </PageSubTitle>
-      </div>
-      <div>
+
+      <Header>{intl.formatMessage(messages.paymentOptionLabel)}</Header>
+
+      <ListGroup>
         {installments.map((installment: Installment) => {
           return (
-            <InstallmentItem
+            <GroupOption
               key={`${installment.count}`}
-              installment={installment}
-            />
+              onClick={() => onInstallmentSelected(installment.count)}
+            >
+              <InstallmentItem installment={installment} />
+            </GroupOption>
           )
         })}
-      </div>
+      </ListGroup>
     </div>
   )
 }

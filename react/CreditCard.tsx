@@ -3,7 +3,6 @@ import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 import { useIntl, defineMessages } from 'react-intl'
-import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { PaymentSystem } from 'vtex.checkout-graphql'
 
@@ -54,7 +53,7 @@ interface Props {
   backToPaymentList: () => void
 }
 
-const IFRAME_APP_VERSION = '0.4.1'
+const IFRAME_APP_VERSION = '0.5.2'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
@@ -73,8 +72,7 @@ const CreditCard: React.FC<Props> = ({
 }) => {
   const {
     orderForm: {
-      paymentData: { paymentSystems, payments },
-      totalizers,
+      paymentData: { paymentSystems },
     },
   } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
@@ -97,7 +95,6 @@ const CreditCard: React.FC<Props> = ({
   } = useRuntime()
   const isSSR = useSSR()
   const intl = useIntl()
-  const { setOrderPayment } = useOrderPayment()
 
   const creditCardPaymentSystems = useMemo(
     () =>
@@ -178,21 +175,9 @@ const CreditCard: React.FC<Props> = ({
       return
     }
 
-    const payment = payments[0] || {}
-
-    setOrderPayment({
-      payments: [
-        {
-          ...payment,
-          paymentSystem: Number(selectedPaymentSystem.id),
-          referenceValue: totalizers[0]!.value,
-        },
-      ],
-    })
-
     onCardFormCompleted({
       ...encryptedCard,
-      paymentSystemId: selectedPaymentSystem.id,
+      paymentSystem: selectedPaymentSystem.id,
     })
   }
 

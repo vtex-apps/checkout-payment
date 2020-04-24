@@ -4883,9 +4883,13 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.checkout-graphql@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.31.2+build1587009584/public/@types/vtex.checkout-graphql":
-  version "0.31.2"
-  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.31.2+build1587009584/public/@types/vtex.checkout-graphql#1c5e5806dfe07bafdc83080d07b64a5163aa936f"
+"vtex.checkout-components@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.0.0+build1587579651/public/@types/vtex.checkout-components":
+  version "0.0.0"
+  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.0.0+build1587579651/public/@types/vtex.checkout-components#326de617ef4587f900e0888f36fec368b4a03c41"
+
+"vtex.checkout-graphql@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.32.1+build1587669432/public/@types/vtex.checkout-graphql":
+  version "0.32.1"
+  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.32.1+build1587669432/public/@types/vtex.checkout-graphql#395da637d66d35d2e58b815449bbf7e1bba1c6a6"
 
 "vtex.document-field@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field":
   version "0.1.0"
@@ -4899,9 +4903,13 @@ verror@1.10.0:
   version "0.8.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.4/public/@types/vtex.order-manager#3a4761c73364853954dd61a61d1d01260cbbf634"
 
-"vtex.order-payment@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1585852758/public/@types/vtex.order-payment":
+"vtex.order-payment@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1587404599/public/@types/vtex.order-payment":
   version "0.1.0"
-  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1585852758/public/@types/vtex.order-payment#45143e488e5ddcf0885b000f311724cc50ca3e7c"
+  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1587404599/public/@types/vtex.order-payment#2500d5c2483ff5ec53f75dab2d7140a7b26fddc7"
+
+"vtex.payment-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react":
+  version "2.4.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react#261d4a00a502f2b3b1069b5906d36b80675f04f4"
 
 "vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.99.0/public/@types/vtex.render-runtime":
   version "8.99.0"

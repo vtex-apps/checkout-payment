@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import CreditCard from './CreditCard'
 import Installments from './Installments'
@@ -7,11 +8,18 @@ import { PaymentStage } from './enums/PaymentEnums'
 
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
-  const [cardFormData, setCardFormData] = useState<CardFormData | null>(null)
+  const { cardFormData, setCardFormData } = useOrderPayment()
 
   const onCardFormCompleted = (cardForm: CardFormData) => {
     setCardFormData(cardForm)
     setStage(PaymentStage.INSTALLMENTS)
+  }
+
+  const onInstallmentSelected = (installment: number) => {
+    setCardFormData((prevCardFormData: CardFormData | null) => ({
+      ...prevCardFormData!,
+      installment,
+    }))
   }
 
   const backToCreditCard = () => {
@@ -38,8 +46,10 @@ const Payment: React.FC = () => {
         <PaymentList newCreditCard={newCreditCard} />
       ) : stage === PaymentStage.INSTALLMENTS ? (
         <Installments
-          backToCreditCard={backToCreditCard}
+          onInstallmentSelected={onInstallmentSelected}
           lastDigits={cardFormData!.lastDigits}
+          selectedPaymentSystem={cardFormData!.paymentSystem}
+          backToCreditCard={backToCreditCard}
         />
       ) : null}
     </>

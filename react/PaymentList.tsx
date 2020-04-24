@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useIntl, defineMessages } from 'react-intl'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { GroupOption, ListGroup } from 'vtex.checkout-components'
 import { AvailableAccount } from 'vtex.checkout-graphql'
+import { PaymentFlagPicker } from 'vtex.payment-flags'
 
-import PageSubTitle from './components/PageSubTitle'
-import PaymentSystemIcon from './components/PaymentSystemIcon'
-import SelectableListItem from './components/SelectableListItem'
+import Header from './components/Header'
 
 const messages = defineMessages({
   choosePaymentMethod: {
@@ -19,25 +19,22 @@ const messages = defineMessages({
   },
 })
 
-const CardInfo: React.FC<{
+const PaymentItem: React.FC<{
   paymentSystem?: string
-  lastDigits?: string
-}> = ({ paymentSystem, lastDigits }) => {
-  const intl = useIntl()
-
+  label: ReactNode
+}> = ({ paymentSystem = '', label }) => {
   return (
     <div className="flex items-center c-muted-1">
-      <PaymentSystemIcon paymentSystem={paymentSystem} />
-      {lastDigits ? (
-        <span className="ml5">
-          {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;
-          &middot; &middot;{lastDigits}
-        </span>
-      ) : (
-        <span className="ml5">
-          {intl.formatMessage(messages.newCreditCardLabel)}
-        </span>
-      )}
+      <PaymentFlagPicker paymentSystem={paymentSystem}>
+        {FlagComponent =>
+          FlagComponent && (
+            <div className="h2">
+              <FlagComponent />
+            </div>
+          )
+        }
+      </PaymentFlagPicker>
+      <span className="ml5">{label}</span>
     </div>
   )
 }
@@ -55,34 +52,31 @@ const PaymentList: React.FC<Props> = ({ newCreditCard }) => {
   } = useOrderForm()
   return (
     <div>
-      <div className="bb b--muted-4">
-        <PageSubTitle>
-          {intl.formatMessage(messages.choosePaymentMethod)}
-        </PageSubTitle>
-      </div>
-
-      {availableAccounts.map((payment: AvailableAccount) => {
-        const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
-
-        return (
-          <SelectableListItem
-            key={payment.accountId}
-            primaryInfo={
-              <CardInfo
+      <Header>{intl.formatMessage(messages.choosePaymentMethod)}</Header>
+      <ListGroup>
+        {availableAccounts.map((payment: AvailableAccount) => {
+          const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
+          const paymentLabel = (
+            <>
+              {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;
+              &middot; &middot;{lastDigits}
+            </>
+          )
+          return (
+            <GroupOption key={payment.accountId}>
+              <PaymentItem
                 paymentSystem={payment.paymentSystem}
-                lastDigits={lastDigits}
+                label={paymentLabel}
               />
-            }
-            secondaryInfo="Up to 12x interest-free"
-            onClick={() => {}}
+            </GroupOption>
+          )
+        })}
+        <GroupOption onClick={newCreditCard}>
+          <PaymentItem
+            label={intl.formatMessage(messages.newCreditCardLabel)}
           />
-        )
-      })}
-      <SelectableListItem
-        primaryInfo={<CardInfo />}
-        secondaryInfo="Up to 12x interest-free"
-        onClick={newCreditCard}
-      />
+        </GroupOption>
+      </ListGroup>
     </div>
   )
 }
