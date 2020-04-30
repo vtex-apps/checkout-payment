@@ -29,7 +29,7 @@ const InstallmentItem: React.FC<{
 }> = ({ installment }) => {
   const intl = useIntl()
 
-  const formattedPrice = useFormattedPrice(installment.value / 100)
+  const formattedPrice = useFormattedPrice(installment!.value! / 100)
 
   const installmentValue =
     installment.count === 1

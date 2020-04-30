@@ -10,8 +10,7 @@ const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
   const { cardFormData, setCardFormData } = useOrderPayment()
 
-  const onCardFormCompleted = (cardForm: CardFormData) => {
-    setCardFormData(cardForm)
+  const onCardFormCompleted = () => {
     setStage(PaymentStage.INSTALLMENTS)
   }
 
@@ -27,6 +26,11 @@ const Payment: React.FC = () => {
   }
 
   const newCreditCard = () => {
+    setCardFormData(null)
+    setStage(PaymentStage.CARD_FORM)
+  }
+
+  const editCard = () => {
     setStage(PaymentStage.CARD_FORM)
   }
 
@@ -38,12 +42,13 @@ const Payment: React.FC = () => {
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
         <CreditCard
+          newCard={!cardFormData}
           onCardFormCompleted={onCardFormCompleted}
           backToPaymentList={backToPaymentList}
         />
       </div>
       {stage === PaymentStage.PAYMENT_LIST ? (
-        <PaymentList newCreditCard={newCreditCard} />
+        <PaymentList newCreditCard={newCreditCard} editCard={editCard} />
       ) : stage === PaymentStage.INSTALLMENTS ? (
         <Installments
           onInstallmentSelected={onInstallmentSelected}

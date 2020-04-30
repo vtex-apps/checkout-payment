@@ -4,6 +4,7 @@ import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
 import { AvailableAccount } from 'vtex.checkout-graphql'
 import { PaymentFlagPicker } from 'vtex.payment-flags'
+import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import Header from './components/Header'
 
@@ -41,19 +42,36 @@ const PaymentItem: React.FC<{
 
 interface Props {
   newCreditCard: () => void
+  editCard: () => void
 }
 
-const PaymentList: React.FC<Props> = ({ newCreditCard }) => {
+const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
   const intl = useIntl()
   const {
     orderForm: {
       paymentData: { availableAccounts },
     },
   } = useOrderForm()
+
+  const { cardFormData } = useOrderPayment()
+
   return (
     <div>
       <Header>{intl.formatMessage(messages.choosePaymentMethod)}</Header>
+
       <ListGroup>
+        {cardFormData && (
+          <GroupOption onClick={editCard}>
+            <PaymentItem
+              label={
+                <>
+                  {'Cartão incompleto '} &middot; &middot; &middot; &middot;
+                  {cardFormData.lastDigits}
+                </>
+              }
+            />
+          </GroupOption>
+        )}
         {availableAccounts.map((payment: AvailableAccount) => {
           const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
           const paymentLabel = (
