@@ -3,7 +3,6 @@ import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 import { useIntl, defineMessages } from 'react-intl'
-import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { PaymentSystem } from 'vtex.checkout-graphql'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
@@ -107,10 +106,11 @@ const CreditCard: React.FC<Props> = ({
   newCard,
 }) => {
   const {
-    orderForm: {
-      paymentData: { paymentSystems },
-    },
-  } = useOrderForm()
+    paymentSystems,
+    setOrderPayment,
+    payment,
+    referenceValue,
+  } = useOrderPayment()
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -232,10 +232,21 @@ const CreditCard: React.FC<Props> = ({
       return
     }
     const encryptedCard = getEncryptedCardRequestValues(encryptedCardRequest!)
+
     setCardFormData({
       ...encryptedCard,
-      paymentSystem: selectedPaymentSystem.id,
     })
+
+    const newPayment = {
+      ...payment,
+      paymentSystem: Number(selectedPaymentSystem.id),
+      referenceValue,
+    }
+
+    setOrderPayment({
+      payments: [newPayment],
+    })
+
     onCardFormCompleted()
   }
 
@@ -254,7 +265,6 @@ const CreditCard: React.FC<Props> = ({
       const encryptedCard = getEncryptedCardRequestValues(encryptedCardRequest!)
       setCardFormData({
         ...encryptedCard,
-        paymentSystem: selectedPaymentSystem!.id,
       })
     } else {
       resetCardFormData()

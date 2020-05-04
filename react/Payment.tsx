@@ -8,17 +8,26 @@ import { PaymentStage } from './enums/PaymentEnums'
 
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
-  const { cardFormData, setCardFormData } = useOrderPayment()
+  const {
+    cardFormData,
+    setCardFormData,
+    setOrderPayment,
+    payment,
+  } = useOrderPayment()
 
   const onCardFormCompleted = () => {
     setStage(PaymentStage.INSTALLMENTS)
   }
 
   const onInstallmentSelected = (installment: number) => {
-    setCardFormData((prevCardFormData: CardFormData | null) => ({
-      ...prevCardFormData!,
-      installment,
-    }))
+    const newPayment = {
+      ...payment,
+      paymentSystem: Number(payment.paymentSystem),
+      installments: installment,
+    }
+    setOrderPayment({
+      payments: [newPayment],
+    })
   }
 
   const backToCreditCard = () => {
@@ -52,8 +61,6 @@ const Payment: React.FC = () => {
       ) : stage === PaymentStage.INSTALLMENTS ? (
         <Installments
           onInstallmentSelected={onInstallmentSelected}
-          lastDigits={cardFormData!.lastDigits}
-          selectedPaymentSystem={cardFormData!.paymentSystem}
           backToCreditCard={backToCreditCard}
         />
       ) : null}

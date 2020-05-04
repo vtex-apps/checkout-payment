@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { useIntl, defineMessages } from 'react-intl'
-import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
 import { AvailableAccount } from 'vtex.checkout-graphql'
 import { PaymentFlagPicker } from 'vtex.payment-flags'
@@ -47,13 +46,8 @@ interface Props {
 
 const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
   const intl = useIntl()
-  const {
-    orderForm: {
-      paymentData: { availableAccounts },
-    },
-  } = useOrderForm()
 
-  const { cardFormData } = useOrderPayment()
+  const { cardFormData, availableAccounts } = useOrderPayment()
 
   return (
     <div>

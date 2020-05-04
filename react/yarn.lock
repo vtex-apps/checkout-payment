@@ -4903,17 +4903,17 @@ verror@1.10.0:
   version "0.8.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.4/public/@types/vtex.order-manager#3a4761c73364853954dd61a61d1d01260cbbf634"
 
-"vtex.order-payment@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1587404599/public/@types/vtex.order-payment":
-  version "0.1.0"
-  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.1.0+build1587404599/public/@types/vtex.order-payment#2500d5c2483ff5ec53f75dab2d7140a7b26fddc7"
+"vtex.order-payment@https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.2.0+build1588619670/public/@types/vtex.order-payment":
+  version "0.2.0"
+  resolved "https://paymentio--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.2.0+build1588619670/public/@types/vtex.order-payment#141f3fa0bf74d28a96e1561d318acab4db6b0774"
 
 "vtex.payment-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react":
   version "2.4.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react#261d4a00a502f2b3b1069b5906d36b80675f04f4"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.100.0/public/@types/vtex.render-runtime":
-  version "8.100.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.100.0/public/@types/vtex.render-runtime#f5b01e4192496683dffd0aaddfcf31505464cfde"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.100.1/public/@types/vtex.render-runtime":
+  version "8.100.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.100.1/public/@types/vtex.render-runtime#7f972f369c3db71d406d49b1d91be461f177103f"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.114.0/public/@types/vtex.styleguide":
   version "9.114.0"

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
-import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import React from 'react'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 import { useIntl, defineMessages } from 'react-intl'
 import { useFormattedPrice } from 'vtex.formatted-price'
 import { ListGroup, GroupOption } from 'vtex.checkout-components'
+import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import CardSummary from './CardSummary'
 import Header from './components/Header'
@@ -54,46 +54,36 @@ const InstallmentItem: React.FC<{
 }
 
 interface Props {
-  lastDigits: string
-  selectedPaymentSystem: string
   onInstallmentSelected: (installment: number) => void
   backToCreditCard: () => void
 }
 
 const Installments: React.FC<Props> = ({
-  lastDigits,
-  selectedPaymentSystem,
   backToCreditCard,
   onInstallmentSelected,
 }) => {
   const intl = useIntl()
 
-  const {
-    orderForm: {
-      paymentData: { installmentOptions },
-    },
-  } = useOrderForm()
+  const { installmentOptions, payment, cardFormData } = useOrderPayment()
 
-  const installmentOption = useMemo(
-    () =>
-      installmentOptions.find(
-        ({ paymentSystem }: InstallmentOption) =>
-          paymentSystem === selectedPaymentSystem
-      ),
-    [installmentOptions, selectedPaymentSystem]
-  )
-
-  if (!installmentOption) {
+  if (!payment.paymentSystem) {
     return null
   }
 
-  const { installments } = installmentOption
+  const { paymentSystem: selectedPaymentSystem } = payment
+
+  const installmentOption = installmentOptions.find(
+    ({ paymentSystem }: InstallmentOption) =>
+      paymentSystem === selectedPaymentSystem
+  )
+
+  const { installments } = installmentOption!
 
   return (
     <div>
       <div className="mb3">
         <CardSummary
-          lastDigits={lastDigits}
+          lastDigits={cardFormData!.lastDigits}
           onClick={backToCreditCard}
           type={PaymentType.CREDIT_CARD}
         />
