@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
+import { Router } from 'vtex.checkout-container'
 
 import CreditCard from './CreditCard'
 import Installments from './Installments'
 import PaymentList from './PaymentList'
 import { PaymentStage } from './enums/PaymentEnums'
 
+const REVIEW_ROUTE = '/'
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
   const {
@@ -14,6 +16,7 @@ const Payment: React.FC = () => {
     setOrderPayment,
     payment,
   } = useOrderPayment()
+  const history = Router.useHistory()
 
   const onCardFormCompleted = () => {
     setStage(PaymentStage.INSTALLMENTS)
@@ -22,12 +25,13 @@ const Payment: React.FC = () => {
   const onInstallmentSelected = (installment: number) => {
     const newPayment = {
       ...payment,
-      paymentSystem: Number(payment.paymentSystem),
       installments: installment,
     }
     setOrderPayment({
       payments: [newPayment],
     })
+
+    history.push(REVIEW_ROUTE)
   }
 
   const backToCreditCard = () => {

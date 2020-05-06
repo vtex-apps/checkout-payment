@@ -2,9 +2,9 @@
 import React from 'react'
 import { useIntl, defineMessages } from 'react-intl'
 import { ButtonPlain, IconEdit } from 'vtex.styleguide'
+import { PaymentFlagPicker } from 'vtex.payment-flags'
 
 import { PaymentType } from './enums/PaymentEnums'
-import PaymentSystemIcon from './components/PaymentSystemIcon'
 
 const messages = defineMessages({
   creditCardLabel: {
@@ -32,7 +32,15 @@ const CardSummary: React.FC<Props> = ({
   return (
     <div className="pv5 pr5 c-muted-1 pl5">
       <div className="flex items-center">
-        <PaymentSystemIcon paymentSystem={paymentSystem} />
+        <PaymentFlagPicker paymentSystem={paymentSystem ?? ''}>
+          {FlagComponent =>
+            FlagComponent && (
+              <div className="h1">
+                <FlagComponent />
+              </div>
+            )
+          }
+        </PaymentFlagPicker>
         {lastDigits ? (
           <span className="ml3">
             {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;

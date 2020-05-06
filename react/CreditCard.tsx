@@ -81,7 +81,7 @@ interface Props {
   newCard: boolean
 }
 
-const IFRAME_APP_VERSION = '0.5.2'
+const IFRAME_APP_VERSION = '0.5.3'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
@@ -239,7 +239,7 @@ const CreditCard: React.FC<Props> = ({
 
     const newPayment = {
       ...payment,
-      paymentSystem: Number(selectedPaymentSystem.id),
+      paymentSystem: selectedPaymentSystem.id,
       referenceValue,
     }
 
@@ -284,26 +284,26 @@ const CreditCard: React.FC<Props> = ({
           <Spinner />
         </div>
       )}
-      <div className="mb4">
+      <div className="mb3">
         <CardSummary
           onClick={() => handleCardSummaryClick()}
           type={PaymentType.CREDIT_CARD}
         />
       </div>
-      <div className="w-100">
-        <iframe
-          className={styles.iframe}
-          title="card-form-ui"
-          /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
+
+      <iframe
+        className={styles.iframe}
+        title="card-form-ui"
+        /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
       this to be turned off in code and can just slightly add a bit of extra space to the bottom
       of the content that it doesn't report when it returns the height. */
-          scrolling="no"
-          frameBorder="0"
-          src={`${iframeURL}?locale=${locale}`}
-          onLoad={() => setupIframe()}
-          ref={iframeRef}
-        />
-      </div>
+        scrolling="no"
+        frameBorder="0"
+        src={`${iframeURL}?locale=${locale}`}
+        onLoad={() => setupIframe()}
+        ref={iframeRef}
+      />
+
       <div className="pa5 w-50 flex items-center justify-center">
         <DocumentField
           label={intl.formatMessage(messages.doucmentLabel)}
@@ -316,9 +316,11 @@ const CreditCard: React.FC<Props> = ({
           size="large"
         />
       </div>
-      <div className="flex mt5 f5">
-        <Button size="large" block onClick={handleSubmit}>
-          {intl.formatMessage(messages.installmentsButton)}
+      <div className="flex mt5">
+        <Button size="large" block onClick={handleSubmit}>
+          <span className="f5">
+            {intl.formatMessage(messages.installmentsButton)}
+          </span>
         </Button>
       </div>
     </div>
