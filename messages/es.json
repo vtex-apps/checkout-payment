@@ -10,5 +10,5 @@
   "checkout-payment.interestFree": "Sem juros",
   "checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
   "checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
-  "checkout-payment.paymentSummaryCardMessage": "Cartão de crédito terminando em {value}"
+  "checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}"
 }

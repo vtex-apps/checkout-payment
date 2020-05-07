@@ -24,7 +24,7 @@ const messages = defineMessages({
   },
 })
 
-export const InstallmentItem: React.FC<{
+const InstallmentItem: React.FC<{
   installment: Installment
 }> = ({ installment }) => {
   const intl = useIntl()
