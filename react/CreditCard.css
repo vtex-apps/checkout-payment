@@ -2,5 +2,5 @@
   /* Using min-width to set the width of the iFrame, works around an issue in iOS that can 
   prevent the iFrame from sizing correctly. style={{ minWidth: '100%', minHeight: '200px' }} */
   min-width: 100%;
-  min-height: 200px;
+  min-height: 306px;
 }

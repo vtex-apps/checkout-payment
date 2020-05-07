@@ -105,12 +105,7 @@ const CreditCard: React.FC<Props> = ({
   backToPaymentList,
   newCard,
 }) => {
-  const {
-    paymentSystems,
-    setOrderPayment,
-    payment,
-    referenceValue,
-  } = useOrderPayment()
+  const { paymentSystems, setPaymentField, referenceValue } = useOrderPayment()
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -237,14 +232,9 @@ const CreditCard: React.FC<Props> = ({
       ...encryptedCard,
     })
 
-    const newPayment = {
-      ...payment,
+    setPaymentField({
       paymentSystem: selectedPaymentSystem.id,
       referenceValue,
-    }
-
-    setOrderPayment({
-      payments: [newPayment],
     })
 
     onCardFormCompleted()
@@ -269,7 +259,6 @@ const CreditCard: React.FC<Props> = ({
     } else {
       resetCardFormData()
     }
-
     backToPaymentList()
   }
 
@@ -313,7 +302,6 @@ const CreditCard: React.FC<Props> = ({
           document={doc.value}
           error={doc.showError && doc.error}
           errorMessage={doc.showError && doc.errorMessage}
-          size="large"
         />
       </div>
       <div className="flex mt5">

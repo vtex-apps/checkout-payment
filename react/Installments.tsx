@@ -24,7 +24,7 @@ const messages = defineMessages({
   },
 })
 
-const InstallmentItem: React.FC<{
+export const InstallmentItem: React.FC<{
   installment: Installment
 }> = ({ installment }) => {
   const intl = useIntl()
@@ -42,8 +42,8 @@ const InstallmentItem: React.FC<{
         })
 
   const interestRate = installment.hasInterestRate
-    ? intl.formatMessage(messages.interestFree)
-    : ''
+    ? ''
+    : intl.formatMessage(messages.interestFree)
 
   return (
     <>
