@@ -235,6 +235,7 @@ const CreditCard: React.FC<Props> = ({
     setPaymentField({
       paymentSystem: selectedPaymentSystem.id,
       referenceValue,
+      installments: null,
     })
 
     onCardFormCompleted()
