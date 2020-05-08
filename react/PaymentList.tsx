@@ -55,11 +55,11 @@ const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
 
       <ListGroup>
         {cardFormData && (
-          <GroupOption onClick={editCard}>
+          <GroupOption onClick={editCard} caretAlign="center">
             <PaymentItem
               label={
                 <>
-                  {'Cartão incompleto '} &middot; &middot; &middot; &middot;
+                  Cartão incompleto &middot; &middot; &middot; &middot;
                   {cardFormData.lastDigits}
                 </>
               }
@@ -75,7 +75,7 @@ const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
             </>
           )
           return (
-            <GroupOption key={payment.accountId}>
+            <GroupOption key={payment.accountId} caretAlign="center">
               <PaymentItem
                 paymentSystem={payment.paymentSystem}
                 label={paymentLabel}
@@ -83,7 +83,7 @@ const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
             </GroupOption>
           )
         })}
-        <GroupOption onClick={newCreditCard}>
+        <GroupOption onClick={newCreditCard} caretAlign="center">
           <PaymentItem
             label={intl.formatMessage(messages.newCreditCardLabel)}
           />

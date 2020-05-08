@@ -98,6 +98,8 @@ const Installments: React.FC<Props> = ({
             <GroupOption
               key={`${installment.count}`}
               onClick={() => onInstallmentSelected(installment.count)}
+              caretAlign="center"
+              lean
             >
               <InstallmentItem installment={installment} />
             </GroupOption>
