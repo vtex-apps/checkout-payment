@@ -41,9 +41,10 @@ const InstallmentItem: React.FC<{
           value: formattedPrice,
         })
 
-  const interestRate = installment.hasInterestRate
-    ? ''
-    : intl.formatMessage(messages.interestFree)
+  const interestRate =
+    installment.hasInterestRate || installment.count === 1
+      ? ''
+      : intl.formatMessage(messages.interestFree)
 
   return (
     <>
