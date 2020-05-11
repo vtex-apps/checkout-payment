@@ -24,7 +24,7 @@
     "@types/react": "^16.9.2",
     "@vtex/test-tools": "^1.1.0",
     "apollo-client": "^2.5.1",
-    "vtex.checkout-components": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.1.0+build1588966696/public/@types/vtex.checkout-components",
+    "vtex.checkout-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.2.0/public/@types/vtex.checkout-components",
     "vtex.checkout-container": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.4.0/public/@types/vtex.checkout-container",
     "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.34.0/public/@types/vtex.checkout-graphql",
     "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field",

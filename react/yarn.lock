@@ -4883,9 +4883,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.checkout-components@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.1.0+build1588966696/public/@types/vtex.checkout-components":
-  version "0.1.0"
-  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.1.0+build1588966696/public/@types/vtex.checkout-components#5ee86399afef6bd7907d69f4f1a075fcf8789971"
+"vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.2.0/public/@types/vtex.checkout-components":
+  version "0.2.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.2.0/public/@types/vtex.checkout-components#b0b15ee2eccc009dca670503a047b3fda09d15c8"
 
 "vtex.checkout-container@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.4.0/public/@types/vtex.checkout-container":
   version "0.4.0"
