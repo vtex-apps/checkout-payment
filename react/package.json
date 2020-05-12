@@ -30,7 +30,7 @@
     "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.0/public/@types/vtex.document-field",
     "vtex.formatted-price": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.formatted-price@0.4.0/public/@types/vtex.formatted-price",
     "vtex.order-manager": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.4/public/@types/vtex.order-manager",
-    "vtex.order-payment": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.2.0+build1588880819/public/@types/vtex.order-payment",
+    "vtex.order-payment": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.3.0/public/@types/vtex.order-payment",
     "vtex.payment-flags": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.100.4/public/@types/vtex.render-runtime",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.116.0/public/@types/vtex.styleguide"

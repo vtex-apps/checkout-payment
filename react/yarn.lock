@@ -4907,9 +4907,9 @@ verror@1.10.0:
   version "0.8.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.4/public/@types/vtex.order-manager#3a4761c73364853954dd61a61d1d01260cbbf634"
 
-"vtex.order-payment@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.2.0+build1588880819/public/@types/vtex.order-payment":
-  version "0.2.0"
-  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.order-payment@0.2.0+build1588880819/public/@types/vtex.order-payment#04e50d381c0b79b2e5d5f63a89a8c50200888d7f"
+"vtex.order-payment@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.3.0/public/@types/vtex.order-payment":
+  version "0.3.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.3.0/public/@types/vtex.order-payment#76837cf95bd9d4b50ca6d90fdb26305b197603a8"
 
 "vtex.payment-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react":
   version "2.4.0"
