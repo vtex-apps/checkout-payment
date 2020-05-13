@@ -25,11 +25,12 @@ const messages = defineMessages({
   },
 })
 
-let postRobot: any = null
-let iFrameResize: any = null
+let postRobot: typeof import('post-robot') | null = null
+let iFrameResize: typeof import('iframe-resizer') | null = null
+
 if (window?.document) {
   postRobot = require('post-robot')
-  iFrameResize = require('iframe-resizer/js/iframeResizer')
+  iFrameResize = require('iframe-resizer')
 }
 
 interface Field {
@@ -133,14 +134,14 @@ const CreditCard: React.FC<Props> = ({
   )
 
   const setupIframe = useCallback(async () => {
-    iFrameResize(
+    iFrameResize?.(
       {
         heightCalculationMethod: 'max',
         checkOrigin: false,
         resizeFrom: 'parent',
         autoResize: true,
       },
-      iframeRef.current
+      iframeRef.current!
     )
 
     const stylesheetsUrls = Array.from(
