@@ -5,6 +5,7 @@ import { ButtonPlain, IconEdit } from 'vtex.styleguide'
 import { PaymentFlagPicker } from 'vtex.payment-flags'
 
 import { PaymentType } from './enums/PaymentEnums'
+import CardLabel from './components/CardLabel'
 
 const messages = defineMessages({
   creditCardLabel: {
@@ -42,10 +43,11 @@ const CardSummary: React.FC<Props> = ({
           }
         </PaymentFlagPicker>
         {lastDigits ? (
-          <span className="ml3">
-            {intl.formatMessage(messages.creditCardLabel)} &middot; &middot;
-            &middot; &middot;{lastDigits}
-          </span>
+          <CardLabel
+            className="ml3"
+            label={intl.formatMessage(messages.creditCardLabel)}
+            lastDigits={lastDigits}
+          />
         ) : (
           <span className="ml3">
             {intl.formatMessage(messages.newCreditCardLabel)}

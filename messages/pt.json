@@ -8,6 +8,7 @@
   "checkout-payment.installmentValue": "{installments}x {value}",
   "checkout-payment.interestFree": "Sem juros",
   "checkout-payment.newCreditCardLabel": "Novo Cartão de Crédito",
+  "checkout-payment.incompleteCardLabel": "Cartão Incompleto",
   "checkout-payment.choosePaymentMethodLabel": "Escolha um método de pagamento",
   "checkout-payment.paymentSummaryCardMessage": "Cartão de crédito terminando em {value}"
 }
