@@ -8,10 +8,10 @@ import CardLabel from './components/CardLabel'
 
 const messages = defineMessages({
   creditCardLabel: {
-    id: 'checkout-payment.creditCardLabel',
+    id: 'store/checkout-payment.creditCardLabel',
   },
   newCreditCardLabel: {
-    id: 'checkout-payment.newCreditCardLabel',
+    id: 'store/checkout-payment.newCreditCardLabel',
   },
 })
 

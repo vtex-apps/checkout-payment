@@ -11,16 +11,16 @@ import { PaymentType } from './enums/PaymentEnums'
 
 const messages = defineMessages({
   installmentValue: {
-    id: 'checkout-payment.installmentValue',
+    id: 'store/checkout-payment.installmentValue',
   },
   singleInstallmentValue: {
-    id: 'checkout-payment.singleInstallmentValue',
+    id: 'store/checkout-payment.singleInstallmentValue',
   },
   interestFree: {
-    id: 'checkout-payment.interestFree',
+    id: 'store/checkout-payment.interestFree',
   },
   paymentOptionLabel: {
-    id: 'checkout-payment.paymentOptionLabel',
+    id: 'store/checkout-payment.paymentOptionLabel',
   },
 })
 

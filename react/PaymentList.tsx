@@ -10,13 +10,13 @@ import CardLabel from './components/CardLabel'
 
 const messages = defineMessages({
   choosePaymentMethod: {
-    id: 'checkout-payment.choosePaymentMethodLabel',
+    id: 'store/checkout-payment.choosePaymentMethodLabel',
   },
   creditCardLabel: {
-    id: 'checkout-payment.creditCardLabel',
+    id: 'store/checkout-payment.creditCardLabel',
   },
   newCreditCardLabel: {
-    id: 'checkout-payment.newCreditCardLabel',
+    id: 'store/checkout-payment.newCreditCardLabel',
   },
 })
 
@@ -55,7 +55,7 @@ const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
               label={
                 <CardLabel
                   label={
-                    <FormattedMessage id="checkout-payment.incompleteCardLabel" />
+                    <FormattedMessage id="store/checkout-payment.incompleteCardLabel" />
                   }
                   lastDigits={cardFormData.lastDigits}
                 />

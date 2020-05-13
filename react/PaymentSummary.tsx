@@ -6,16 +6,16 @@ import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   installmentValue: {
-    id: 'checkout-payment.installmentValue',
+    id: 'store/checkout-payment.installmentValue',
   },
   singleInstallmentValue: {
-    id: 'checkout-payment.singleInstallmentValue',
+    id: 'store/checkout-payment.singleInstallmentValue',
   },
-  interestFree: {
-    id: 'checkout-payment.interestFree',
+  summaryInstallments: {
+    id: 'store/checkout-payment.summaryInstallments',
   },
   paymentSummaryCardMessage: {
-    id: 'checkout-payment.paymentSummaryCardMessage',
+    id: 'store/checkout-payment.paymentSummaryCardMessage',
   },
 })
 
@@ -45,7 +45,7 @@ const PaymentSummary: React.FC = () => {
     return null
   }
 
-  const messageValue = intl.formatMessage(messages.installmentValue, {
+  const installmentsMessage = intl.formatMessage(messages.installmentValue, {
     installments: selectedInstallment.count,
     value: formattedValue,
   })
@@ -58,7 +58,10 @@ const PaymentSummary: React.FC = () => {
         })}
       </span>
       <span className="dib">
-        {messageValue} - {intl.formatMessage(messages.interestFree)}
+        {intl.formatMessage(messages.summaryInstallments, {
+          installmentsMessage,
+          hasInterestRate: selectedInstallment.hasInterestRate,
+        })}
       </span>
     </div>
   )

@@ -1,14 +1,15 @@
 {
-  "checkout-payment.installmentsButton": "Choose installments",
-  "checkout-payment.documentLabel": "Cardholder document",
-  "checkout-payment.requiredField": "This field is required.",
-  "checkout-payment.invalidDigits": "Invalid Digits",
-  "checkout-payment.creditCardLabel": "Credit Card",
-  "checkout-payment.paymentOptionLabel": "Choose a payment option",
-  "checkout-payment.installmentValue": "{installments}x {value}",
-  "checkout-payment.interestFree": "Without interest",
-  "checkout-payment.newCreditCardLabel": "New Credit Card",
-  "checkout-payment.incompleteCardLabel": "Incomplete Card",
-  "checkout-payment.choosePaymentMethodLabel": "Choose a payment method",
-  "checkout-payment.paymentSummaryCardMessage": "Credit card ending with {value}"
+  "store/checkout-payment.installmentsButton": "Choose installments",
+  "store/checkout-payment.documentLabel": "Cardholder document",
+  "store/checkout-payment.requiredField": "This field is required.",
+  "store/checkout-payment.invalidDigits": "Invalid Digits",
+  "store/checkout-payment.creditCardLabel": "Credit Card",
+  "store/checkout-payment.paymentOptionLabel": "Choose a payment option",
+  "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.interestFree": "Interest-free",
+  "store/checkout-payment.newCreditCardLabel": "New Credit Card",
+  "store/checkout-payment.incompleteCardLabel": "Incomplete Card",
+  "store/checkout-payment.choosePaymentMethodLabel": "Choose a payment method",
+  "store/checkout-payment.paymentSummaryCardMessage": "Credit card ending with {value}",
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- without interest}}"
 }

@@ -1,14 +1,15 @@
 {
-  "checkout-payment.installmentsButton": "Escolha os parcelamentos",
-  "checkout-payment.documentLabel": "Documento del titular de la tarjeta",
-  "checkout-payment.requiredField": "Este campo es obligatorio.",
-  "checkout-payment.invalidDigits": "Dígitos inválidos",
-  "checkout-payment.creditCardLabel": "Tarjeta de Crédito",
-  "checkout-payment.paymentOptionLabel": "Elige una opción de pago",
-  "checkout-payment.installmentValue": "{installments}x {value}",
-  "checkout-payment.interestFree": "Sin interés",
-  "checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
-  "checkout-payment.incompleteCardLabel": "Tarjeta incompleta",
-  "checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
-  "checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}"
+  "store/checkout-payment.installmentsButton": "Escolha os parcelamentos",
+  "store/checkout-payment.documentLabel": "Documento del titular de la tarjeta",
+  "store/checkout-payment.requiredField": "Este campo es obligatorio.",
+  "store/checkout-payment.invalidDigits": "Dígitos inválidos",
+  "store/checkout-payment.creditCardLabel": "Tarjeta de Crédito",
+  "store/checkout-payment.paymentOptionLabel": "Elige una opción de pago",
+  "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.interestFree": "Sin interés",
+  "store/checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
+  "store/checkout-payment.incompleteCardLabel": "Tarjeta incompleta",
+  "store/checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
+  "store/checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}",
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}"
 }

@@ -12,16 +12,16 @@ import CardSummary from './CardSummary'
 
 const messages = defineMessages({
   requiredField: {
-    id: 'checkout-payment.requiredField',
+    id: 'store/checkout-payment.requiredField',
   },
   invalidDigits: {
-    id: 'checkout-payment.invalidDigits',
+    id: 'store/checkout-payment.invalidDigits',
   },
   doucmentLabel: {
-    id: 'checkout-payment.documentLabel',
+    id: 'store/checkout-payment.documentLabel',
   },
   installmentsButton: {
-    id: 'checkout-payment.installmentsButton',
+    id: 'store/checkout-payment.installmentsButton',
   },
 })
 
