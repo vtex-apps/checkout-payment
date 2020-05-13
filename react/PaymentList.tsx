@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
 import { AvailableAccount } from 'vtex.checkout-graphql'
-import { PaymentFlagPicker } from 'vtex.payment-flags'
+import { PaymentFlag } from 'vtex.payment-flags'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import Header from './components/Header'
@@ -26,15 +26,9 @@ const PaymentItem: React.FC<{
 }> = ({ paymentSystem = '', label }) => {
   return (
     <div className="flex items-center c-muted-1">
-      <PaymentFlagPicker paymentSystem={paymentSystem}>
-        {FlagComponent =>
-          FlagComponent && (
-            <div className="h2">
-              <FlagComponent />
-            </div>
-          )
-        }
-      </PaymentFlagPicker>
+      <div className="h2">
+        <PaymentFlag paymentSystemId={paymentSystem} />
+      </div>
       <span className="ml5">{label}</span>
     </div>
   )
