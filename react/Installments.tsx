@@ -13,9 +13,6 @@ const messages = defineMessages({
   installmentValue: {
     id: 'store/checkout-payment.installmentValue',
   },
-  singleInstallmentValue: {
-    id: 'store/checkout-payment.singleInstallmentValue',
-  },
   interestFree: {
     id: 'store/checkout-payment.interestFree',
   },
