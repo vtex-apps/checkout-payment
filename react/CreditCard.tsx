@@ -30,7 +30,7 @@ let iFrameResize: typeof import('iframe-resizer') | null = null
 
 if (window?.document) {
   postRobot = require('post-robot')
-  iFrameResize = require('iframe-resizer')
+  iFrameResize = require('iframe-resizer').iframeResize
 }
 
 interface Field {
