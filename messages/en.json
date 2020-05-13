@@ -6,7 +6,6 @@
   "checkout-payment.creditCardLabel": "Credit Card",
   "checkout-payment.paymentOptionLabel": "Choose a payment option",
   "checkout-payment.installmentValue": "{installments}x {value}",
-  "checkout-payment.singleInstallmentValue": "{value} à vista",
   "checkout-payment.interestFree": "Without interest",
   "checkout-payment.newCreditCardLabel": "New Credit Card",
   "checkout-payment.choosePaymentMethodLabel": "Choose a payment method",

@@ -31,15 +31,10 @@ const InstallmentItem: React.FC<{
 
   const formattedPrice = useFormattedPrice(installment!.value! / 100)
 
-  const installmentValue =
-    installment.count === 1
-      ? intl.formatMessage(messages.singleInstallmentValue, {
-          value: formattedPrice,
-        })
-      : intl.formatMessage(messages.installmentValue, {
-          installments: installment.count,
-          value: formattedPrice,
-        })
+  const installmentValue = intl.formatMessage(messages.installmentValue, {
+    installments: installment.count,
+    value: formattedPrice,
+  })
 
   const interestRate =
     installment.hasInterestRate || installment.count === 1

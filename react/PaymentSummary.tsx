@@ -45,15 +45,10 @@ const PaymentSummary: React.FC = () => {
     return null
   }
 
-  const messageValue =
-    selectedInstallment.count === 1
-      ? intl.formatMessage(messages.singleInstallmentValue, {
-          value: formattedValue,
-        })
-      : intl.formatMessage(messages.installmentValue, {
-          installments: selectedInstallment.count,
-          value: formattedValue,
-        })
+  const messageValue = intl.formatMessage(messages.installmentValue, {
+    installments: selectedInstallment.count,
+    value: formattedValue,
+  })
 
   return (
     <div className="c-muted-1 flex flex-column lh-copy">
