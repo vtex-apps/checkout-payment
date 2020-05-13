@@ -7,7 +7,6 @@ import { PaymentSystem } from 'vtex.checkout-graphql'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import { PaymentType } from './enums/PaymentEnums'
-// import SavedCard from './SavedCard'
 import styles from './CreditCard.css'
 import CardSummary from './CardSummary'
 
