@@ -49,12 +49,12 @@ const PaymentSummary: React.FC = () => {
 
   return (
     <div className="c-muted-1 flex flex-column lh-copy">
-      <span className="dib">
+      <span>
         {intl.formatMessage(messages.paymentSummaryCardMessage, {
           value: cardFormData.lastDigits,
         })}
       </span>
-      <span className="dib">
+      <span>
         {intl.formatMessage(messages.summaryInstallments, {
           installmentsMessage,
           hasInterestRate: selectedInstallment.hasInterestRate,
