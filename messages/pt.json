@@ -1,5 +1,5 @@
 {
-  "store/checkout-payment.installmentsButton": "Escolha os parcelamentos",
+  "store/checkout-payment.installmentsButton": "Escolher parcelamento",
   "store/checkout-payment.documentLabel": "Documento do titular do cartão",
   "store/checkout-payment.requiredField": "Campo obrigatório.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
