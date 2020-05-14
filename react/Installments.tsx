@@ -88,7 +88,7 @@ const Installments: React.FC<Props> = ({
         {installments.map((installment: Installment) => {
           return (
             <GroupOption
-              key={`${installment.count}`}
+              key={installment.count}
               onClick={() => onInstallmentSelected(installment.count)}
               caretAlign="center"
               lean
