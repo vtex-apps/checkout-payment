@@ -283,7 +283,7 @@ const CreditCard: React.FC<Props> = ({
       </div>
 
       <iframe
-        className={classNames(styles.iframe, 'nh3 nh0-md')}
+        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns')}
         title="card-form-ui"
         /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
       this to be turned off in code and can just slightly add a bit of extra space to the bottom
@@ -295,16 +295,18 @@ const CreditCard: React.FC<Props> = ({
         ref={iframeRef}
       />
 
-      <div className="ph0 ph5-md pv5 flex items-center">
-        <DocumentField
-          label={intl.formatMessage(messages.doucmentLabel)}
-          documentType="cpf"
-          onChange={handleChangeDoc}
-          onBlur={validateDoc}
-          document={doc.value}
-          error={doc.showError && doc.error}
-          errorMessage={doc.showError && doc.errorMessage}
-        />
+      <div className="ph0 ph5-ns pv5 flex items-center">
+        <div className="w-100 mw-100 mw5-ns">
+          <DocumentField
+            label={intl.formatMessage(messages.doucmentLabel)}
+            documentType="cpf"
+            onChange={handleChangeDoc}
+            onBlur={validateDoc}
+            document={doc.value}
+            error={doc.showError && doc.error}
+            errorMessage={doc.showError && doc.errorMessage}
+          />
+        </div>
       </div>
       <div className="flex mt5">
         <Button size="large" block onClick={handleSubmit}>

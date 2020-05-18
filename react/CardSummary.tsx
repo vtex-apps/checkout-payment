@@ -30,7 +30,7 @@ const CardSummary: React.FC<Props> = ({
   const intl = useIntl()
 
   return (
-    <div className="pv5 ph0 ph5-md c-muted-1">
+    <div className="pv5 ph0 ph5-ns c-muted-1">
       <div className="flex items-center">
         <div className="h1">
           <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
