@@ -8,7 +8,7 @@
   "store/checkout-payment.installmentValue": "{installments}x {value}",
   "store/checkout-payment.interestFree": "Sin interés",
   "store/checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
-  "store/checkout-payment.incompleteCardLabel": "Tarjeta incompleta",
+  "store/checkout-payment.incompleteCardLabel": "Tarjeta Incompleta",
   "store/checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
   "store/checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}",
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}"
