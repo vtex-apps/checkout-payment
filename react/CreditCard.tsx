@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner } from 'vtex.styleguide'
@@ -282,7 +283,7 @@ const CreditCard: React.FC<Props> = ({
       </div>
 
       <iframe
-        className={styles.iframe}
+        className={classNames(styles.iframe, 'nh3 nh0-md')}
         title="card-form-ui"
         /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
       this to be turned off in code and can just slightly add a bit of extra space to the bottom
@@ -294,7 +295,7 @@ const CreditCard: React.FC<Props> = ({
         ref={iframeRef}
       />
 
-      <div className="pa5 w-50 flex items-center justify-center">
+      <div className="ph0 ph5-md pv5 flex items-center">
         <DocumentField
           label={intl.formatMessage(messages.doucmentLabel)}
           documentType="cpf"
