@@ -1,7 +1,15 @@
 {
-  "checkout-payment.button.save": "Guardar tarjeta",
-  "checkout-payment.input.document": "Documento del titular de la tarjeta",
-  "checkout-payment.input.requiredField": "Este campo es obligatorio.",
-  "checkout-payment.input.invalidDigits": "Dígitos inválidos",
-  "checkout-payment.credit-card.label": "Tarjeta de Crédito"
+  "store/checkout-payment.installmentsButton": "Elige cuota",
+  "store/checkout-payment.documentLabel": "Documento del titular de la tarjeta",
+  "store/checkout-payment.requiredField": "Este campo es obligatorio.",
+  "store/checkout-payment.invalidDigits": "Dígitos inválidos",
+  "store/checkout-payment.creditCardLabel": "Tarjeta de Crédito",
+  "store/checkout-payment.installmentOptionLabel": "Elige una opción de pago",
+  "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.interestFree": "Sin interés",
+  "store/checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
+  "store/checkout-payment.incompleteCardLabel": "Tarjeta Incompleta",
+  "store/checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
+  "store/checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}",
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}"
 }

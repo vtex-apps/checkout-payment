@@ -9,4 +9,6 @@ declare module 'vtex.styleguide' {
   export const Spinner: React.FC
 
   export const Input: React.FC
+
+  export const IconEdit: React.FC
 }

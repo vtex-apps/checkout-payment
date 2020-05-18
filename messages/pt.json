@@ -1,7 +1,15 @@
 {
-  "checkout-payment.button.save": "Salvar novo cartão",
-  "checkout-payment.input.document": "Documento do titular do cartão",
-  "checkout-payment.input.requiredField": "Campo obrigatório.",
-  "checkout-payment.input.invalidDigits": "Dígitos inválidos",
-  "checkout-payment.credit-card.label": "Cartão de Credito"
+  "store/checkout-payment.installmentsButton": "Escolher parcelamento",
+  "store/checkout-payment.documentLabel": "Documento do titular do cartão",
+  "store/checkout-payment.requiredField": "Campo obrigatório.",
+  "store/checkout-payment.invalidDigits": "Dígitos inválidos",
+  "store/checkout-payment.creditCardLabel": "Cartão de Crédito",
+  "store/checkout-payment.installmentOptionLabel": "Escolha uma opção de parcelamento",
+  "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.interestFree": "Sem juros",
+  "store/checkout-payment.newCreditCardLabel": "Novo Cartão de Crédito",
+  "store/checkout-payment.incompleteCardLabel": "Cartão Incompleto",
+  "store/checkout-payment.choosePaymentMethodLabel": "Escolha um método de pagamento",
+  "store/checkout-payment.paymentSummaryCardMessage": "Cartão de crédito terminando em {value}",
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sem juros}}"
 }

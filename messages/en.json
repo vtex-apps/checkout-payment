@@ -1,7 +1,15 @@
 {
-  "checkout-payment.button.save": "Save new card",
-  "checkout-payment.input.document": "Cardholder document",
-  "checkout-payment.input.requiredField": "This field is required.",
-  "checkout-payment.input.invalidDigits": "Invalid Digits",
-  "checkout-payment.credit-card.label": "Credit Card"
+  "store/checkout-payment.installmentsButton": "Choose a payment option",
+  "store/checkout-payment.documentLabel": "Cardholder document",
+  "store/checkout-payment.requiredField": "This field is required.",
+  "store/checkout-payment.invalidDigits": "Invalid Digits",
+  "store/checkout-payment.creditCardLabel": "Credit Card",
+  "store/checkout-payment.installmentOptionLabel": "Choose a payment option",
+  "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.interestFree": "Interest-free",
+  "store/checkout-payment.newCreditCardLabel": "New Credit Card",
+  "store/checkout-payment.incompleteCardLabel": "Incomplete Card",
+  "store/checkout-payment.choosePaymentMethodLabel": "Choose a payment method",
+  "store/checkout-payment.paymentSummaryCardMessage": "Credit card ending with {value}",
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- without interest}}"
 }
