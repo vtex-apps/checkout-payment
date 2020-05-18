@@ -33,7 +33,7 @@ const InstallmentItem: React.FC<{
     value: formattedPrice,
   })
 
-  const interestRate =
+  const interestRateMessage =
     installment.hasInterestRate || installment.count === 1
       ? ''
       : intl.formatMessage(messages.interestFree)
@@ -41,7 +41,7 @@ const InstallmentItem: React.FC<{
   return (
     <>
       <div className="flex-auto">{installmentValue}</div>
-      <div className="flex-none c-success">{interestRate}</div>
+      <div className="flex-none c-success">{interestRateMessage}</div>
     </>
   )
 }
