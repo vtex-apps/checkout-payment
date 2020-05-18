@@ -16,8 +16,8 @@ const messages = defineMessages({
   interestFree: {
     id: 'store/checkout-payment.interestFree',
   },
-  paymentOptionLabel: {
-    id: 'store/checkout-payment.paymentOptionLabel',
+  installmentOptionLabel: {
+    id: 'store/checkout-payment.installmentOptionLabel',
   },
 })
 
@@ -82,7 +82,7 @@ const Installments: React.FC<Props> = ({
         />
       </div>
 
-      <Header>{intl.formatMessage(messages.paymentOptionLabel)}</Header>
+      <Header>{intl.formatMessage(messages.installmentOptionLabel)}</Header>
 
       <ListGroup>
         {installments.map((installment: Installment) => {

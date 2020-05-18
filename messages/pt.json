@@ -4,7 +4,7 @@
   "store/checkout-payment.requiredField": "Campo obrigatório.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
   "store/checkout-payment.creditCardLabel": "Cartão de Crédito",
-  "store/checkout-payment.paymentOptionLabel": "Escolha uma opção de pagamento",
+  "store/checkout-payment.installmentOptionLabel": "Escolha uma opção de parcelamento",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
   "store/checkout-payment.interestFree": "Sem juros",
   "store/checkout-payment.newCreditCardLabel": "Novo Cartão de Crédito",

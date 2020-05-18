@@ -1,10 +1,10 @@
 {
-  "store/checkout-payment.installmentsButton": "Choose installments",
+  "store/checkout-payment.installmentsButton": "Choose a payment option",
   "store/checkout-payment.documentLabel": "Cardholder document",
   "store/checkout-payment.requiredField": "This field is required.",
   "store/checkout-payment.invalidDigits": "Invalid Digits",
   "store/checkout-payment.creditCardLabel": "Credit Card",
-  "store/checkout-payment.paymentOptionLabel": "Choose a payment option",
+  "store/checkout-payment.installmentOptionLabel": "Choose a payment option",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
   "store/checkout-payment.interestFree": "Interest-free",
   "store/checkout-payment.newCreditCardLabel": "New Credit Card",
