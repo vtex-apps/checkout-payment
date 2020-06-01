@@ -48,16 +48,16 @@ const InstallmentItem: React.FC<{
 
 interface Props {
   onInstallmentSelected: (installment: number) => void
-  backToCreditCard: () => void
+  onBackToCardForm: () => void
 }
 
 const Installments: React.FC<Props> = ({
-  backToCreditCard,
+  onBackToCardForm,
   onInstallmentSelected,
 }) => {
   const intl = useIntl()
 
-  const { installmentOptions, payment, cardFormData } = useOrderPayment()
+  const { installmentOptions, payment } = useOrderPayment()
 
   if (!payment.paymentSystem) {
     return null
@@ -76,8 +76,7 @@ const Installments: React.FC<Props> = ({
     <div>
       <div className="mb3">
         <CardSummary
-          lastDigits={cardFormData!.lastDigits}
-          onClick={backToCreditCard}
+          onClick={onBackToCardForm}
           type={PaymentType.CREDIT_CARD}
         />
       </div>

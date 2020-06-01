@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
+import { useIntl, defineMessages } from 'react-intl'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
 import { AvailableAccount } from 'vtex.checkout-graphql'
 import { PaymentFlag } from 'vtex.payment-flags'
@@ -35,34 +35,19 @@ const PaymentItem: React.FC<{
 }
 
 interface Props {
-  newCreditCard: () => void
-  editCard: () => void
+  onNewCreditCard: () => void
 }
 
-const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
+const PaymentList: React.FC<Props> = ({ onNewCreditCard }) => {
   const intl = useIntl()
 
-  const { cardFormData, availableAccounts } = useOrderPayment()
+  const { availableAccounts } = useOrderPayment()
 
   return (
     <div>
       <Header>{intl.formatMessage(messages.choosePaymentMethod)}</Header>
 
       <ListGroup>
-        {cardFormData && (
-          <GroupOption onClick={editCard} caretAlign="center">
-            <PaymentItem
-              label={
-                <CardLabel
-                  label={
-                    <FormattedMessage id="store/checkout-payment.incompleteCardLabel" />
-                  }
-                  lastDigits={cardFormData.lastDigits}
-                />
-              }
-            />
-          </GroupOption>
-        )}
         {availableAccounts.map((payment: AvailableAccount) => {
           const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
           const paymentLabel = (
@@ -80,7 +65,7 @@ const PaymentList: React.FC<Props> = ({ newCreditCard, editCard }) => {
             </GroupOption>
           )
         })}
-        <GroupOption onClick={newCreditCard} caretAlign="center">
+        <GroupOption onClick={onNewCreditCard} caretAlign="center">
           <PaymentItem
             label={intl.formatMessage(messages.newCreditCardLabel)}
           />

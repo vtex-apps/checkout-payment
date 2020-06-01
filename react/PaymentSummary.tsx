@@ -20,7 +20,6 @@ const PaymentSummary: React.FC = () => {
   const {
     installmentOptions,
     payment: { installments: installmentCount, paymentSystem },
-    cardFormData,
   } = useOrderPayment()
 
   const intl = useIntl()
@@ -38,7 +37,7 @@ const PaymentSummary: React.FC = () => {
 
   const formattedValue = useFormattedPrice(value / 100)
 
-  if (!selectedInstallment || !cardFormData) {
+  if (!selectedInstallment) {
     return null
   }
 
@@ -51,7 +50,7 @@ const PaymentSummary: React.FC = () => {
     <div className="c-muted-1 flex flex-column lh-copy">
       <span>
         {intl.formatMessage(messages.paymentSummaryCardMessage, {
-          value: cardFormData.lastDigits,
+          value: '1234',
         })}
       </span>
       <span>

@@ -10,7 +10,7 @@ import { PaymentStage } from './enums/PaymentEnums'
 const REVIEW_ROUTE = '/'
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
-  const { cardFormData, setCardFormData, setPaymentField } = useOrderPayment()
+  const { setPaymentField } = useOrderPayment()
   const history = Router.useHistory()
 
   const onCardFormCompleted = () => {
@@ -24,20 +24,11 @@ const Payment: React.FC = () => {
     history.push(REVIEW_ROUTE)
   }
 
-  const backToCreditCard = () => {
+  const goToCardForm = () => {
     setStage(PaymentStage.CARD_FORM)
   }
 
-  const newCreditCard = () => {
-    setCardFormData(null)
-    setStage(PaymentStage.CARD_FORM)
-  }
-
-  const editCard = () => {
-    setStage(PaymentStage.CARD_FORM)
-  }
-
-  const backToPaymentList = () => {
+  const goToPaymentList = () => {
     setStage(PaymentStage.PAYMENT_LIST)
   }
 
@@ -45,17 +36,16 @@ const Payment: React.FC = () => {
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
         <CreditCard
-          newCard={!cardFormData}
           onCardFormCompleted={onCardFormCompleted}
-          backToPaymentList={backToPaymentList}
+          onChangePaymentMethod={goToPaymentList}
         />
       </div>
       {stage === PaymentStage.PAYMENT_LIST ? (
-        <PaymentList newCreditCard={newCreditCard} editCard={editCard} />
+        <PaymentList onNewCreditCard={goToCardForm} />
       ) : stage === PaymentStage.INSTALLMENTS ? (
         <Installments
           onInstallmentSelected={onInstallmentSelected}
-          backToCreditCard={backToCreditCard}
+          onBackToCardForm={goToCardForm}
         />
       ) : null}
     </>
