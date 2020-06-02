@@ -4912,17 +4912,17 @@ verror@1.10.0:
   version "0.8.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.8.4/public/@types/vtex.order-manager#3a4761c73364853954dd61a61d1d01260cbbf634"
 
-"vtex.order-payment@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.4.0/public/@types/vtex.order-payment":
-  version "0.4.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.4.0/public/@types/vtex.order-payment#6928fa3ccbf05a6714db424854739fd0abcd9a69"
+"vtex.order-payment@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.5.0/public/@types/vtex.order-payment":
+  version "0.5.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.5.0/public/@types/vtex.order-payment#8e3fd8c0c8364d16d91e0e80b251d677c9d349b9"
 
 "vtex.payment-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react":
   version "2.4.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.4.0/public/_types/react#261d4a00a502f2b3b1069b5906d36b80675f04f4"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.103.0/public/@types/vtex.render-runtime":
-  version "8.103.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.103.0/public/@types/vtex.render-runtime#55b1b260b65846e51d9cdeecfd632850f5ab4732"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.103.1/public/@types/vtex.render-runtime":
+  version "8.103.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.103.1/public/@types/vtex.render-runtime#b044e7d74d38d4255f7ab3116a915180abe0cd33"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.119.0/public/@types/vtex.styleguide":
   version "9.119.0"

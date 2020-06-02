@@ -8,12 +8,18 @@ import PaymentList from './PaymentList'
 import { PaymentStage } from './enums/PaymentEnums'
 
 const REVIEW_ROUTE = '/'
+
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
-  const { setPaymentField } = useOrderPayment()
+  const {
+    setPaymentField,
+    cardLastDigits,
+    setCardLastDigits,
+  } = useOrderPayment()
   const history = Router.useHistory()
 
-  const onCardFormCompleted = () => {
+  const onCardFormCompleted = (cardDigits: string) => {
+    setCardLastDigits(cardDigits)
     setStage(PaymentStage.INSTALLMENTS)
   }
 
@@ -46,6 +52,7 @@ const Payment: React.FC = () => {
         <Installments
           onInstallmentSelected={onInstallmentSelected}
           onBackToCardForm={goToCardForm}
+          cardLastDigits={cardLastDigits}
         />
       ) : null}
     </>

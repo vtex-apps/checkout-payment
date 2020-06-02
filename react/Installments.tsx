@@ -49,11 +49,13 @@ const InstallmentItem: React.FC<{
 interface Props {
   onInstallmentSelected: (installment: number) => void
   onBackToCardForm: () => void
+  cardLastDigits: string
 }
 
 const Installments: React.FC<Props> = ({
   onBackToCardForm,
   onInstallmentSelected,
+  cardLastDigits,
 }) => {
   const intl = useIntl()
 
@@ -78,6 +80,7 @@ const Installments: React.FC<Props> = ({
         <CardSummary
           onClick={onBackToCardForm}
           type={PaymentType.CREDIT_CARD}
+          lastDigits={cardLastDigits}
         />
       </div>
 

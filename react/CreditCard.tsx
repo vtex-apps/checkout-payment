@@ -62,7 +62,7 @@ const initialDoc = {
 }
 
 interface Props {
-  onCardFormCompleted: () => void
+  onCardFormCompleted: (cardLastDigits: string) => void
   onChangePaymentMethod: () => void
 }
 
@@ -173,13 +173,18 @@ const CreditCard: React.FC<Props> = ({
       return
     }
 
+    const { data: cardLastDigits } = await postRobot.send(
+      iframeRef.current!.contentWindow,
+      'getCardLastDigits'
+    )
+
     setPaymentField({
       paymentSystem: selectedPaymentSystem.id,
       referenceValue,
       installments: null,
     })
 
-    onCardFormCompleted()
+    onCardFormCompleted(cardLastDigits)
   }
 
   const handleChangeDoc = (data: any) => {
