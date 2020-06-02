@@ -163,7 +163,7 @@ const CreditCard: React.FC<Props> = ({
 
   const handleSubmit = async () => {
     const docIsValid = validateDoc()
-    const cardIsValid = await postRobot.send(
+    const { data: cardIsValid } = await postRobot.send(
       iframeRef.current!.contentWindow,
       'isCardValid'
     )
