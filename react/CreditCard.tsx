@@ -41,7 +41,7 @@ interface Field {
   showError: boolean
 }
 
-const IFRAME_APP_VERSION = '0.5.5'
+const IFRAME_APP_VERSION = '0.6.0'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`

@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Usages of `encryptedCard` listener to use `getLastCardDigits` and `isCardValid` listeners.
-- Updated `card-form-ui` version to `v0.5.5`.
+- Updated `card-form-ui` version to `v0.6.0`.
 
 ## [0.5.0] - 2020-05-18
 ### Added
