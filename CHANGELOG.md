@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Id `chk-card-form` to the `iframe` containing the card form.
+
+### Changed
+- Usages of `encryptedCard` listener to use `getLastCardDigits` and `isCardValid` listeners.
+- Updated `card-form-ui` version to `v0.6.0`.
 
 ## [0.5.0] - 2020-05-18
 ### Added

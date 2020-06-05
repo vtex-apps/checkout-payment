@@ -41,48 +41,7 @@ interface Field {
   showError: boolean
 }
 
-interface FieldRequest {
-  value: string
-  isValid: boolean
-}
-
-interface EncryptedCardRequest {
-  encryptedCardNumber: FieldRequest
-  encryptedCardHolder: FieldRequest
-  encryptedExpiryDate: FieldRequest
-  encryptedCsc: FieldRequest
-  lastDigits: string
-}
-
-interface EncryptedCard {
-  encryptedCardNumber: string
-  encryptedCardHolder: string
-  encryptedExpiryDate: string
-  encryptedCsc: string
-  lastDigits: string
-}
-
-const getEncryptedCardRequestValues = ({
-  encryptedCardNumber,
-  encryptedCardHolder,
-  encryptedCsc,
-  encryptedExpiryDate,
-  lastDigits,
-}: EncryptedCardRequest): EncryptedCard => ({
-  encryptedCardNumber: encryptedCardNumber.value,
-  encryptedCardHolder: encryptedCardHolder.value,
-  encryptedCsc: encryptedCsc.value,
-  encryptedExpiryDate: encryptedExpiryDate.value,
-  lastDigits,
-})
-
-interface Props {
-  onCardFormCompleted: () => void
-  backToPaymentList: () => void
-  newCard: boolean
-}
-
-const IFRAME_APP_VERSION = '0.5.4'
+const IFRAME_APP_VERSION = '0.6.0'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
@@ -101,10 +60,15 @@ const initialDoc = {
   errorMessage: '',
   showError: false,
 }
+
+interface Props {
+  onCardFormCompleted: (cardLastDigits: string) => void
+  onChangePaymentMethod: () => void
+}
+
 const CreditCard: React.FC<Props> = ({
   onCardFormCompleted,
-  backToPaymentList,
-  newCard,
+  onChangePaymentMethod,
 }) => {
   const { paymentSystems, setPaymentField, referenceValue } = useOrderPayment()
   const [iframeLoading, setIframeLoading] = useState(true)
@@ -115,8 +79,6 @@ const CreditCard: React.FC<Props> = ({
   ] = useState<PaymentSystem | null>(null)
 
   const [doc, setDoc] = useState<Field>(initialDoc)
-
-  const { setCardFormData } = useOrderPayment()
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const {
@@ -156,14 +118,6 @@ const CreditCard: React.FC<Props> = ({
     setIframeLoading(false)
   }, [creditCardPaymentSystems])
 
-  const getEncryptedCard = useCallback(async (): Promise<EncryptedCardRequest | null> => {
-    const { data } = await postRobot.send(
-      iframeRef.current!.contentWindow,
-      'encryptedCard'
-    )
-    return data
-  }, [])
-
   const showCardErrors = useCallback(async () => {
     await postRobot.send(iframeRef.current!.contentWindow, 'showCardErrors')
   }, [])
@@ -172,15 +126,8 @@ const CreditCard: React.FC<Props> = ({
     if (iframeRef.current) {
       await postRobot.send(iframeRef.current.contentWindow, 'resetCardFormData')
     }
-    setCardFormData(null)
     setDoc(initialDoc)
-  }, [setCardFormData])
-
-  useEffect(() => {
-    if (newCard) {
-      resetCardFormData()
-    }
-  }, [newCard, resetCardFormData])
+  }, [])
 
   useEffect(function createPaymentSystemListener() {
     const listener = postRobot.on(
@@ -215,23 +162,21 @@ const CreditCard: React.FC<Props> = ({
   }
 
   const handleSubmit = async () => {
-    const encryptedCardRequest = await getEncryptedCard()
-    const encryptedCardIsValid =
-      encryptedCardRequest?.encryptedCardHolder.isValid &&
-      encryptedCardRequest.encryptedCardNumber.isValid &&
-      encryptedCardRequest.encryptedCsc.isValid &&
-      encryptedCardRequest.encryptedExpiryDate.isValid
-
     const docIsValid = validateDoc()
-    if (!selectedPaymentSystem || !encryptedCardIsValid || !docIsValid) {
+    const { data: cardIsValid } = await postRobot.send(
+      iframeRef.current!.contentWindow,
+      'isCardValid'
+    )
+
+    if (!selectedPaymentSystem || !cardIsValid || !docIsValid) {
       showCardErrors()
       return
     }
-    const encryptedCard = getEncryptedCardRequestValues(encryptedCardRequest!)
 
-    setCardFormData({
-      ...encryptedCard,
-    })
+    const { data: cardLastDigits } = await postRobot.send(
+      iframeRef.current!.contentWindow,
+      'getCardLastDigits'
+    )
 
     setPaymentField({
       paymentSystem: selectedPaymentSystem.id,
@@ -239,7 +184,7 @@ const CreditCard: React.FC<Props> = ({
       installments: null,
     })
 
-    onCardFormCompleted()
+    onCardFormCompleted(cardLastDigits)
   }
 
   const handleChangeDoc = (data: any) => {
@@ -252,16 +197,8 @@ const CreditCard: React.FC<Props> = ({
   }
 
   const handleCardSummaryClick = async () => {
-    const encryptedCardRequest = await getEncryptedCard()
-    if (encryptedCardRequest?.encryptedCardNumber.isValid) {
-      const encryptedCard = getEncryptedCardRequestValues(encryptedCardRequest!)
-      setCardFormData({
-        ...encryptedCard,
-      })
-    } else {
-      resetCardFormData()
-    }
-    backToPaymentList()
+    resetCardFormData()
+    onChangePaymentMethod()
   }
 
   if (isSSR) {
@@ -277,17 +214,18 @@ const CreditCard: React.FC<Props> = ({
       )}
       <div className="mb3">
         <CardSummary
-          onClick={() => handleCardSummaryClick()}
+          onClick={handleCardSummaryClick}
           type={PaymentType.CREDIT_CARD}
         />
       </div>
 
       <iframe
+        id="chk-card-form"
         className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns')}
         title="card-form-ui"
-        /* The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
-      this to be turned off in code and can just slightly add a bit of extra space to the bottom
-      of the content that it doesn't report when it returns the height. */
+        // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
+        // this to be turned off in code and can just slightly add a bit of extra space to the bottom
+        // of the content that it doesn't report when it returns the height.
         scrolling="no"
         frameBorder="0"
         src={`${iframeURL}?locale=${locale}`}
