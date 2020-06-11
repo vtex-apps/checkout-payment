@@ -5,6 +5,7 @@ import { Button, Spinner } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 import { useIntl, defineMessages } from 'react-intl'
 import { PaymentSystem } from 'vtex.checkout-graphql'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import { PaymentType } from './enums/PaymentEnums'
@@ -62,15 +63,31 @@ const initialDoc = {
 }
 
 interface Props {
-  onCardFormCompleted: (cardLastDigits: string) => void
+  onCardFormCompleted: () => void
   onChangePaymentMethod: () => void
+  onCardTypeChange: () => void
+  cardType: CardType
 }
 
 const CreditCard: React.FC<Props> = ({
   onCardFormCompleted,
   onChangePaymentMethod,
+  cardType,
 }) => {
-  const { paymentSystems, setPaymentField, referenceValue } = useOrderPayment()
+  const {
+    cardLastDigits,
+    payment,
+    paymentSystems,
+    setCardLastDigits,
+    setPaymentField,
+    referenceValue,
+  } = useOrderPayment()
+  const {
+    orderForm: {
+      shipping: { selectedAddress },
+    },
+  } = useOrderForm()
+
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -115,6 +132,7 @@ const CreditCard: React.FC<Props> = ({
       stylesheetsUrls,
       paymentSystems: creditCardPaymentSystems,
     })
+
     setIframeLoading(false)
   }, [creditCardPaymentSystems])
 
@@ -138,6 +156,17 @@ const CreditCard: React.FC<Props> = ({
     )
     return () => listener.cancel()
   }, [])
+
+  useEffect(
+    function updateAddressId() {
+      if (iframeRef.current) {
+        postRobot.send(iframeRef.current.contentWindow, 'updateAddressId', {
+          addressId: selectedAddress?.addressId,
+        })
+      }
+    },
+    [selectedAddress]
+  )
 
   const validateDoc = () => {
     if (!doc.value) {
@@ -168,23 +197,31 @@ const CreditCard: React.FC<Props> = ({
       'isCardValid'
     )
 
-    if (!selectedPaymentSystem || !cardIsValid || !docIsValid) {
+    if (
+      !selectedPaymentSystem ||
+      !cardIsValid ||
+      (cardType === 'new' && !docIsValid)
+    ) {
       showCardErrors()
       return
     }
 
-    const { data: cardLastDigits } = await postRobot.send(
-      iframeRef.current!.contentWindow,
-      'getCardLastDigits'
-    )
+    if (cardType === 'new') {
+      const { data: lastDigits } = await postRobot.send(
+        iframeRef.current!.contentWindow,
+        'getCardLastDigits'
+      )
 
-    setPaymentField({
-      paymentSystem: selectedPaymentSystem.id,
-      referenceValue,
-      installments: null,
-    })
+      setCardLastDigits(lastDigits)
 
-    onCardFormCompleted(cardLastDigits)
+      setPaymentField({
+        paymentSystem: selectedPaymentSystem.id,
+        referenceValue,
+        installments: null,
+      })
+    }
+
+    onCardFormCompleted()
   }
 
   const handleChangeDoc = (data: any) => {
@@ -214,6 +251,10 @@ const CreditCard: React.FC<Props> = ({
       )}
       <div className="mb3">
         <CardSummary
+          paymentSystem={
+            cardType === 'saved' ? payment.paymentSystem! : undefined
+          }
+          lastDigits={cardType === 'saved' ? cardLastDigits : undefined}
           onClick={handleCardSummaryClick}
           type={PaymentType.CREDIT_CARD}
         />
@@ -221,31 +262,36 @@ const CreditCard: React.FC<Props> = ({
 
       <iframe
         id="chk-card-form"
-        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns')}
+        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns', {
+          [styles.newCard]: cardType === 'new',
+          [styles.savedCard]: cardType === 'saved',
+        })}
         title="card-form-ui"
         // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
         // this to be turned off in code and can just slightly add a bit of extra space to the bottom
         // of the content that it doesn't report when it returns the height.
         scrolling="no"
         frameBorder="0"
-        src={`${iframeURL}?locale=${locale}`}
+        src={`${iframeURL}?locale=${locale}&cardType=${cardType}`}
         onLoad={() => setupIframe()}
         ref={iframeRef}
       />
 
-      <div className="ph0 ph5-ns pv5 flex items-center">
-        <div className="w-100 mw-100 mw5-ns">
-          <DocumentField
-            label={intl.formatMessage(messages.doucmentLabel)}
-            documentType="cpf"
-            onChange={handleChangeDoc}
-            onBlur={validateDoc}
-            document={doc.value}
-            error={doc.showError && doc.error}
-            errorMessage={doc.showError && doc.errorMessage}
-          />
+      {cardType === 'new' && (
+        <div className="ph0 ph5-ns pv5 flex items-center">
+          <div className="w-100 mw-100 mw5-ns">
+            <DocumentField
+              label={intl.formatMessage(messages.doucmentLabel)}
+              documentType="cpf"
+              onChange={handleChangeDoc}
+              onBlur={validateDoc}
+              document={doc.value}
+              error={doc.showError && doc.error}
+              errorMessage={doc.showError && doc.errorMessage}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex mt5">
         <Button size="large" block onClick={handleSubmit}>
           <span className="f5">

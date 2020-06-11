@@ -1,6 +1,13 @@
 .iframe {
-  /* Using min-width to set the width of the iFrame, works around an issue in iOS that can 
+  /* Using min-width to set the width of the iFrame, works around an issue in iOS that can
   prevent the iFrame from sizing correctly. style={{ minWidth: '100%', minHeight: '200px' }} */
   min-width: 100%;
+}
+
+.newCard {
   min-height: 306px;
+}
+
+.savedCard {
+  min-height: 177px;
 }
