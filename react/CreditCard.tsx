@@ -74,6 +74,8 @@ const CreditCard: React.FC<Props> = ({
   cardType,
 }) => {
   const {
+    cardLastDigits,
+    payment,
     paymentSystems,
     setCardLastDigits,
     setPaymentField,
@@ -202,12 +204,12 @@ const CreditCard: React.FC<Props> = ({
     }
 
     if (cardType === 'new') {
-      const { data: cardLastDigits } = await postRobot.send(
+      const { data: lastDigits } = await postRobot.send(
         iframeRef.current!.contentWindow,
         'getCardLastDigits'
       )
 
-      setCardLastDigits(cardLastDigits)
+      setCardLastDigits(lastDigits)
 
       await setPaymentField({
         paymentSystem: selectedPaymentSystem.id,
@@ -246,6 +248,10 @@ const CreditCard: React.FC<Props> = ({
       )}
       <div className="mb3">
         <CardSummary
+          paymentSystem={
+            cardType === 'saved' ? payment.paymentSystem! : undefined
+          }
+          lastDigits={cardType === 'saved' ? cardLastDigits : undefined}
           onClick={handleCardSummaryClick}
           type={PaymentType.CREDIT_CARD}
         />
@@ -253,7 +259,10 @@ const CreditCard: React.FC<Props> = ({
 
       <iframe
         id="chk-card-form"
-        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns')}
+        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns', {
+          [styles.newCard]: cardType === 'new',
+          [styles.savedCard]: cardType === 'saved',
+        })}
         title="card-form-ui"
         // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
         // this to be turned off in code and can just slightly add a bit of extra space to the bottom
@@ -265,19 +274,21 @@ const CreditCard: React.FC<Props> = ({
         ref={iframeRef}
       />
 
-      <div className="ph0 ph5-ns pv5 flex items-center">
-        <div className="w-100 mw-100 mw5-ns">
-          <DocumentField
-            label={intl.formatMessage(messages.doucmentLabel)}
-            documentType="cpf"
-            onChange={handleChangeDoc}
-            onBlur={validateDoc}
-            document={doc.value}
-            error={doc.showError && doc.error}
-            errorMessage={doc.showError && doc.errorMessage}
-          />
+      {cardType === 'new' && (
+        <div className="ph0 ph5-ns pv5 flex items-center">
+          <div className="w-100 mw-100 mw5-ns">
+            <DocumentField
+              label={intl.formatMessage(messages.doucmentLabel)}
+              documentType="cpf"
+              onChange={handleChangeDoc}
+              onBlur={validateDoc}
+              document={doc.value}
+              error={doc.showError && doc.error}
+              errorMessage={doc.showError && doc.errorMessage}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex mt5">
         <Button size="large" block onClick={handleSubmit}>
           <span className="f5">

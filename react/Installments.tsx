@@ -81,6 +81,7 @@ const Installments: React.FC<Props> = ({
           onClick={onBackToCardForm}
           type={PaymentType.CREDIT_CARD}
           lastDigits={cardLastDigits}
+          paymentSystem={selectedPaymentSystem}
         />
       </div>
 
