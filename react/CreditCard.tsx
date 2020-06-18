@@ -5,6 +5,7 @@ import { Button, Spinner } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 import { useIntl, defineMessages } from 'react-intl'
 import { PaymentSystem } from 'vtex.checkout-graphql'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import { PaymentType } from './enums/PaymentEnums'
@@ -62,15 +63,27 @@ const initialDoc = {
 }
 
 interface Props {
-  onCardFormCompleted: (cardLastDigits: string) => void
+  onCardFormCompleted: () => void
   onChangePaymentMethod: () => void
+  cardType: CardType
 }
 
 const CreditCard: React.FC<Props> = ({
   onCardFormCompleted,
   onChangePaymentMethod,
+  cardType,
 }) => {
-  const { paymentSystems, setPaymentField, referenceValue } = useOrderPayment()
+  const {
+    paymentSystems,
+    setCardLastDigits,
+    setPaymentField,
+    referenceValue,
+  } = useOrderPayment()
+  const {
+    orderForm: {
+      shipping: { selectedAddress },
+    },
+  } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -139,6 +152,17 @@ const CreditCard: React.FC<Props> = ({
     return () => listener.cancel()
   }, [])
 
+  useEffect(
+    function updateAddressId() {
+      if (iframeRef.current) {
+        postRobot.send(iframeRef.current.contentWindow, 'updateAddressId', {
+          addressId: selectedAddress?.addressId,
+        })
+      }
+    },
+    [selectedAddress]
+  )
+
   const validateDoc = () => {
     if (!doc.value) {
       setDoc({
@@ -168,23 +192,31 @@ const CreditCard: React.FC<Props> = ({
       'isCardValid'
     )
 
-    if (!selectedPaymentSystem || !cardIsValid || !docIsValid) {
+    if (
+      !selectedPaymentSystem ||
+      !cardIsValid ||
+      (cardType === 'new' && !docIsValid)
+    ) {
       showCardErrors()
       return
     }
 
-    const { data: cardLastDigits } = await postRobot.send(
-      iframeRef.current!.contentWindow,
-      'getCardLastDigits'
-    )
+    if (cardType === 'new') {
+      const { data: cardLastDigits } = await postRobot.send(
+        iframeRef.current!.contentWindow,
+        'getCardLastDigits'
+      )
 
-    setPaymentField({
-      paymentSystem: selectedPaymentSystem.id,
-      referenceValue,
-      installments: null,
-    })
+      setCardLastDigits(cardLastDigits)
 
-    onCardFormCompleted(cardLastDigits)
+      await setPaymentField({
+        paymentSystem: selectedPaymentSystem.id,
+        referenceValue,
+        installments: null,
+      })
+    }
+
+    onCardFormCompleted()
   }
 
   const handleChangeDoc = (data: any) => {
@@ -228,7 +260,7 @@ const CreditCard: React.FC<Props> = ({
         // of the content that it doesn't report when it returns the height.
         scrolling="no"
         frameBorder="0"
-        src={`${iframeURL}?locale=${locale}`}
+        src={`${iframeURL}?locale=${locale}&cardType=${cardType}`}
         onLoad={() => setupIframe()}
         ref={iframeRef}
       />

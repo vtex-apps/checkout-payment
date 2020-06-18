@@ -13,4 +13,6 @@ declare global {
     paymentSystem: string
     installment?: number
   }
+
+  type CardType = 'new' | 'saved'
 }
