@@ -11,5 +11,7 @@
   "store/checkout-payment.incompleteCardLabel": "Tarjeta Incompleta",
   "store/checkout-payment.choosePaymentMethodLabel": "Elija un método de pago",
   "store/checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}",
-  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}"
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}",
+  "store/checkout-payment.boletoGenerationMessage": "Generado después de la compra",
+  "store/checkout-payment.boletoNotice": "La entrega estimada está sujeta a confirmación de pago. Esto puede demorar hasta 1 día hábil."
 }

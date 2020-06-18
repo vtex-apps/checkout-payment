@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useIntl, defineMessages } from 'react-intl'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
-import { AvailableAccount } from 'vtex.checkout-graphql'
+import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 import { PaymentFlag } from 'vtex.payment-flags'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
@@ -36,12 +36,20 @@ const PaymentItem: React.FC<{
 
 interface Props {
   onNewCreditCard: () => void
+  onBankInvoiceSelect: (payment: PaymentSystem) => void
 }
 
-const PaymentList: React.FC<Props> = ({ onNewCreditCard }) => {
+const PaymentList: React.FC<Props> = ({
+  onNewCreditCard,
+  onBankInvoiceSelect,
+}) => {
   const intl = useIntl()
 
-  const { availableAccounts } = useOrderPayment()
+  const { availableAccounts, paymentSystems } = useOrderPayment()
+
+  const bankInvoicePayments = paymentSystems.filter(
+    ({ groupName }) => groupName === 'bankInvoicePaymentGroup'
+  )
 
   return (
     <div>
@@ -70,6 +78,18 @@ const PaymentList: React.FC<Props> = ({ onNewCreditCard }) => {
             label={intl.formatMessage(messages.newCreditCardLabel)}
           />
         </GroupOption>
+        {bankInvoicePayments.map(paymentSystem => (
+          <GroupOption
+            caretAlign="center"
+            key={paymentSystem.id}
+            onClick={() => onBankInvoiceSelect(paymentSystem)}
+          >
+            <PaymentItem
+              label={paymentSystem.name}
+              paymentSystem={paymentSystem.id}
+            />
+          </GroupOption>
+        ))}
       </ListGroup>
     </div>
   )

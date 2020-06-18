@@ -1,8 +1,9 @@
 import React from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { useFormattedPrice } from 'vtex.formatted-price'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
+import { Alert } from 'vtex.styleguide'
 
 const messages = defineMessages({
   installmentValue: {
@@ -19,49 +20,90 @@ const messages = defineMessages({
 const PaymentSummary: React.FC = () => {
   const {
     installmentOptions,
-    payment: { installments: installmentCount, paymentSystem },
+    paymentSystems,
+    payment: { installments: installmentCount, paymentSystem: paymentSystemId },
     cardLastDigits,
   } = useOrderPayment()
 
   const intl = useIntl()
 
+  const selectedPaymentSystem = paymentSystems.find(
+    paymentSystem => paymentSystem.id === paymentSystemId
+  )
+
   const selectedInstallmentOption = installmentOptions.find(
     (installmentOption: InstallmentOption) =>
-      installmentOption.paymentSystem === paymentSystem
+      installmentOption.paymentSystem === paymentSystemId
   )
 
   const selectedInstallment = selectedInstallmentOption?.installments.find(
     (installment: Installment) => installment.count === installmentCount
   )
 
-  const value = selectedInstallment?.value ?? 0
+  const installmentValue = selectedInstallment?.value ?? 0
 
-  const formattedValue = useFormattedPrice(value / 100)
+  const formattedInstallmentValue = useFormattedPrice(installmentValue / 100)
 
-  if (!selectedInstallment) {
+  if (!selectedPaymentSystem) {
     return null
   }
 
-  const installmentsMessage = intl.formatMessage(messages.installmentValue, {
-    installments: selectedInstallment.count,
-    value: formattedValue,
-  })
+  let summary = null
 
-  return (
-    <div className="c-muted-1 flex flex-column lh-copy">
-      <span>
-        {intl.formatMessage(messages.paymentSummaryCardMessage, {
-          value: cardLastDigits,
-        })}
-      </span>
-      <span>
-        {intl.formatMessage(messages.summaryInstallments, {
-          installmentsMessage,
-          hasInterestRate: selectedInstallment.hasInterestRate,
-        })}
-      </span>
-    </div>
-  )
+  switch (selectedPaymentSystem.groupName) {
+    case 'creditCardPaymentGroup': {
+      if (!selectedInstallment) {
+        return null
+      }
+
+      const installmentsMessage = intl.formatMessage(
+        messages.installmentValue,
+        {
+          installments: selectedInstallment.count,
+          value: formattedInstallmentValue,
+        }
+      )
+
+      summary = (
+        <>
+          <span>
+            {intl.formatMessage(messages.paymentSummaryCardMessage, {
+              value: cardLastDigits,
+            })}
+          </span>
+          <span>
+            {intl.formatMessage(messages.summaryInstallments, {
+              installmentsMessage,
+              hasInterestRate: selectedInstallment.hasInterestRate,
+            })}
+          </span>
+        </>
+      )
+
+      break
+    }
+    case 'bankInvoicePaymentGroup': {
+      summary = (
+        <>
+          <span>{selectedPaymentSystem.name}</span>
+          <span>
+            <FormattedMessage id="store/checkout-payment.boletoGenerationMessage" />
+          </span>
+
+          <div className="mt6">
+            <Alert type="warning">
+              <FormattedMessage id="store/checkout-payment.boletoNotice" />
+            </Alert>
+          </div>
+        </>
+      )
+      break
+    }
+    default:
+      return null
+  }
+
+  return <div className="c-muted-1 flex flex-column lh-copy">{summary}</div>
 }
 
 export default PaymentSummary

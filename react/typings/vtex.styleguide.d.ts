@@ -11,4 +11,6 @@ declare module 'vtex.styleguide' {
   export const Input: React.FC
 
   export const IconEdit: React.FC
+
+  export const Alert: React.FC<{ type: 'success' | 'warning' | 'error' }>
 }
