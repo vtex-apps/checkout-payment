@@ -11,5 +11,7 @@
   "store/checkout-payment.incompleteCardLabel": "Cartão Incompleto",
   "store/checkout-payment.choosePaymentMethodLabel": "Escolha um método de pagamento",
   "store/checkout-payment.paymentSummaryCardMessage": "Cartão de crédito terminando em {value}",
-  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sem juros}}"
+  "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sem juros}}",
+  "store/checkout-payment.boletoGenerationMessage": "Gerado após a compra",
+  "store/checkout-payment.boletoNotice": "A estimativa de entrega está sujeita à confirmação do pagamento. Isso pode levar em até 1 dia útil."
 }
