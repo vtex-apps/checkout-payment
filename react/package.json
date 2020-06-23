@@ -7,7 +7,7 @@
     "@vtex/css-handles": "^1.0.0",
     "classnames": "^2.2.6",
     "iframe-resizer": "^4.2.10",
-    "post-robot": "^10.0.31",
+    "post-robot": "10.0.35",
     "ramda": "^0.26.1",
     "react": "^16.8.3",
     "react-apollo": "^3.1.3",
