@@ -40,13 +40,13 @@ const Payment: React.FC = () => {
   }
 
   const handleSavedCreditCard = async (payment: AvailableAccount) => {
+    setCardLastDigits(payment.cardNumber.slice(-4))
+    setCardType('saved')
     await setPaymentField({
       paymentSystem: payment.paymentSystem,
       accountId: payment.accountId,
       bin: payment.bin,
     })
-    setCardLastDigits(payment.cardNumber.slice(-4))
-    setCardType('saved')
     goToCardForm()
   }
 
