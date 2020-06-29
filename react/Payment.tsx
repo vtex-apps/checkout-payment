@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router } from 'vtex.checkout-container'
-import { PaymentSystem } from 'vtex.checkout-graphql'
+import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 
 import CreditCard from './CreditCard'
 import Installments from './Installments'
@@ -12,6 +12,7 @@ const REVIEW_ROUTE = '/'
 
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
+  const [cardType, setCardType] = useState<CardType>('new')
   const {
     setPaymentField,
     cardLastDigits,
@@ -21,20 +22,39 @@ const Payment: React.FC = () => {
   } = useOrderPayment()
   const history = Router.useHistory()
 
-  const onCardFormCompleted = (cardDigits: string) => {
-    setCardLastDigits(cardDigits)
+  const goToCardForm = () => {
+    setStage(PaymentStage.CARD_FORM)
+  }
+
+  const goToInstallments = () => {
     setStage(PaymentStage.INSTALLMENTS)
   }
 
-  const onInstallmentSelected = async (installment: number) => {
+  const goToPaymentList = () => {
+    setStage(PaymentStage.PAYMENT_LIST)
+  }
+
+  const handleNewCreditCard = () => {
+    setCardType('new')
+    goToCardForm()
+  }
+
+  const handleSavedCreditCard = async (payment: AvailableAccount) => {
+    setCardLastDigits(payment.cardNumber.slice(-4))
+    setCardType('saved')
+    await setPaymentField({
+      paymentSystem: payment.paymentSystem,
+      accountId: payment.accountId,
+      bin: payment.bin,
+    })
+    goToCardForm()
+  }
+
+  const handleInstallmentSelected = async (installment: number) => {
     await setPaymentField({
       installments: installment,
     })
     history.push(REVIEW_ROUTE)
-  }
-
-  const handleNewCreditCard = () => {
-    setStage(PaymentStage.CARD_FORM)
   }
 
   const handleBankInvoiceSelect = async (payment: PaymentSystem) => {
@@ -48,27 +68,26 @@ const Payment: React.FC = () => {
     history.push(REVIEW_ROUTE)
   }
 
-  const goToPaymentList = () => {
-    setStage(PaymentStage.PAYMENT_LIST)
-  }
-
   return (
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
         <CreditCard
-          onCardFormCompleted={onCardFormCompleted}
+          onCardFormCompleted={goToInstallments}
           onChangePaymentMethod={goToPaymentList}
+          cardType={cardType}
+          key={cardType}
         />
       </div>
       {stage === PaymentStage.PAYMENT_LIST ? (
         <PaymentList
           onNewCreditCard={handleNewCreditCard}
+          onSavedCreditCard={handleSavedCreditCard}
           onBankInvoiceSelect={handleBankInvoiceSelect}
         />
       ) : stage === PaymentStage.INSTALLMENTS ? (
         <Installments
-          onInstallmentSelected={onInstallmentSelected}
-          onBackToCardForm={handleNewCreditCard}
+          onInstallmentSelected={handleInstallmentSelected}
+          onBackToCardForm={goToCardForm}
           cardLastDigits={cardLastDigits}
         />
       ) : null}

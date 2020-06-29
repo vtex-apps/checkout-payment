@@ -36,11 +36,13 @@ const PaymentItem: React.FC<{
 
 interface Props {
   onNewCreditCard: () => void
+  onSavedCreditCard: (payment: AvailableAccount) => void
   onBankInvoiceSelect: (payment: PaymentSystem) => void
 }
 
 const PaymentList: React.FC<Props> = ({
   onNewCreditCard,
+  onSavedCreditCard,
   onBankInvoiceSelect,
 }) => {
   const intl = useIntl()
@@ -65,7 +67,11 @@ const PaymentList: React.FC<Props> = ({
             />
           )
           return (
-            <GroupOption key={payment.accountId} caretAlign="center">
+            <GroupOption
+              onClick={() => onSavedCreditCard(payment)}
+              key={payment.accountId}
+              caretAlign="center"
+            >
               <PaymentItem
                 paymentSystem={payment.paymentSystem}
                 label={paymentLabel}
