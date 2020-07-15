@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
-import { Router } from 'vtex.checkout-container'
+import { Router, routes } from 'vtex.checkout-container'
 import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 
 import CreditCard from './CreditCard'
@@ -8,7 +8,7 @@ import Installments from './Installments'
 import PaymentList from './PaymentList'
 import { PaymentStage } from './enums/PaymentEnums'
 
-const REVIEW_ROUTE = '/'
+const { useHistory } = Router
 
 const Payment: React.FC = () => {
   const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
@@ -19,14 +19,17 @@ const Payment: React.FC = () => {
     setCardLastDigits,
     value,
     referenceValue,
+    setCardFormFilled,
   } = useOrderPayment()
-  const history = Router.useHistory()
+  const history = useHistory()
 
   const goToCardForm = () => {
+    setCardFormFilled(false)
     setStage(PaymentStage.CARD_FORM)
   }
 
   const goToInstallments = () => {
+    setCardFormFilled(true)
     setStage(PaymentStage.INSTALLMENTS)
   }
 
@@ -54,7 +57,7 @@ const Payment: React.FC = () => {
     await setPaymentField({
       installments: installment,
     })
-    history.push(REVIEW_ROUTE)
+    history.push(routes.REVIEW)
   }
 
   const handleBankInvoiceSelect = async (payment: PaymentSystem) => {
@@ -65,7 +68,7 @@ const Payment: React.FC = () => {
       value,
       referenceValue,
     })
-    history.push(REVIEW_ROUTE)
+    history.push(routes.REVIEW)
   }
 
   return (
