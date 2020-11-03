@@ -278,7 +278,7 @@ const CreditCard: React.FC<Props> = ({
         <div className="ph0 ph5-ns pv5 flex items-center">
           <div className="w-100 mw-100 mw5-ns">
             <DocumentField
-              label={intl.formatMessage(messages.doucmentLabel)}
+              label={intl.formatMessage(messages.documentLabel)}
               documentType="cpf"
               onChange={handleChangeDoc}
               onBlur={validateDoc}
