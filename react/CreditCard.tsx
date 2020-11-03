@@ -19,7 +19,7 @@ const messages = defineMessages({
   invalidDigits: {
     id: 'store/checkout-payment.invalidDigits',
   },
-  doucmentLabel: {
+  documentLabel: {
     id: 'store/checkout-payment.documentLabel',
   },
   installmentsButton: {
