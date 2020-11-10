@@ -1,11 +1,17 @@
 {
+  "store/checkout-payment.selectedPaymentLabel": "Você selecionou",
   "store/checkout-payment.installmentsButton": "Escolher parcelamento",
+  "store/checkout-payment.creditCardExtraDataMessage": "Para sua segurança, preencha os seguintes dados do cartão de crédito:",
   "store/checkout-payment.documentLabel": "Documento do titular do cartão",
   "store/checkout-payment.requiredField": "Campo obrigatório.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
   "store/checkout-payment.creditCardLabel": "Cartão de Crédito",
-  "store/checkout-payment.installmentOptionLabel": "Escolha uma opção de parcelamento",
+  "store/checkout-payment.installmentsOptionsTitle": "Opções de parcelamento",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {sem juros} true {com juros de {interestRate}% ao mês}}",
+  "store/checkout-payment.installmentsTitle": "Parcelamento",
+  "store/checkout-payment.installmentOptionLabel": "Escolha um parcelamento",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.changeInstallments": "Alterar",
   "store/checkout-payment.interestFree": "Sem juros",
   "store/checkout-payment.newCreditCardLabel": "Novo Cartão de Crédito",
   "store/checkout-payment.incompleteCardLabel": "Cartão Incompleto",
@@ -13,5 +19,6 @@
   "store/checkout-payment.paymentSummaryCardMessage": "Cartão de crédito terminando em {value}",
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sem juros}}",
   "store/checkout-payment.boletoGenerationMessage": "Gerado após a compra",
-  "store/checkout-payment.boletoNotice": "A estimativa de entrega está sujeita à confirmação do pagamento. Isso pode levar em até 1 dia útil."
+  "store/checkout-payment.boletoNotice": "A estimativa de entrega está sujeita à confirmação do pagamento. Isso pode levar em até 1 dia útil.",
+  "store/checkout-payment.reviewPurchaseLabel": "Revisar compra"
 }

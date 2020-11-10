@@ -1,58 +1,58 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useIntl, defineMessages } from 'react-intl'
-import { ButtonPlain, IconEdit } from 'vtex.styleguide'
 import { PaymentFlag } from 'vtex.payment-flags'
+import { SelectedCard } from 'vtex.checkout-components'
 
-import { PaymentType } from './enums/PaymentEnums'
 import CardLabel from './components/CardLabel'
+import styles from './styles.css'
 
 const messages = defineMessages({
   creditCardLabel: {
     id: 'store/checkout-payment.creditCardLabel',
-  },
-  newCreditCardLabel: {
-    id: 'store/checkout-payment.newCreditCardLabel',
   },
 })
 
 interface Props {
   paymentSystem?: string
   lastDigits?: string
-  onClick: () => void
-  type: PaymentType
+  onEdit: () => void
+  description?: ReactNode
 }
 
 const CardSummary: React.FC<Props> = ({
   paymentSystem,
   lastDigits,
-  onClick,
+  onEdit,
+  description,
 }) => {
   const intl = useIntl()
 
   return (
-    <div className="pv5 ph0 ph5-ns c-muted-1">
-      <div className="flex items-center">
-        <div className="h1">
-          <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
-        </div>
-        {lastDigits ? (
-          <CardLabel
-            className="ml3"
-            label={intl.formatMessage(messages.creditCardLabel)}
-            lastDigits={lastDigits}
-          />
-        ) : (
-          <span className="ml3">
-            {intl.formatMessage(messages.newCreditCardLabel)}
+    <>
+      <SelectedCard
+        className={`${styles.fullWidth} nl5 nl0-ns`}
+        onDeselect={onEdit}
+        title={
+          <span className="inline-flex items-center f5">
+            <div className="h1">
+              <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
+            </div>
+            {lastDigits ? (
+              <CardLabel
+                className="ml3"
+                label={intl.formatMessage(messages.creditCardLabel)}
+                lastDigits={lastDigits}
+              />
+            ) : (
+              <span className="ml3">
+                {intl.formatMessage(messages.creditCardLabel)}
+              </span>
+            )}
           </span>
-        )}
-        <div className="dib ml4">
-          <ButtonPlain onClick={onClick}>
-            <IconEdit solid />
-          </ButtonPlain>
-        </div>
-      </div>
-    </div>
+        }
+        description={description}
+      />
+    </>
   )
 }
 

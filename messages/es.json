@@ -1,11 +1,17 @@
 {
+  "store/checkout-payment.selectedPaymentLabel": "Tu seleccionaste",
   "store/checkout-payment.installmentsButton": "Elige cuota",
+  "store/checkout-payment.creditCardExtraDataMessage": "Por su seguridad, complete los siguientes datos de la tarjeta de crédito:",
   "store/checkout-payment.documentLabel": "Documento del titular de la tarjeta",
   "store/checkout-payment.requiredField": "Este campo es obligatorio.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
   "store/checkout-payment.creditCardLabel": "Tarjeta de Crédito",
-  "store/checkout-payment.installmentOptionLabel": "Elige una opción de pago",
+  "store/checkout-payment.installmentsOptionsTitle": "Opciones de pago a plazos",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {sin interés} true {con interés de {interestRate}% mensual}}",
+  "store/checkout-payment.installmentsTitle": "Cuotas",
+  "store/checkout-payment.installmentOptionLabel": "Elige una cuota",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.changeInstallments": "Cambiar",
   "store/checkout-payment.interestFree": "Sin interés",
   "store/checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
   "store/checkout-payment.incompleteCardLabel": "Tarjeta Incompleta",
@@ -13,5 +19,6 @@
   "store/checkout-payment.paymentSummaryCardMessage": "Tarjeta de crédito terminada en {value}",
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sin interés}}",
   "store/checkout-payment.boletoGenerationMessage": "Generado después de la compra",
-  "store/checkout-payment.boletoNotice": "La entrega estimada está sujeta a confirmación de pago. Esto puede demorar hasta 1 día hábil."
+  "store/checkout-payment.boletoNotice": "La entrega estimada está sujeta a confirmación de pago. Esto puede demorar hasta 1 día hábil.",
+  "store/checkout-payment.reviewPurchaseLabel": "Revisar compra"
 }

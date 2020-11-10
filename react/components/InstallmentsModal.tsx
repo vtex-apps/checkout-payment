@@ -1,13 +1,9 @@
 import React from 'react'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { useFormattedPrice } from 'vtex.formatted-price'
-import { ListGroup, GroupOption } from 'vtex.checkout-components'
+import { ListGroup, GroupOption, Modal } from 'vtex.checkout-components'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
-
-import CardSummary from './CardSummary'
-import Header from './components/Header'
-import { PaymentType } from './enums/PaymentEnums'
 
 const messages = defineMessages({
   installmentValue: {
@@ -15,6 +11,9 @@ const messages = defineMessages({
   },
   interestFree: {
     id: 'store/checkout-payment.interestFree',
+  },
+  installmentsTitle: {
+    id: 'store/checkout-payment.installmentsTitle',
   },
   installmentOptionLabel: {
     id: 'store/checkout-payment.installmentOptionLabel',
@@ -47,18 +46,16 @@ const InstallmentItem: React.FC<{
 }
 
 interface Props {
+  isOpen: boolean
   onInstallmentSelected: (installment: number) => void
-  onBackToCardForm: () => void
-  cardLastDigits: string
+  onClose?: () => void
 }
 
-const Installments: React.FC<Props> = ({
-  onBackToCardForm,
+const InstallmentsModal: React.FC<Props> = ({
+  isOpen,
   onInstallmentSelected,
-  cardLastDigits,
+  onClose = () => {},
 }) => {
-  const intl = useIntl()
-
   const { installmentOptions, payment } = useOrderPayment()
 
   if (!payment.paymentSystem) {
@@ -75,34 +72,33 @@ const Installments: React.FC<Props> = ({
   const { installments } = installmentOption!
 
   return (
-    <div>
-      <div className="mb3">
-        <CardSummary
-          onClick={onBackToCardForm}
-          type={PaymentType.CREDIT_CARD}
-          lastDigits={cardLastDigits}
-          paymentSystem={selectedPaymentSystem}
-        />
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={<FormattedMessage {...messages.installmentsTitle} />}
+    >
+      <span className="dib mt1 mb3 t-body fw6">
+        <FormattedMessage {...messages.installmentOptionLabel} />
+      </span>
+
+      <div className="pl5">
+        <ListGroup>
+          {installments.map((installment: Installment) => {
+            return (
+              <GroupOption
+                key={installment.count}
+                onClick={() => onInstallmentSelected(installment.count)}
+                caretAlign="center"
+                lean
+              >
+                <InstallmentItem installment={installment} />
+              </GroupOption>
+            )
+          })}
+        </ListGroup>
       </div>
-
-      <Header>{intl.formatMessage(messages.installmentOptionLabel)}</Header>
-
-      <ListGroup>
-        {installments.map((installment: Installment) => {
-          return (
-            <GroupOption
-              key={installment.count}
-              onClick={() => onInstallmentSelected(installment.count)}
-              caretAlign="center"
-              lean
-            >
-              <InstallmentItem installment={installment} />
-            </GroupOption>
-          )
-        })}
-      </ListGroup>
-    </div>
+    </Modal>
   )
 }
 
-export default Installments
+export default InstallmentsModal

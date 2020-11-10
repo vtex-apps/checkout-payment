@@ -1,3 +1,13 @@
 :global(.vtex__icon-spinner) {
     position: absolute;
 }
+
+.fullWidth {
+  width: calc(100% + 2rem);
+}
+
+@media only screen and (min-width: 40em) {
+  .fullWidth {
+    width: auto;
+  }
+}

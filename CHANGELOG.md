@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Modal with all available credit cards installment options.
+
+### Changed
+- Move installment options list to a modal.
+
+### Fixed
+- Iframe height not properly calculated in some scenarios.
 
 ## [0.9.0] - 2020-07-15
 ### Changed
