@@ -53,6 +53,7 @@ const Payment: React.FC = () => {
       bin: payment.bin,
     })
     handleDeselectPayment()
+    setInstallmentsModalOpen(true)
   }
 
   const handleInstallmentSelected = async (installment: number) => {
@@ -88,6 +89,7 @@ const Payment: React.FC = () => {
         <CreditCard
           onCardFormCompleted={handleCardFormCompleted}
           onChangePaymentMethod={handleChangePaymentMethod}
+          onChangeInstallments={() => setInstallmentsModalOpen(true)}
           cardType={cardType}
           key={cardType}
         />

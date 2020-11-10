@@ -12,6 +12,7 @@ import { PaymentFlag } from 'vtex.payment-flags'
 import defaultStyles from './styles.css'
 import styles from './CreditCard.css'
 import CardSummary from './CardSummary'
+import SelectedCardInstallments from './components/SelectedCardInstallments'
 
 const messages = defineMessages({
   requiredField: {
@@ -33,6 +34,7 @@ const messages = defineMessages({
     id: 'store/checkout-payment.installmentWithoutValue',
   },
   selectedPaymentLabel: { id: 'store/checkout-payment.selectedPaymentLabel' },
+  reviewPurchaseLabel: { id: 'store/checkout-payment.reviewPurchaseLabel' },
 })
 
 let postRobot: typeof import('post-robot') | null = null
@@ -59,12 +61,14 @@ const iframeURL = LOCAL_IFRAME_DEVELOPMENT ? iframeURLDev : iframeURLProd
 interface Props {
   onCardFormCompleted: () => void
   onChangePaymentMethod: () => void
+  onChangeInstallments: () => void
   cardType: CardType
 }
 
 const CreditCard: React.FC<Props> = ({
   onCardFormCompleted,
   onChangePaymentMethod,
+  onChangeInstallments,
   cardType,
 }) => {
   const {
@@ -249,7 +253,7 @@ const CreditCard: React.FC<Props> = ({
           <Spinner />
         </div>
       )}
-      <div className="mb3">
+      <div className={cardType === 'saved' ? 'mb5' : 'mb3'}>
         <CardSummary
           paymentSystem={
             cardType === 'saved' ? payment.paymentSystem! : undefined
@@ -257,7 +261,11 @@ const CreditCard: React.FC<Props> = ({
           lastDigits={cardType === 'saved' ? cardLastDigits : undefined}
           onEdit={handleCardSummaryClick}
           description={
-            cardType === 'new' && (
+            cardType === 'saved' ? (
+              <SelectedCardInstallments
+                onChangeInstallments={onChangeInstallments}
+              />
+            ) : (
               <div className="pv3">
                 <ButtonPlain
                   onClick={() => setShowAvailableInstallmentOptionsModal(true)}
@@ -329,7 +337,11 @@ const CreditCard: React.FC<Props> = ({
           isLoading={submitLoading}
         >
           <span className="f5">
-            {intl.formatMessage(messages.installmentsButton)}
+            {intl.formatMessage(
+              cardType === 'saved'
+                ? messages.reviewPurchaseLabel
+                : messages.installmentsButton
+            )}
           </span>
         </Button>
       </div>

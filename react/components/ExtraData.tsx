@@ -1,20 +1,13 @@
 import React, { useState } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { defineMessages, useIntl } from 'react-intl'
-import { useOrderForm } from 'vtex.order-manager/OrderForm'
-import { ButtonPlain, Button } from 'vtex.styleguide'
-import { useFormattedPrice } from 'vtex.formatted-price'
+import { Button } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 
 import CardSummary from '../CardSummary'
+import SelectedCardInstallments from './SelectedCardInstallments'
 
 const messages = defineMessages({
-  installmentValue: {
-    id: 'store/checkout-payment.installmentValue',
-  },
-  changeInstallments: {
-    id: 'store/checkout-payment.changeInstallments',
-  },
   selectedPaymentLabel: { id: 'store/checkout-payment.selectedPaymentLabel' },
   creditCardExtraDataMessage: {
     id: 'store/checkout-payment.creditCardExtraDataMessage',
@@ -63,20 +56,6 @@ const ExtraData: React.VFC<Props> = ({
   const { cardLastDigits, payment } = useOrderPayment()
   const intl = useIntl()
   const [userDocument, setDocument] = useState<Field>(initialDocument)
-
-  const { orderForm } = useOrderForm()
-
-  const installmentOptions = orderForm.paymentData.installmentOptions.find(
-    installmentOption =>
-      installmentOption.paymentSystem === payment.paymentSystem
-  )!
-  const selectedInstallmentOption = installmentOptions.installments.find(
-    ({ count }) => count === payment.installments
-  )!
-
-  const formattedInstallmentValue = useFormattedPrice(
-    (selectedInstallmentOption.value ?? 0) / 100
-  )
 
   const validateDocument = () => {
     if (!userDocument.value) {
@@ -133,22 +112,9 @@ const ExtraData: React.VFC<Props> = ({
         paymentSystem={payment.paymentSystem ?? undefined}
         onEdit={onDeselectPayment}
         description={
-          <div className="pv3 flex items-center">
-            <span className="c-muted-1">
-              {intl.formatMessage(messages.installmentValue, {
-                installments: selectedInstallmentOption.count,
-                value: formattedInstallmentValue,
-              })}
-            </span>
-
-            <div className="ml3">
-              <ButtonPlain onClick={onChangeInstallments}>
-                <span className="ttl">
-                  {intl.formatMessage(messages.changeInstallments)}
-                </span>
-              </ButtonPlain>
-            </div>
-          </div>
+          <SelectedCardInstallments
+            onChangeInstallments={onChangeInstallments}
+          />
         }
       />
 
