@@ -28,31 +28,29 @@ const CardSummary: React.FC<Props> = ({
   const intl = useIntl()
 
   return (
-    <>
-      <SelectedCard
-        className={`${styles.fullWidth} nl5 nl0-ns`}
-        onDeselect={onEdit}
-        title={
-          <span className="inline-flex items-center f5">
-            <div className="h1">
-              <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
-            </div>
-            {lastDigits ? (
-              <CardLabel
-                className="ml3"
-                label={intl.formatMessage(messages.creditCardLabel)}
-                lastDigits={lastDigits}
-              />
-            ) : (
-              <span className="ml3">
-                {intl.formatMessage(messages.creditCardLabel)}
-              </span>
-            )}
-          </span>
-        }
-        description={description}
-      />
-    </>
+    <SelectedCard
+      className={`${styles.fullWidth} nl5 nl0-ns`}
+      onDeselect={onEdit}
+      title={
+        <span className="inline-flex items-center f5">
+          <div className="h1">
+            <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
+          </div>
+          {lastDigits ? (
+            <CardLabel
+              className="ml3"
+              label={intl.formatMessage(messages.creditCardLabel)}
+              lastDigits={lastDigits}
+            />
+          ) : (
+            <span className="ml3">
+              {intl.formatMessage(messages.creditCardLabel)}
+            </span>
+          )}
+        </span>
+      }
+      description={description}
+    />
   )
 }
 
