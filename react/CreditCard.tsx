@@ -34,6 +34,9 @@ const messages = defineMessages({
   },
   selectedPaymentLabel: { id: 'store/checkout-payment.selectedPaymentLabel' },
   reviewPurchaseLabel: { id: 'store/checkout-payment.reviewPurchaseLabel' },
+  viewInstallmentOptionsLabel: {
+    id: 'store/checkout-payment.viewInstallmentOptionsLabel',
+  },
 })
 
 let postRobot: typeof import('post-robot') | null = null
@@ -269,7 +272,7 @@ const CreditCard: React.FC<Props> = ({
                 <ButtonPlain
                   onClick={() => setShowAvailableInstallmentOptionsModal(true)}
                 >
-                  Ver opções de parcelamento
+                  {intl.formatMessage(messages.viewInstallmentOptionsLabel)}
                 </ButtonPlain>
               </div>
             )

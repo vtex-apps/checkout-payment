@@ -6,6 +6,7 @@
   "store/checkout-payment.requiredField": "Campo obrigatório.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
   "store/checkout-payment.creditCardLabel": "Cartão de Crédito",
+  "store/checkout-payment.viewInstallmentOptionsLabel": "Ver opções de parcelamento",
   "store/checkout-payment.installmentsOptionsTitle": "Opções de parcelamento",
   "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {sem juros} true {com juros de {interestRate}% ao mês}}",
   "store/checkout-payment.installmentsTitle": "Parcelamento",
