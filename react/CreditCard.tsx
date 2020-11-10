@@ -9,7 +9,6 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Modal } from 'vtex.checkout-components'
 import { PaymentFlag } from 'vtex.payment-flags'
 
-import defaultStyles from './styles.css'
 import styles from './CreditCard.css'
 import CardSummary from './CardSummary'
 import SelectedCardInstallments from './components/SelectedCardInstallments'
@@ -309,15 +308,10 @@ const CreditCard: React.FC<Props> = ({
 
       <iframe
         id="chk-card-form"
-        className={classNames(
-          defaultStyles.fullWidth,
-          styles.iframe,
-          'nl5 nh0-ns',
-          {
-            [styles.newCard]: cardType === 'new',
-            [styles.savedCard]: cardType === 'saved',
-          }
-        )}
+        className={classNames(styles.iframe, 'vw-100 w-auto-ns nl5 nh0-ns', {
+          [styles.newCard]: cardType === 'new',
+          [styles.savedCard]: cardType === 'saved',
+        })}
         title="card-form-ui"
         // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
         // this to be turned off in code and can just slightly add a bit of extra space to the bottom

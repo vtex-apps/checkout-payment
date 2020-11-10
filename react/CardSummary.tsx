@@ -4,7 +4,6 @@ import { PaymentFlag } from 'vtex.payment-flags'
 import { SelectedCard } from 'vtex.checkout-components'
 
 import CardLabel from './components/CardLabel'
-import styles from './styles.css'
 
 const messages = defineMessages({
   creditCardLabel: {
@@ -29,7 +28,7 @@ const CardSummary: React.FC<Props> = ({
 
   return (
     <SelectedCard
-      className={`${styles.fullWidth} nl5 nl0-ns`}
+      className="vw-100 w-auto-ns nl5 nl0-ns"
       onDeselect={onEdit}
       title={
         <span className="inline-flex items-center f5">
