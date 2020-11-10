@@ -214,20 +214,20 @@ const CreditCard: React.FC<Props> = ({
 
   const creditCardInstallmentOptions = useMemo(
     () =>
-      orderForm.paymentData.installmentOptions
-        .map(installmentOption => {
-          const installmentPaymentSystem = creditCardPayments.find(
-            creditCardPaymentSystem =>
+      creditCardPayments
+        .map(creditCardPaymentSystem => {
+          const creditCardInstallments = orderForm.paymentData.installmentOptions.find(
+            installmentOption =>
               creditCardPaymentSystem.id === installmentOption.paymentSystem
           )
 
-          if (!installmentPaymentSystem) {
+          if (!creditCardInstallments) {
             return null
           }
 
           return {
-            ...installmentOption,
-            paymentName: installmentPaymentSystem.name,
+            ...creditCardInstallments,
+            paymentName: creditCardPaymentSystem.name,
           }
         })
         .filter(<T extends any>(value: T | null): value is T => value !== null),
