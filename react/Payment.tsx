@@ -60,7 +60,11 @@ const Payment: React.FC = () => {
     await setPaymentField({
       installments: installment,
     })
-    setStage(PaymentStage.EXTRA_DATA)
+    if (cardType === 'saved') {
+      history.push(routes.REVIEW)
+    } else {
+      setStage(PaymentStage.EXTRA_DATA)
+    }
   }
 
   const handleBankInvoiceSelect = async (payment: PaymentSystem) => {
