@@ -1,7 +1,7 @@
 {
   "store/checkout-payment.selectedPaymentLabel": "You selected",
   "store/checkout-payment.installmentsButton": "Choose a payment option",
-  "store/checkout-payment.creditCardExtraDataMessage": "For your safety, fill the following information of the credit card:",
+  "store/checkout-payment.creditCardExtraDataMessage": "For your safety, fill the following information:",
   "store/checkout-payment.documentLabel": "Cardholder document",
   "store/checkout-payment.requiredField": "This field is required.",
   "store/checkout-payment.invalidDigits": "Invalid Digits",

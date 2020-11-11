@@ -1,7 +1,7 @@
 {
   "store/checkout-payment.selectedPaymentLabel": "Você selecionou",
   "store/checkout-payment.installmentsButton": "Escolher parcelamento",
-  "store/checkout-payment.creditCardExtraDataMessage": "Para sua segurança, preencha os seguintes dados do cartão de crédito:",
+  "store/checkout-payment.creditCardExtraDataMessage": "Para sua segurança, preencha os seguintes dados:",
   "store/checkout-payment.documentLabel": "Documento do titular do cartão",
   "store/checkout-payment.requiredField": "Campo obrigatório.",
   "store/checkout-payment.invalidDigits": "Dígitos inválidos",
