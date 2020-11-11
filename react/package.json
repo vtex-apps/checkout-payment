@@ -26,7 +26,7 @@
     "@types/react-dom": "^16.9.9",
     "@vtex/test-tools": "^3.3.2",
     "apollo-client": "^2.5.1",
-    "vtex.checkout-components": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1604942782/public/@types/vtex.checkout-components",
+    "vtex.checkout-components": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1605120146/public/@types/vtex.checkout-components",
     "vtex.checkout-container": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.6.2/public/@types/vtex.checkout-container",
     "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.46.0/public/@types/vtex.checkout-graphql",
     "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.1/public/@types/vtex.document-field",
@@ -35,7 +35,7 @@
     "vtex.order-payment": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.7.0/public/@types/vtex.order-payment",
     "vtex.payment-flags": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.5.0/public/@types/vtex.payment-flags",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.124.3/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1604941427/public/@types/vtex.styleguide"
+    "vtex.styleguide": "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1605029012/public/@types/vtex.styleguide"
   },
   "version": "0.9.0"
 }

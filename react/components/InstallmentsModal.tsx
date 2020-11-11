@@ -81,22 +81,21 @@ const InstallmentsModal: React.FC<Props> = ({
         <FormattedMessage {...messages.installmentOptionLabel} />
       </span>
 
-      <div className="pl5">
-        <ListGroup>
-          {installments.map((installment: Installment) => {
-            return (
-              <GroupOption
-                key={installment.count}
-                onClick={() => onInstallmentSelected(installment.count)}
-                caretAlign="center"
-                lean
-              >
-                <InstallmentItem installment={installment} />
-              </GroupOption>
-            )
-          })}
-        </ListGroup>
-      </div>
+      <ListGroup borderPosition="bottom">
+        {installments.map((installment: Installment, index) => {
+          return (
+            <GroupOption
+              key={installment.count}
+              onClick={() => onInstallmentSelected(installment.count)}
+              caretAlign="center"
+              lean
+              isLast={index === installments.length - 1}
+            >
+              <InstallmentItem installment={installment} />
+            </GroupOption>
+          )
+        })}
+      </ListGroup>
     </Modal>
   )
 }

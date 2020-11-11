@@ -5370,9 +5370,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.checkout-components@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1604942782/public/@types/vtex.checkout-components":
+"vtex.checkout-components@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1605120146/public/@types/vtex.checkout-components":
   version "0.4.1"
-  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1604942782/public/@types/vtex.checkout-components#91ec989a2ed4c7dc7ef766aa47402ea5318d670c"
+  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-components@0.4.1+build1605120146/public/@types/vtex.checkout-components#a943bffd7c065d997c34f5ab9ef2134aacfd2216"
 
 "vtex.checkout-container@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.6.2/public/@types/vtex.checkout-container":
   version "0.6.2"
@@ -5406,9 +5406,9 @@ verror@1.10.0:
   version "8.124.3"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.124.3/public/@types/vtex.render-runtime#8158e34bd24b4a51cb5d463eeef4e37af626c2d5"
 
-"vtex.styleguide@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1604941427/public/@types/vtex.styleguide":
+"vtex.styleguide@https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1605029012/public/@types/vtex.styleguide":
   version "9.133.1"
-  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1604941427/public/@types/vtex.styleguide#8e69127a1ea67f08306ee686942bb7f669dabdd5"
+  resolved "https://lucas--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.styleguide@9.133.1+build1605029012/public/@types/vtex.styleguide#7bb54757768e68d63ee7901432dd79012599d98a"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

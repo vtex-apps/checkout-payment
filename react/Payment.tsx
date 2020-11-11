@@ -27,7 +27,11 @@ const Payment: React.FC = () => {
 
   const handleCardFormCompleted = () => {
     setCardFormFilled(true)
-    setInstallmentsModalOpen(true)
+    if (cardType === 'new') {
+      setInstallmentsModalOpen(true)
+    } else {
+      history.push(routes.REVIEW)
+    }
   }
 
   const handleDeselectPayment = () => {
