@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router, routes } from 'vtex.checkout-container'
 import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 
-import CreditCard from './CreditCard'
+import CreditCard, { CreditCardRef } from './CreditCard'
 import PaymentList from './PaymentList'
 import { PaymentStage } from './enums/PaymentEnums'
 import InstallmentsModal from './components/InstallmentsModal'
@@ -21,6 +21,7 @@ const Payment: React.FC = () => {
     referenceValue,
     setCardFormFilled,
   } = useOrderPayment()
+  const creditCardRef = useRef<CreditCardRef>(null)
   const history = useHistory()
 
   const [installmentsModalOpen, setInstallmentsModalOpen] = useState(false)
@@ -35,6 +36,8 @@ const Payment: React.FC = () => {
   }
 
   const handleDeselectPayment = () => {
+    creditCardRef?.current?.resetCardFormData()
+
     setCardFormFilled(false)
     setStage(PaymentStage.CARD_FORM)
   }
@@ -91,6 +94,7 @@ const Payment: React.FC = () => {
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
         <CreditCard
+          ref={creditCardRef}
           onCardFormCompleted={handleCardFormCompleted}
           onChangePaymentMethod={handleChangePaymentMethod}
           onChangeInstallments={() => setInstallmentsModalOpen(true)}

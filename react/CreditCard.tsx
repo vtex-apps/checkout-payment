@@ -1,5 +1,13 @@
 import classNames from 'classnames'
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  forwardRef,
+  useImperativeHandle,
+} from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner, ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
@@ -67,12 +75,19 @@ interface Props {
   cardType: CardType
 }
 
-const CreditCard: React.FC<Props> = ({
-  onCardFormCompleted,
-  onChangePaymentMethod,
-  onChangeInstallments,
-  cardType,
-}) => {
+export interface CreditCardRef {
+  resetCardFormData: () => void
+}
+
+const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
+  {
+    onCardFormCompleted,
+    onChangePaymentMethod,
+    onChangeInstallments,
+    cardType,
+  },
+  ref
+) {
   const {
     cardLastDigits,
     payment,
@@ -140,6 +155,10 @@ const CreditCard: React.FC<Props> = ({
       await postRobot.send(iframeRef.current.contentWindow, 'resetCardFormData')
     }
   }, [])
+
+  useImperativeHandle(ref, () => ({
+    resetCardFormData,
+  }))
 
   useEffect(function createPaymentSystemListener() {
     const listener = postRobot.on(
@@ -344,6 +363,6 @@ const CreditCard: React.FC<Props> = ({
       </div>
     </div>
   )
-}
+})
 
 export default CreditCard
