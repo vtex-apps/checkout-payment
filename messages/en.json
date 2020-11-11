@@ -12,7 +12,7 @@
   "store/checkout-payment.installmentsTitle": "Installments",
   "store/checkout-payment.installmentOptionLabel": "Choose an installment option",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
-  "store/checkout-payment.changeInstallments": "Change",
+  "store/checkout-payment.changeInstallments": "Change installments",
   "store/checkout-payment.interestFree": "Interest-free",
   "store/checkout-payment.newCreditCardLabel": "New Credit Card",
   "store/checkout-payment.incompleteCardLabel": "Incomplete Card",

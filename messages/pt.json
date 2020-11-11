@@ -12,7 +12,7 @@
   "store/checkout-payment.installmentsTitle": "Parcelamento",
   "store/checkout-payment.installmentOptionLabel": "Escolha um parcelamento",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
-  "store/checkout-payment.changeInstallments": "Alterar",
+  "store/checkout-payment.changeInstallments": "Alterar parcelamento",
   "store/checkout-payment.interestFree": "Sem juros",
   "store/checkout-payment.newCreditCardLabel": "Novo Cartão de Crédito",
   "store/checkout-payment.incompleteCardLabel": "Cartão Incompleto",

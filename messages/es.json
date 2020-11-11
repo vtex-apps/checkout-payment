@@ -12,7 +12,7 @@
   "store/checkout-payment.installmentsTitle": "Cuotas",
   "store/checkout-payment.installmentOptionLabel": "Elige una cuota",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
-  "store/checkout-payment.changeInstallments": "Cambiar",
+  "store/checkout-payment.changeInstallments": "Cambiar cuota",
   "store/checkout-payment.interestFree": "Sin interés",
   "store/checkout-payment.newCreditCardLabel": "Nueva tarjeta de credito",
   "store/checkout-payment.incompleteCardLabel": "Tarjeta Incompleta",
