@@ -32,7 +32,7 @@ const CardSummary: React.FC<Props> = ({
       onDeselect={onEdit}
       title={
         <span className="inline-flex items-center f5">
-          <div className="h1">
+          <div className="h1 flex items-center">
             <PaymentFlag paymentSystemId={paymentSystem ?? ''} />
           </div>
           {lastDigits ? (
