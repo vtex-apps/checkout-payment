@@ -46,7 +46,7 @@ const SelectedCardInstallments: React.FC<Props> = ({
         })}
       </span>
 
-      <div className="ml3">
+      <div className="ml3 flex items-center">
         <ButtonPlain onClick={onChangeInstallments}>
           <span className="ttl">
             {intl.formatMessage(messages.changeInstallments)}
