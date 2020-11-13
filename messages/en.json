@@ -1,11 +1,18 @@
 {
+  "store/checkout-payment.selectedPaymentLabel": "You selected",
   "store/checkout-payment.installmentsButton": "Choose a payment option",
+  "store/checkout-payment.creditCardExtraDataMessage": "For your safety, fill the following information:",
   "store/checkout-payment.documentLabel": "Cardholder document",
   "store/checkout-payment.requiredField": "This field is required.",
   "store/checkout-payment.invalidDigits": "Invalid Digits",
   "store/checkout-payment.creditCardLabel": "Credit Card",
-  "store/checkout-payment.installmentOptionLabel": "Choose a payment option",
+  "store/checkout-payment.viewInstallmentOptionsLabel": "View installment options",
+  "store/checkout-payment.installmentsOptionsTitle": "Installments options",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {with interest of {interestRate}% monthly}}",
+  "store/checkout-payment.installmentsTitle": "Installments",
+  "store/checkout-payment.installmentOptionLabel": "Choose an installment option",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
+  "store/checkout-payment.changeInstallments": "Change installments",
   "store/checkout-payment.interestFree": "Interest-free",
   "store/checkout-payment.newCreditCardLabel": "New Credit Card",
   "store/checkout-payment.incompleteCardLabel": "Incomplete Card",
@@ -13,5 +20,6 @@
   "store/checkout-payment.paymentSummaryCardMessage": "Credit card ending with {value}",
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- without interest}}",
   "store/checkout-payment.boletoGenerationMessage": "Generated after purchase",
-  "store/checkout-payment.boletoNotice": "The delivery estimate is subject to payment being confirmed. This can take up to 1 business day."
+  "store/checkout-payment.boletoNotice": "The delivery estimate is subject to payment being confirmed. This can take up to 1 business day.",
+  "store/checkout-payment.reviewPurchaseLabel": "Review purchase"
 }

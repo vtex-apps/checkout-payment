@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 const CardLabel: React.FC<Props> = ({ label, lastDigits, ...props }) => {
   return (
     <span {...props}>
-      {label} &middot; &middot; &middot; &middot; {lastDigits}
+      {label} ∙∙∙∙ {lastDigits}
     </span>
   )
 }

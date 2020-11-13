@@ -1,5 +1,5 @@
 export enum PaymentStage {
-  INSTALLMENTS,
+  EXTRA_DATA,
   CARD_FORM,
   PAYMENT_LIST,
 }

@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router, routes } from 'vtex.checkout-container'
 import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 
-import CreditCard from './CreditCard'
-import Installments from './Installments'
+import CreditCard, { CreditCardRef } from './CreditCard'
 import PaymentList from './PaymentList'
 import { PaymentStage } from './enums/PaymentEnums'
+import InstallmentsModal from './components/InstallmentsModal'
+import ExtraData from './components/ExtraData'
 
 const { useHistory } = Router
 
@@ -15,31 +16,39 @@ const Payment: React.FC = () => {
   const [cardType, setCardType] = useState<CardType>('new')
   const {
     setPaymentField,
-    cardLastDigits,
     setCardLastDigits,
     value,
     referenceValue,
     setCardFormFilled,
   } = useOrderPayment()
+  const creditCardRef = useRef<CreditCardRef>(null)
   const history = useHistory()
 
-  const goToCardForm = () => {
+  const [installmentsModalOpen, setInstallmentsModalOpen] = useState(false)
+
+  const handleCardFormCompleted = () => {
+    setCardFormFilled(true)
+    if (cardType === 'new') {
+      setInstallmentsModalOpen(true)
+    } else {
+      history.push(routes.REVIEW)
+    }
+  }
+
+  const handleDeselectPayment = () => {
+    creditCardRef?.current?.resetCardFormData()
+
     setCardFormFilled(false)
     setStage(PaymentStage.CARD_FORM)
   }
 
-  const goToInstallments = () => {
-    setCardFormFilled(true)
-    setStage(PaymentStage.INSTALLMENTS)
-  }
-
-  const goToPaymentList = () => {
+  const handleChangePaymentMethod = () => {
     setStage(PaymentStage.PAYMENT_LIST)
   }
 
   const handleNewCreditCard = () => {
     setCardType('new')
-    goToCardForm()
+    handleDeselectPayment()
   }
 
   const handleSavedCreditCard = async (payment: AvailableAccount) => {
@@ -50,14 +59,20 @@ const Payment: React.FC = () => {
       accountId: payment.accountId,
       bin: payment.bin,
     })
-    goToCardForm()
+    handleDeselectPayment()
+    setInstallmentsModalOpen(true)
   }
 
   const handleInstallmentSelected = async (installment: number) => {
+    setInstallmentsModalOpen(false)
     await setPaymentField({
       installments: installment,
     })
-    history.push(routes.REVIEW)
+    if (cardType === 'saved') {
+      history.push(routes.REVIEW)
+    } else {
+      setStage(PaymentStage.EXTRA_DATA)
+    }
   }
 
   const handleBankInvoiceSelect = async (payment: PaymentSystem) => {
@@ -71,12 +86,18 @@ const Payment: React.FC = () => {
     history.push(routes.REVIEW)
   }
 
+  const handleExtraDataSubmit = () => {
+    history.push(routes.REVIEW)
+  }
+
   return (
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
         <CreditCard
-          onCardFormCompleted={goToInstallments}
-          onChangePaymentMethod={goToPaymentList}
+          ref={creditCardRef}
+          onCardFormCompleted={handleCardFormCompleted}
+          onChangePaymentMethod={handleChangePaymentMethod}
+          onChangeInstallments={() => setInstallmentsModalOpen(true)}
           cardType={cardType}
           key={cardType}
         />
@@ -87,13 +108,19 @@ const Payment: React.FC = () => {
           onSavedCreditCard={handleSavedCreditCard}
           onBankInvoiceSelect={handleBankInvoiceSelect}
         />
-      ) : stage === PaymentStage.INSTALLMENTS ? (
-        <Installments
-          onInstallmentSelected={handleInstallmentSelected}
-          onBackToCardForm={goToCardForm}
-          cardLastDigits={cardLastDigits}
+      ) : stage === PaymentStage.EXTRA_DATA ? (
+        <ExtraData
+          onDeselectPayment={handleChangePaymentMethod}
+          cardType={cardType}
+          onSubmit={handleExtraDataSubmit}
+          onChangeInstallments={() => setInstallmentsModalOpen(true)}
         />
       ) : null}
+      <InstallmentsModal
+        isOpen={installmentsModalOpen}
+        onInstallmentSelected={handleInstallmentSelected}
+        onClose={() => setInstallmentsModalOpen(false)}
+      />
     </>
   )
 }

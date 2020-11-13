@@ -1,16 +1,25 @@
 import classNames from 'classnames'
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  forwardRef,
+  useImperativeHandle,
+} from 'react'
 import { useSSR, useRuntime } from 'vtex.render-runtime'
-import { Button, Spinner } from 'vtex.styleguide'
-import { DocumentField } from 'vtex.document-field'
+import { Button, Spinner, ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
 import { PaymentSystem } from 'vtex.checkout-graphql'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
+import { Modal } from 'vtex.checkout-components'
+import { PaymentFlag } from 'vtex.payment-flags'
 
-import { PaymentType } from './enums/PaymentEnums'
 import styles from './CreditCard.css'
 import CardSummary from './CardSummary'
+import SelectedCardInstallments from './components/SelectedCardInstallments'
 
 const messages = defineMessages({
   requiredField: {
@@ -25,6 +34,17 @@ const messages = defineMessages({
   installmentsButton: {
     id: 'store/checkout-payment.installmentsButton',
   },
+  installmentsOptionsTitle: {
+    id: 'store/checkout-payment.installmentsOptionsTitle',
+  },
+  installmentWithoutValue: {
+    id: 'store/checkout-payment.installmentWithoutValue',
+  },
+  selectedPaymentLabel: { id: 'store/checkout-payment.selectedPaymentLabel' },
+  reviewPurchaseLabel: { id: 'store/checkout-payment.reviewPurchaseLabel' },
+  viewInstallmentOptionsLabel: {
+    id: 'store/checkout-payment.viewInstallmentOptionsLabel',
+  },
 })
 
 let postRobot: typeof import('post-robot') | null = null
@@ -33,13 +53,6 @@ let iFrameResize: typeof import('iframe-resizer') | null = null
 if (window?.document) {
   postRobot = require('post-robot')
   iFrameResize = require('iframe-resizer').iframeResize
-}
-
-interface Field {
-  value: string
-  error: boolean
-  errorMessage: string
-  showError: boolean
 }
 
 const IFRAME_APP_VERSION = '0.7.1'
@@ -55,24 +68,26 @@ const LOCAL_IFRAME_DEVELOPMENT =
 
 const iframeURL = LOCAL_IFRAME_DEVELOPMENT ? iframeURLDev : iframeURLProd
 
-const initialDoc = {
-  value: '',
-  error: false,
-  errorMessage: '',
-  showError: false,
-}
-
 interface Props {
   onCardFormCompleted: () => void
   onChangePaymentMethod: () => void
+  onChangeInstallments: () => void
   cardType: CardType
 }
 
-const CreditCard: React.FC<Props> = ({
-  onCardFormCompleted,
-  onChangePaymentMethod,
-  cardType,
-}) => {
+export interface CreditCardRef {
+  resetCardFormData: () => void
+}
+
+const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
+  {
+    onCardFormCompleted,
+    onChangePaymentMethod,
+    onChangeInstallments,
+    cardType,
+  },
+  ref
+) {
   const {
     cardLastDigits,
     payment,
@@ -93,8 +108,6 @@ const CreditCard: React.FC<Props> = ({
     setSelectedPaymentSystem,
   ] = useState<PaymentSystem | null>(null)
 
-  const [doc, setDoc] = useState<Field>(initialDoc)
-
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const {
     culture: { locale },
@@ -114,7 +127,7 @@ const CreditCard: React.FC<Props> = ({
   const setupIframe = useCallback(async () => {
     iFrameResize?.(
       {
-        heightCalculationMethod: 'max',
+        heightCalculationMethod: 'documentElementOffset',
         checkOrigin: false,
         resizeFrom: 'parent',
         autoResize: true,
@@ -141,8 +154,11 @@ const CreditCard: React.FC<Props> = ({
     if (iframeRef.current) {
       await postRobot.send(iframeRef.current.contentWindow, 'resetCardFormData')
     }
-    setDoc(initialDoc)
   }, [])
+
+  useImperativeHandle(ref, () => ({
+    resetCardFormData,
+  }))
 
   useEffect(function createPaymentSystemListener() {
     const listener = postRobot.on(
@@ -165,69 +181,41 @@ const CreditCard: React.FC<Props> = ({
     [selectedAddress]
   )
 
-  const validateDoc = () => {
-    if (!doc.value) {
-      setDoc({
-        ...doc,
-        showError: true,
-        error: true,
-        errorMessage: intl.formatMessage(messages.requiredField),
-      })
-      return false
-    }
-    if (doc.error) {
-      setDoc({
-        ...doc,
-        showError: true,
-        errorMessage: intl.formatMessage(messages.invalidDigits),
-      })
-      return false
-    }
-
-    return true
-  }
+  const [submitLoading, setSubmitLoading] = useState(false)
 
   const handleSubmit = async () => {
-    const docIsValid = validateDoc()
-    const { data: cardIsValid } = await postRobot.send(
-      iframeRef.current!.contentWindow,
-      'isCardValid'
-    )
+    setSubmitLoading(true)
 
-    if (
-      !selectedPaymentSystem ||
-      !cardIsValid ||
-      (cardType === 'new' && !docIsValid)
-    ) {
-      showCardErrors()
-      return
-    }
-
-    if (cardType === 'new') {
-      const { data: lastDigits } = await postRobot.send(
+    try {
+      const { data: cardIsValid } = await postRobot.send(
         iframeRef.current!.contentWindow,
-        'getCardLastDigits'
+        'isCardValid'
       )
 
-      setCardLastDigits(lastDigits)
+      if (!selectedPaymentSystem || !cardIsValid) {
+        showCardErrors()
+        return
+      }
 
-      await setPaymentField({
-        paymentSystem: selectedPaymentSystem.id,
-        referenceValue,
-        installments: null,
-      })
+      if (cardType === 'new') {
+        const { data: lastDigits } = await postRobot.send(
+          iframeRef.current!.contentWindow,
+          'getCardLastDigits'
+        )
+
+        setCardLastDigits(lastDigits)
+
+        await setPaymentField({
+          paymentSystem: selectedPaymentSystem.id,
+          referenceValue,
+          installments: null,
+        })
+      }
+
+      onCardFormCompleted()
+    } finally {
+      setSubmitLoading(false)
     }
-
-    onCardFormCompleted()
-  }
-
-  const handleChangeDoc = (data: any) => {
-    setDoc({
-      value: data.document,
-      error: !data.isValid,
-      errorMessage: '',
-      showError: false,
-    })
   }
 
   const handleCardSummaryClick = async () => {
@@ -235,31 +223,114 @@ const CreditCard: React.FC<Props> = ({
     onChangePaymentMethod()
   }
 
+  const [
+    showAvailableInstallmentOptionsModal,
+    setShowAvailableInstallmentOptionsModal,
+  ] = useState(false)
+  const { orderForm } = useOrderForm()
+
+  const creditCardPayments = useMemo(
+    () =>
+      orderForm.paymentData.paymentSystems.filter(
+        ({ groupName }) => groupName === 'creditCardPaymentGroup'
+      ),
+    [orderForm]
+  )
+
+  const creditCardInstallmentOptions = useMemo(
+    () =>
+      creditCardPayments
+        .map(creditCardPaymentSystem => {
+          const creditCardInstallments = orderForm.paymentData.installmentOptions.find(
+            installmentOption =>
+              creditCardPaymentSystem.id === installmentOption.paymentSystem
+          )
+
+          if (!creditCardInstallments) {
+            return null
+          }
+
+          return {
+            ...creditCardInstallments,
+            paymentName: creditCardPaymentSystem.name,
+          }
+        })
+        .filter(<T extends any>(value: T | null): value is T => value !== null),
+    [orderForm, creditCardPayments]
+  )
+
   if (isSSR) {
     return null
   }
 
   return (
     <div className="relative w-100">
+      <span className="dib t-heading-6 mb5">
+        {intl.formatMessage(messages.selectedPaymentLabel)}
+      </span>
+
       {iframeLoading && (
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-white-70 z-1 flex items-center justify-center">
           <Spinner />
         </div>
       )}
-      <div className="mb3">
+      <div className={cardType === 'saved' ? 'mb5' : 'mb3'}>
         <CardSummary
           paymentSystem={
             cardType === 'saved' ? payment.paymentSystem! : undefined
           }
           lastDigits={cardType === 'saved' ? cardLastDigits : undefined}
-          onClick={handleCardSummaryClick}
-          type={PaymentType.CREDIT_CARD}
+          onEdit={handleCardSummaryClick}
+          description={
+            cardType === 'saved' ? (
+              <SelectedCardInstallments
+                onChangeInstallments={onChangeInstallments}
+              />
+            ) : (
+              <div className="pv3">
+                <ButtonPlain
+                  onClick={() => setShowAvailableInstallmentOptionsModal(true)}
+                >
+                  {intl.formatMessage(messages.viewInstallmentOptionsLabel)}
+                </ButtonPlain>
+              </div>
+            )
+          }
         />
+        <Modal
+          isOpen={showAvailableInstallmentOptionsModal}
+          onClose={() => setShowAvailableInstallmentOptionsModal(false)}
+          title={intl.formatMessage(messages.installmentsOptionsTitle)}
+        >
+          {creditCardInstallmentOptions.map(
+            ({ paymentSystem: paymentSystemId, installments, paymentName }) => (
+              <div key={paymentSystemId} className="flex mb4">
+                <div className="flex w2 h2">
+                  <PaymentFlag paymentSystemId={paymentSystemId} />
+                </div>
+                <div className="ml5">
+                  <span className="t-base fw7">{paymentName}</span>
+                  <ul className="list pa0 mb0 mt3">
+                    {installments.map(installment => (
+                      <li key={installment.count} className="lh-copy mb3">
+                        {intl.formatMessage(messages.installmentWithoutValue, {
+                          count: installment.count,
+                          hasInterestRate: installment.hasInterestRate,
+                          interestRate: installment.interestRate,
+                        })}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )
+          )}
+        </Modal>
       </div>
 
       <iframe
         id="chk-card-form"
-        className={classNames(styles.iframe, 'vw-100 w-auto-ns nh5 nh0-ns', {
+        className={classNames(styles.iframe, 'vw-100 w-auto-ns nl5 nh0-ns', {
           [styles.newCard]: cardType === 'new',
           [styles.savedCard]: cardType === 'saved',
         })}
@@ -274,30 +345,24 @@ const CreditCard: React.FC<Props> = ({
         ref={iframeRef}
       />
 
-      {cardType === 'new' && (
-        <div className="ph0 ph5-ns pv5 flex items-center">
-          <div className="w-100 mw-100 mw5-ns">
-            <DocumentField
-              label={intl.formatMessage(messages.doucmentLabel)}
-              documentType="cpf"
-              onChange={handleChangeDoc}
-              onBlur={validateDoc}
-              document={doc.value}
-              error={doc.showError && doc.error}
-              errorMessage={doc.showError && doc.errorMessage}
-            />
-          </div>
-        </div>
-      )}
       <div className="flex mt5">
-        <Button size="large" block onClick={handleSubmit}>
+        <Button
+          size="large"
+          block
+          onClick={handleSubmit}
+          isLoading={submitLoading}
+        >
           <span className="f5">
-            {intl.formatMessage(messages.installmentsButton)}
+            {intl.formatMessage(
+              cardType === 'saved'
+                ? messages.reviewPurchaseLabel
+                : messages.installmentsButton
+            )}
           </span>
         </Button>
       </div>
     </div>
   )
-}
+})
 
 export default CreditCard
