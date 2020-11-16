@@ -4,6 +4,9 @@ import { useFormattedPrice } from 'vtex.formatted-price'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 import { Alert } from 'vtex.styleguide'
+import { OrderForm } from 'vtex.order-manager'
+
+const { useOrderForm } = OrderForm
 
 const messages = defineMessages({
   installmentValue: {
@@ -23,7 +26,15 @@ const PaymentSummary: React.FC = () => {
     paymentSystems,
     payment: { installments: installmentCount, paymentSystem: paymentSystemId },
     cardLastDigits,
+    isFreePurchase,
   } = useOrderPayment()
+
+  const { orderForm } = useOrderForm()
+
+  const hasValidProfileData = orderForm.clientProfileData?.isValid ?? false
+  const hasValidShippingData = orderForm.shipping.isValid
+
+  const lastStepsValid = hasValidProfileData && hasValidShippingData
 
   const intl = useIntl()
 
@@ -44,13 +55,9 @@ const PaymentSummary: React.FC = () => {
 
   const formattedInstallmentValue = useFormattedPrice(installmentValue / 100)
 
-  if (!selectedPaymentSystem) {
-    return null
-  }
-
   let summary = null
 
-  switch (selectedPaymentSystem.groupName) {
+  switch (selectedPaymentSystem?.groupName) {
     case 'creditCardPaymentGroup': {
       if (!selectedInstallment) {
         return null
@@ -100,7 +107,11 @@ const PaymentSummary: React.FC = () => {
       break
     }
     default:
-      return null
+      return lastStepsValid && isFreePurchase ? (
+        <Alert type="success">
+          <FormattedMessage id="store/checkout-payment.freePurchase" />
+        </Alert>
+      ) : null
   }
 
   return <div className="c-muted-1 flex flex-column lh-copy">{summary}</div>
