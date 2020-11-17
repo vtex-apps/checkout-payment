@@ -24,7 +24,10 @@
     "vtex.checkout-graphql": "0.x",
     "vtex.checkout-components": "0.x",
     "vtex.payment-flags": "2.x",
-    "vtex.checkout-container": "0.x"
+    "vtex.checkout-container": "0.x",
+    "vtex.checkout-shipping": "0.x",
+    "vtex.place-components": "0.x",
+    "vtex.address-context": "0.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

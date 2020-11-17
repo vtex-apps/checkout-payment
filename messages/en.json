@@ -21,5 +21,7 @@
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- without interest}}",
   "store/checkout-payment.boletoGenerationMessage": "Generated after purchase",
   "store/checkout-payment.boletoNotice": "The delivery estimate is subject to payment being confirmed. This can take up to 1 business day.",
-  "store/checkout-payment.reviewPurchaseLabel": "Review purchase"
+  "store/checkout-payment.reviewPurchaseLabel": "Review purchase",
+  "store/checkout-payment.billingAddressLabel": "Billing address",
+  "store/checkout-payment.newAddressLabel": "+ New address"
 }

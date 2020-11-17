@@ -1,8 +1,5 @@
-// eslint-disable-next-line import/order
-import * as Styleguide from 'vtex.styleguide'
-
 declare module 'vtex.styleguide' {
-  import React from 'react'
+  import React, { ReactNode } from 'react'
 
   export const Button: React.FC<{ type?: string; block?: boolean }>
 
@@ -13,4 +10,15 @@ declare module 'vtex.styleguide' {
   export const IconEdit: React.FC
 
   export const Alert: React.FC<{ type: 'success' | 'warning' | 'error' }>
+
+  export const Dropdown: React.VFC<{
+    label: string
+    options: Array<{ value: string; label: string }>
+    placeholder?: string
+    error?: boolean
+    errorMessage?: ReactNode
+    value?: string
+  } & React.HTMLAttributes<HTMLSelectElement>>
 }
+
+export {}

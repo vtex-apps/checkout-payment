@@ -11,7 +11,7 @@ import React, {
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner, ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
-import { PaymentSystem } from 'vtex.checkout-graphql'
+import { PaymentSystem, Address } from 'vtex.checkout-graphql'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Modal } from 'vtex.checkout-components'
@@ -77,6 +77,8 @@ interface Props {
 
 export interface CreditCardRef {
   resetCardFormData: () => void
+  updateAddress: (address: string | Address) => void
+  updateDocument: (document: string) => void
 }
 
 const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
@@ -96,11 +98,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     setPaymentField,
     referenceValue,
   } = useOrderPayment()
-  const {
-    orderForm: {
-      shipping: { selectedAddress },
-    },
-  } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -114,6 +111,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
   } = useRuntime()
   const isSSR = useSSR()
   const intl = useIntl()
+  const { orderForm } = useOrderForm()
 
   const creditCardPaymentSystems = useMemo(
     () =>
@@ -156,8 +154,30 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     }
   }, [])
 
+  const updateAddress = (address: string | Address) => {
+    if (!iframeRef.current) {
+      return
+    }
+
+    postRobot.send(iframeRef.current.contentWindow, 'updateAddress', {
+      address,
+    })
+  }
+
+  const updateDocument = (doc: string) => {
+    if (!iframeRef.current) {
+      return
+    }
+
+    postRobot.send(iframeRef.current.contentWindow, 'updateDocument', {
+      document: doc,
+    })
+  }
+
   useImperativeHandle(ref, () => ({
     resetCardFormData,
+    updateAddress,
+    updateDocument,
   }))
 
   useEffect(function createPaymentSystemListener() {
@@ -169,17 +189,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     )
     return () => listener.cancel()
   }, [])
-
-  useEffect(
-    function updateAddressId() {
-      if (iframeRef.current) {
-        postRobot.send(iframeRef.current.contentWindow, 'updateAddressId', {
-          addressId: selectedAddress?.addressId,
-        })
-      }
-    },
-    [selectedAddress]
-  )
 
   const [submitLoading, setSubmitLoading] = useState(false)
 
@@ -227,7 +236,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     showAvailableInstallmentOptionsModal,
     setShowAvailableInstallmentOptionsModal,
   ] = useState(false)
-  const { orderForm } = useOrderForm()
 
   const creditCardPayments = useMemo(
     () =>

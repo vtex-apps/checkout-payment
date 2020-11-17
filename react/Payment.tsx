@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router, routes } from 'vtex.checkout-container'
-import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
+import { AvailableAccount, PaymentSystem, Address } from 'vtex.checkout-graphql'
 
 import CreditCard, { CreditCardRef } from './CreditCard'
 import PaymentList from './PaymentList'
@@ -90,6 +90,17 @@ const Payment: React.FC = () => {
     history.push(routes.REVIEW)
   }
 
+  const handleBillingAddressChange = useCallback(
+    (address: string | Address) => {
+      creditCardRef.current?.updateAddress(address)
+    },
+    []
+  )
+
+  const handleDocumentChange = (doc: string) => {
+    creditCardRef.current?.updateDocument(doc)
+  }
+
   return (
     <>
       <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
@@ -114,6 +125,8 @@ const Payment: React.FC = () => {
           cardType={cardType}
           onSubmit={handleExtraDataSubmit}
           onChangeInstallments={() => setInstallmentsModalOpen(true)}
+          onBillingAddressChange={handleBillingAddressChange}
+          onDocumentChange={handleDocumentChange}
         />
       ) : null}
       <InstallmentsModal

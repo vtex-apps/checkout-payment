@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { defineMessages, useIntl } from 'react-intl'
-import { Button } from 'vtex.styleguide'
+import { Button, Dropdown } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
+import { useOrderForm } from 'vtex.order-manager/OrderForm'
+import { useAddressRules } from 'vtex.checkout-shipping'
+import { AddressContext } from 'vtex.address-context'
+import { Address } from 'vtex.checkout-graphql'
+import { formatAddressToString } from 'vtex.place-components'
 
 import CardSummary from '../CardSummary'
 import SelectedCardInstallments from './SelectedCardInstallments'
+import BillingAddressForm, {
+  createEmptyBillingAddress,
+} from './BillingAddressForm'
+
+const { AddressContextProvider, useAddressContext } = AddressContext
 
 const messages = defineMessages({
   selectedPaymentLabel: { id: 'store/checkout-payment.selectedPaymentLabel' },
@@ -24,6 +34,10 @@ const messages = defineMessages({
   invalidDigits: {
     id: 'store/checkout-payment.invalidDigits',
   },
+  billingAddressLabel: {
+    id: 'store/checkout-payment.billingAddressLabel',
+  },
+  newAddressLabel: { id: 'store/checkout-payment.newAddressLabel' },
 })
 
 interface Field {
@@ -40,11 +54,15 @@ const initialDocument: Field = {
   showError: false,
 }
 
+const NEW_ADDRESS_VALUE = 'new'
+
 interface Props {
   onDeselectPayment: () => void
   cardType: CardType
   onSubmit: () => void
   onChangeInstallments: () => void
+  onDocumentChange: (document: string) => void
+  onBillingAddressChange: (address: Address | string) => void
 }
 
 const ExtraData: React.VFC<Props> = ({
@@ -52,6 +70,8 @@ const ExtraData: React.VFC<Props> = ({
   cardType,
   onSubmit,
   onChangeInstallments,
+  onBillingAddressChange,
+  onDocumentChange,
 }) => {
   const { cardLastDigits, payment } = useOrderPayment()
   const intl = useIntl()
@@ -81,6 +101,8 @@ const ExtraData: React.VFC<Props> = ({
   }
 
   const handleChangeDocument = (data: any) => {
+    onDocumentChange(data.document)
+
     setDocument({
       value: data.document,
       error: !data.isValid,
@@ -89,12 +111,51 @@ const ExtraData: React.VFC<Props> = ({
     })
   }
 
+  const { orderForm } = useOrderForm()
+  const { address, rules, invalidFields } = useAddressContext()
+
+  const billingAddressesOptions = useMemo(
+    () =>
+      (
+        orderForm.shipping.availableAddresses?.map(availableAddress => ({
+          label: formatAddressToString(
+            availableAddress!,
+            rules[availableAddress!.country as string]
+          ),
+          value: availableAddress!.addressId!,
+        })) ?? []
+      ).concat([
+        {
+          label: intl.formatMessage(messages.newAddressLabel),
+          value: NEW_ADDRESS_VALUE,
+        },
+      ]),
+    [orderForm.shipping.availableAddresses, intl, rules]
+  )
+
+  useEffect(() => {
+    const { __typename, ...addressWithoutTypename } = address
+
+    onBillingAddressChange(addressWithoutTypename)
+  }, [address, onBillingAddressChange])
+
+  const [selectedBillingAddressId, setSelectedBillingAddressId] = useState(
+    billingAddressesOptions[0].value
+  )
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = evt => {
     evt.preventDefault()
 
     const documentIsValid = validateDocument()
 
     if (cardType === 'new' && !documentIsValid) {
+      return
+    }
+
+    if (
+      selectedBillingAddressId === NEW_ADDRESS_VALUE &&
+      (invalidFields.length > 1 || !invalidFields.includes('receiverName'))
+    ) {
       return
     }
 
@@ -141,6 +202,26 @@ const ExtraData: React.VFC<Props> = ({
           </div>
         )}
 
+        <div className="mt6">
+          <Dropdown
+            label={intl.formatMessage(messages.billingAddressLabel)}
+            options={billingAddressesOptions}
+            value={selectedBillingAddressId}
+            onChange={(evt: React.ChangeEvent<HTMLSelectElement>) => {
+              const { value } = evt.target
+
+              setSelectedBillingAddressId(value)
+              onBillingAddressChange(value)
+            }}
+          />
+
+          {selectedBillingAddressId === NEW_ADDRESS_VALUE && (
+            <div className="mt6">
+              <BillingAddressForm />
+            </div>
+          )}
+        </div>
+
         <div className="mt7">
           <Button size="large" block type="submit">
             <span className="f5">
@@ -153,4 +234,20 @@ const ExtraData: React.VFC<Props> = ({
   )
 }
 
-export default ExtraData
+const ExtraDataWithAddress: typeof ExtraData = ({ ...props }) => {
+  const addressRules = useAddressRules()
+
+  const { orderForm } = useOrderForm()
+
+  return (
+    <AddressContextProvider
+      address={createEmptyBillingAddress()}
+      rules={addressRules}
+      countries={orderForm.shipping.countries as string[]}
+    >
+      <ExtraData {...props} />
+    </AddressContextProvider>
+  )
+}
+
+export default ExtraDataWithAddress
