@@ -23,5 +23,6 @@
   "store/checkout-payment.boletoNotice": "The delivery estimate is subject to payment being confirmed. This can take up to 1 business day.",
   "store/checkout-payment.reviewPurchaseLabel": "Review purchase",
   "store/checkout-payment.billingAddressLabel": "Billing address",
-  "store/checkout-payment.newAddressLabel": "+ New address"
+  "store/checkout-payment.newAddressLabel": "+ New address",
+  "store/checkout-payment.cardFormTitle": "Container for credit card form"
 }

@@ -45,6 +45,9 @@ const messages = defineMessages({
   viewInstallmentOptionsLabel: {
     id: 'store/checkout-payment.viewInstallmentOptionsLabel',
   },
+  cardFormTitle: {
+    id: 'store/checkout-payment.cardFormTitle',
+  },
 })
 
 let postRobot: typeof import('post-robot') | null = null
@@ -342,7 +345,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
           [styles.newCard]: cardType === 'new',
           [styles.savedCard]: cardType === 'saved',
         })}
-        title="card-form-ui"
+        title={intl.formatMessage(messages.cardFormTitle)}
         // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
         // this to be turned off in code and can just slightly add a bit of extra space to the bottom
         // of the content that it doesn't report when it returns the height.

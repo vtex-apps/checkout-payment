@@ -23,5 +23,6 @@
   "store/checkout-payment.boletoNotice": "La entrega estimada está sujeta a confirmación de pago. Esto puede demorar hasta 1 día hábil.",
   "store/checkout-payment.reviewPurchaseLabel": "Revisar compra",
   "store/checkout-payment.billingAddressLabel": "Dirección de facturación",
-  "store/checkout-payment.newAddressLabel": "+ Nueva dirección"
+  "store/checkout-payment.newAddressLabel": "+ Nueva dirección",
+  "store/checkout-payment.cardFormTitle": "Contenedor para formulario de tarjeta de crédito"
 }
