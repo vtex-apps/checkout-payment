@@ -11,7 +11,7 @@ import React, {
 import { useSSR, useRuntime } from 'vtex.render-runtime'
 import { Button, Spinner, ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
-import { PaymentSystem } from 'vtex.checkout-graphql'
+import { PaymentSystem, Address } from 'vtex.checkout-graphql'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Modal } from 'vtex.checkout-components'
@@ -45,6 +45,9 @@ const messages = defineMessages({
   viewInstallmentOptionsLabel: {
     id: 'store/checkout-payment.viewInstallmentOptionsLabel',
   },
+  cardFormTitle: {
+    id: 'store/checkout-payment.cardFormTitle',
+  },
 })
 
 let postRobot: typeof import('post-robot') | null = null
@@ -55,7 +58,7 @@ if (window?.document) {
   iFrameResize = require('iframe-resizer').iframeResize
 }
 
-const IFRAME_APP_VERSION = '0.7.1'
+const IFRAME_APP_VERSION = '0.9.0'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
@@ -77,6 +80,8 @@ interface Props {
 
 export interface CreditCardRef {
   resetCardFormData: () => void
+  updateAddress: (address: string | Address) => void
+  updateDocument: (document: string) => void
 }
 
 const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
@@ -96,11 +101,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     setPaymentField,
     referenceValue,
   } = useOrderPayment()
-  const {
-    orderForm: {
-      shipping: { selectedAddress },
-    },
-  } = useOrderForm()
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [
@@ -114,6 +114,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
   } = useRuntime()
   const isSSR = useSSR()
   const intl = useIntl()
+  const { orderForm } = useOrderForm()
 
   const creditCardPaymentSystems = useMemo(
     () =>
@@ -156,8 +157,30 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     }
   }, [])
 
+  const updateAddress = (address: string | Address) => {
+    if (!iframeRef.current) {
+      return
+    }
+
+    postRobot.send(iframeRef.current.contentWindow, 'updateAddress', {
+      address,
+    })
+  }
+
+  const updateDocument = (doc: string) => {
+    if (!iframeRef.current) {
+      return
+    }
+
+    postRobot.send(iframeRef.current.contentWindow, 'updateDocument', {
+      document: doc,
+    })
+  }
+
   useImperativeHandle(ref, () => ({
     resetCardFormData,
+    updateAddress,
+    updateDocument,
   }))
 
   useEffect(function createPaymentSystemListener() {
@@ -169,17 +192,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     )
     return () => listener.cancel()
   }, [])
-
-  useEffect(
-    function updateAddressId() {
-      if (iframeRef.current) {
-        postRobot.send(iframeRef.current.contentWindow, 'updateAddressId', {
-          addressId: selectedAddress?.addressId,
-        })
-      }
-    },
-    [selectedAddress]
-  )
 
   const [submitLoading, setSubmitLoading] = useState(false)
 
@@ -227,7 +239,6 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
     showAvailableInstallmentOptionsModal,
     setShowAvailableInstallmentOptionsModal,
   ] = useState(false)
-  const { orderForm } = useOrderForm()
 
   const creditCardPayments = useMemo(
     () =>
@@ -334,7 +345,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
           [styles.newCard]: cardType === 'new',
           [styles.savedCard]: cardType === 'saved',
         })}
-        title="card-form-ui"
+        title={intl.formatMessage(messages.cardFormTitle)}
         // The scrolling attribute is set to 'no' in the iframe tag, as older versions of IE don't allow
         // this to be turned off in code and can just slightly add a bit of extra space to the bottom
         // of the content that it doesn't report when it returns the height.

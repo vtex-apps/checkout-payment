@@ -21,5 +21,8 @@
   "store/checkout-payment.summaryInstallments": "{installmentsMessage} {hasInterestRate, select, false {- sem juros}}",
   "store/checkout-payment.boletoGenerationMessage": "Gerado após a compra",
   "store/checkout-payment.boletoNotice": "A estimativa de entrega está sujeita à confirmação do pagamento. Isso pode levar em até 1 dia útil.",
-  "store/checkout-payment.reviewPurchaseLabel": "Revisar compra"
+  "store/checkout-payment.reviewPurchaseLabel": "Revisar compra",
+  "store/checkout-payment.billingAddressLabel": "Endereço de fatura",
+  "store/checkout-payment.newAddressLabel": "+ Novo endereço",
+  "store/checkout-payment.cardFormTitle": "Contéiner para o formulário de cartão de crédito"
 }
