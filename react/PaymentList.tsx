@@ -7,6 +7,7 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 
 import Header from './components/Header'
 import CardLabel from './components/CardLabel'
+import { slugify } from './utils/text'
 
 const messages = defineMessages({
   choosePaymentMethod: {
@@ -25,7 +26,10 @@ const PaymentItem: React.FC<{
   label: ReactNode
 }> = ({ paymentSystem = '', label }) => {
   return (
-    <div className="flex items-center c-muted-1">
+    <div
+      className="flex items-center c-muted-1"
+      data-testId={slugify(label as string)}
+    >
       <div className="h2">
         <PaymentFlag paymentSystemId={paymentSystem} />
       </div>
