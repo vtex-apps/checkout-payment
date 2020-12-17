@@ -87,7 +87,7 @@ Thereafter, you should add a single column table with the available CSS handles 
 
 If there are none, add the following sentence instead:
 
-`No CSS Handles are available yet for the app customization.`
+No CSS Handles are available yet for the app customization.
 
 <!-- DOCS-IGNORE:start -->
 
@@ -106,11 +106,3 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 <!-- DOCS-IGNORE:end -->
 
----- 
-
-Check out some documentation models that are already live: 
-- [Breadcrumb](https://github.com/vtex-apps/breadcrumb)
-- [Image](https://vtex.io/docs/components/general/vtex.store-components/image)
-- [Condition Layout](https://vtex.io/docs/components/all/vtex.condition-layout@1.1.6/)
-- [Add To Cart Button](https://vtex.io/docs/components/content-blocks/vtex.add-to-cart-button@0.9.0/)
-- [Store Form](https://vtex.io/docs/components/all/vtex.store-form@0.3.4/)
