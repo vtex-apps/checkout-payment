@@ -24,12 +24,14 @@ const messages = defineMessages({
 const PaymentItem: React.FC<{
   paymentSystem?: string
   label: ReactNode
-}> = ({ paymentSystem = '', label }) => {
+  'data-testid'?: string
+}> = ({
+  paymentSystem = '',
+  label,
+  'data-testid': testId = typeof label === 'string' ? label : undefined,
+}) => {
   return (
-    <div
-      className="flex items-center c-muted-1"
-      data-testId={slugify(label as string)}
-    >
+    <div className="flex items-center c-muted-1" data-testid={slugify(testId)}>
       <div className="h2">
         <PaymentFlag paymentSystemId={paymentSystem} />
       </div>
@@ -64,11 +66,9 @@ const PaymentList: React.FC<Props> = ({
       <ListGroup>
         {availableAccounts.map((payment: AvailableAccount) => {
           const lastDigits = payment.cardNumber.replace(/[^\d]/g, '')
+          const label = intl.formatMessage(messages.creditCardLabel)
           const paymentLabel = (
-            <CardLabel
-              label={intl.formatMessage(messages.creditCardLabel)}
-              lastDigits={lastDigits}
-            />
+            <CardLabel label={label} lastDigits={lastDigits} />
           )
           return (
             <GroupOption
@@ -79,6 +79,7 @@ const PaymentList: React.FC<Props> = ({
               <PaymentItem
                 paymentSystem={payment.paymentSystem}
                 label={paymentLabel}
+                data-testid={label}
               />
             </GroupOption>
           )
