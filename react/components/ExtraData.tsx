@@ -8,6 +8,7 @@ import { useAddressRules } from 'vtex.checkout-shipping'
 import { AddressContext } from 'vtex.address-context'
 import { Address } from 'vtex.checkout-graphql'
 import { formatAddressToString } from 'vtex.place-components'
+import { Loading } from 'vtex.render-runtime'
 
 import CardSummary from '../CardSummary'
 import SelectedCardInstallments from './SelectedCardInstallments'
@@ -238,6 +239,10 @@ const ExtraDataWithAddress: typeof ExtraData = ({ ...props }) => {
   const addressRules = useAddressRules()
 
   const { orderForm } = useOrderForm()
+
+  if (addressRules == null) {
+    return <Loading />
+  }
 
   return (
     <AddressContextProvider
