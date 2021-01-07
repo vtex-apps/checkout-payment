@@ -28,10 +28,17 @@ const SelectedCardInstallments: React.FC<Props> = ({
   const installmentOptions = orderForm.paymentData.installmentOptions.find(
     installmentOption =>
       installmentOption.paymentSystem === payment.paymentSystem
-  )!
-  const selectedInstallmentOption = installmentOptions.installments.find(
+  )
+  const selectedInstallmentOption = installmentOptions?.installments.find(
     ({ count }) => count === payment.installments
-  )!
+  ) ?? {
+    value: 0,
+    count: 1,
+    hasInterestRate: false,
+    interestRate: null,
+    total: 0,
+    __typename: 'Installment',
+  }
 
   const formattedInstallmentValue = useFormattedPrice(
     (selectedInstallmentOption.value ?? 0) / 100
