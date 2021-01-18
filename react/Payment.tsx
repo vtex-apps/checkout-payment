@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router, routes } from 'vtex.checkout-container'
 import { AvailableAccount, PaymentSystem, Address } from 'vtex.checkout-graphql'
@@ -12,7 +12,6 @@ import ExtraData from './components/ExtraData'
 const { useHistory } = Router
 
 const Payment: React.FC = () => {
-  const [stage, setStage] = useState<PaymentStage>(PaymentStage.PAYMENT_LIST)
   const [cardType, setCardType] = useState<CardType>('new')
   const {
     setPaymentField,
@@ -20,11 +19,21 @@ const Payment: React.FC = () => {
     value,
     referenceValue,
     setCardFormFilled,
+    isFreePurchase,
   } = useOrderPayment()
+  const [stage, setStage] = useState<PaymentStage>(
+    isFreePurchase ? PaymentStage.FREE_PURCHASE : PaymentStage.PAYMENT_LIST
+  )
   const creditCardRef = useRef<CreditCardRef>(null)
   const history = useHistory()
 
   const [installmentsModalOpen, setInstallmentsModalOpen] = useState(false)
+
+  useEffect(() => {
+    if (isFreePurchase) {
+      history.push(routes.REVIEW)
+    }
+  }, [history, isFreePurchase])
 
   const handleCardFormCompleted = () => {
     setCardFormFilled(true)
