@@ -1,62 +1,41 @@
-First of all (even before the block's name), its README.md should contain the following sentence at the very beginning:
+📢 Use this project, [contribute](https://github.com/vtex-apps/checkout-payment) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
 
-`=� Use this project, [contribute](https://github.com/{OrganizationName/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).`
+# Checkout Payment
 
-# BLOCK NAME
+> :warning: *Although ready to be installed, the Checkout Payment app is currently an **open-beta project**. Bear in mind that due to that status, you can expect an accelerated state of evolution.*
 
-Under the block's name, you should explain the topic, giving a **brief description** of the **block's functionality** in a store.
+<!-- DOCS-IGNORE:start -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- DOCS-IGNORE:end -->
 
-Next, **add media** (either an image of a GIF) with the rendered block, so that users can better understand how the block works in practice. 
-
-![Media Placeholder](https://user-images.githubusercontent.com/52087100/71204177-42ca4f80-227e-11ea-89e6-e92e65370c69.png)
+:construction: To be completed.
 
 ## Configuration 
 
-In this section, you first must **add the primary instructions** that will allow users to use the block in their store, such as adding the block's app as a dependency in the `manifest.json` and declaring the block itself in a given template.
-
-Next, add the **block's props table**:
-
-| Prop name    | Type            | Description    | Default value                                                                                                                               |
-| ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | 
-| `XXXXX`      | `XXXXXX`       | XXXXXXXX         | `XXXXXX`        |
-
-
-Remember to also **showcase any necessary disclaimer** related to the block in this section, such as the different behavior it may display during its configuration. 
+:construction: To be completed.
 
 ## Modus Operandi *(not mandatory)*
 
-There are scenarios in which a block can behave differently in a store, according to how it was added to the catalog, for example. It's crucial to go through these **behavioral changes** in this section, allowing users to fully understand the **practical application** of the block in their store.
-
-If you feel compelled to give further details about the block, such as it's **relationship with the VTEX admin**, don't hesitate to use this section. 
+:construction: To be completed.
 
 ## Customization
 
-The first thing that should be present in this section is the sentence below, showing users the recipe pertaining to CSS customization in blocks:
+:construction: To be completed.
+<!-- DOCS-IGNORE:start -->
 
-`In order to apply CSS customizations in this and other blocks, follow the instructions given in the recipe on [Using CSS Handles for store customization](https://vtex.io/docs/recipes/style/using-css-handles-for-store-customization).`
+## Contributors ✨
 
-Thereafter, you should add a single column table with the available CSS handles for that block:
+Thanks goes to these wonderful people:
 
-| CSS Handles |
-| ----------- | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` |
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
 
-If there are none, add the following sentence instead:
-
-`The component still doesn't have CSS Handles for its specific customization.`
-
----
-
-Check out some documentation models that are already live: 
-- [Breadcrumb](https://github.com/vtex-apps/breadcrumb)
-- [Image](https://vtex.io/docs/components/general/vtex.store-components/image)
-
-
-**Upcoming documentation:**
-
- - [Checkout payment](https://github.com/vtex-apps/checkout-payment/pull/1)
+<!-- DOCS-IGNORE:end -->
