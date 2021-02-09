@@ -74,11 +74,23 @@ const ExtraData: React.VFC<Props> = ({
   onBillingAddressChange,
   onDocumentChange,
 }) => {
-  const { cardLastDigits, payment } = useOrderPayment()
+  const { cardLastDigits, payment, paymentSystems } = useOrderPayment()
   const intl = useIntl()
   const [userDocument, setDocument] = useState<Field>(initialDocument)
 
+  const documentIsRequired = useMemo(
+    () =>
+      paymentSystems.find(
+        paymentSystem => paymentSystem.id === payment.paymentSystem
+      )?.requiresDocument ?? false,
+    [payment.paymentSystem, paymentSystems]
+  )
+
   const validateDocument = () => {
+    if (!documentIsRequired) {
+      return true
+    }
+
     if (!userDocument.value) {
       setDocument(prevDocument => ({
         ...prevDocument,
@@ -162,6 +174,7 @@ const ExtraData: React.VFC<Props> = ({
 
     onSubmit()
   }
+  const mustShowDocumentField = cardType === 'new' && documentIsRequired
 
   return (
     <div>
@@ -185,7 +198,7 @@ const ExtraData: React.VFC<Props> = ({
       </span>
 
       <form onSubmit={handleSubmit}>
-        {cardType === 'new' && (
+        {mustShowDocumentField && (
           <div className="mt6 flex items-center">
             <div className="w-100 mw-100 mw5-ns">
               <DocumentField
