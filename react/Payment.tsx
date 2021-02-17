@@ -11,7 +11,11 @@ import ExtraData from './components/ExtraData'
 
 const { useHistory } = Router
 
-const Payment: React.FC = () => {
+interface Props {
+  billingAddressType?: BillingAddressType
+}
+
+const Payment: React.FC<Props> = ({ billingAddressType = 'saved' }) => {
   const [cardType, setCardType] = useState<CardType>('new')
   const {
     setPaymentField,
@@ -136,6 +140,7 @@ const Payment: React.FC = () => {
           onChangeInstallments={() => setInstallmentsModalOpen(true)}
           onBillingAddressChange={handleBillingAddressChange}
           onDocumentChange={handleDocumentChange}
+          billingAddressType={billingAddressType}
         />
       ) : null}
       <InstallmentsModal

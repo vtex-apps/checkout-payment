@@ -57,6 +57,7 @@ const initialDocument: Field = {
 const NEW_ADDRESS_VALUE = 'new'
 
 interface Props {
+  billingAddressType: BillingAddressType
   onDeselectPayment: () => void
   cardType: CardType
   onSubmit: () => void
@@ -72,6 +73,7 @@ const ExtraData: React.VFC<Props> = ({
   onChangeInstallments,
   onBillingAddressChange,
   onDocumentChange,
+  billingAddressType,
 }) => {
   const { cardLastDigits, payment, paymentSystems } = useOrderPayment()
   const intl = useIntl()
@@ -80,7 +82,7 @@ const ExtraData: React.VFC<Props> = ({
   const documentIsRequired = useMemo(
     () =>
       paymentSystems.find(
-        paymentSystem => paymentSystem.id === payment.paymentSystem
+        (paymentSystem) => paymentSystem.id === payment.paymentSystem
       )?.requiresDocument ?? false,
     [payment.paymentSystem, paymentSystems]
   )
@@ -91,7 +93,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (!userDocument.value) {
-      setDocument(prevDocument => ({
+      setDocument((prevDocument) => ({
         ...prevDocument,
         showError: true,
         error: true,
@@ -101,7 +103,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (userDocument.error) {
-      setDocument(prevDocument => ({
+      setDocument((prevDocument) => ({
         ...prevDocument,
         showError: true,
         errorMessage: intl.formatMessage(messages.invalidDigits),
@@ -129,7 +131,7 @@ const ExtraData: React.VFC<Props> = ({
   const billingAddressesOptions = useMemo(
     () =>
       (
-        orderForm.shipping.availableAddresses?.map(availableAddress => ({
+        orderForm.shipping.availableAddresses?.map((availableAddress) => ({
           label: formatAddressToString(
             availableAddress!,
             rules[availableAddress!.country as string]
@@ -145,8 +147,12 @@ const ExtraData: React.VFC<Props> = ({
     [orderForm.shipping.availableAddresses, intl, rules]
   )
 
+  const mustInputBillingAddress = billingAddressType === 'new'
+
   const [selectedBillingAddressId, setSelectedBillingAddressId] = useState(
-    billingAddressesOptions[0].value
+    mustInputBillingAddress
+      ? NEW_ADDRESS_VALUE
+      : billingAddressesOptions[0].value
   )
 
   const billingForm = useAddressForm()
@@ -157,7 +163,10 @@ const ExtraData: React.VFC<Props> = ({
     onBillingAddressChange(addressWithoutTypename)
   }, [billingForm.address, onBillingAddressChange])
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = evt => {
+  const shouldRenderBillingAddressForm =
+    selectedBillingAddressId === NEW_ADDRESS_VALUE || mustInputBillingAddress
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault()
 
     const documentIsValid = validateDocument()
@@ -168,11 +177,8 @@ const ExtraData: React.VFC<Props> = ({
       shouldSubmit = false
     }
 
-    if (
-      selectedBillingAddressId === NEW_ADDRESS_VALUE &&
-      !billingForm.isValid
-    ) {
-      billingForm.invalidFields.forEach(field => {
+    if (shouldRenderBillingAddressForm && !billingForm.isValid) {
+      billingForm.invalidFields.forEach((field) => {
         billingForm.onFieldBlur(field)
       })
       shouldSubmit = false
@@ -227,19 +233,21 @@ const ExtraData: React.VFC<Props> = ({
         )}
 
         <div className="mt6">
-          <Dropdown
-            label={intl.formatMessage(messages.billingAddressLabel)}
-            options={billingAddressesOptions}
-            value={selectedBillingAddressId}
-            onChange={(evt: React.ChangeEvent<HTMLSelectElement>) => {
-              const { value } = evt.target
+          {!mustInputBillingAddress && (
+            <Dropdown
+              label={intl.formatMessage(messages.billingAddressLabel)}
+              options={billingAddressesOptions}
+              value={selectedBillingAddressId}
+              onChange={(evt: React.ChangeEvent<HTMLSelectElement>) => {
+                const { value } = evt.target
 
-              setSelectedBillingAddressId(value)
-              onBillingAddressChange(value)
-            }}
-          />
+                setSelectedBillingAddressId(value)
+                onBillingAddressChange(value)
+              }}
+            />
+          )}
 
-          {selectedBillingAddressId === NEW_ADDRESS_VALUE && (
+          {shouldRenderBillingAddressForm && (
             <div className="mt6">
               <BillingAddressForm form={billingForm} />
             </div>

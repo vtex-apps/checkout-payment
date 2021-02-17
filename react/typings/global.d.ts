@@ -15,4 +15,6 @@ declare global {
   }
 
   type CardType = 'new' | 'saved'
+
+  type BillingAddressType = 'new' | 'saved'
 }

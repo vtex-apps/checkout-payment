@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `billingAddressType` parameter to allow control of Billing Addres input
+
 ## [0.13.1] - 2021-02-23
 ### Fixed
 - Validation on billing address form.
