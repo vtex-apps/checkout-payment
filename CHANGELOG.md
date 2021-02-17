@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- CSS handles to the extra data section
+
 ## [0.13.0] - 2021-02-12
 ### Added
 - Do not show the document field if the selected payment system does not require

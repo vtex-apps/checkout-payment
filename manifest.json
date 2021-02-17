@@ -27,7 +27,8 @@
     "vtex.order-payment": "0.x",
     "vtex.payment-flags": "2.x",
     "vtex.place-components": "0.x",
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.css-handles": "1.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

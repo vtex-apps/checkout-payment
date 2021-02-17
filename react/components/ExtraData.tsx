@@ -9,12 +9,25 @@ import { AddressContext } from 'vtex.address-context'
 import { Address } from 'vtex.checkout-graphql'
 import { formatAddressToString } from 'vtex.place-components'
 import { Loading } from 'vtex.render-runtime'
+import { useCssHandles } from 'vtex.css-handles'
 
 import CardSummary from '../CardSummary'
 import SelectedCardInstallments from './SelectedCardInstallments'
 import BillingAddressForm, {
   createEmptyBillingAddress,
 } from './BillingAddressForm'
+
+const CSS_HANDLES = [
+  'extraDataContainer',
+  'selectedPaymentLabel',
+  'creditCardExtraDataMessage',
+  'documentFieldSectionContainer',
+  'documentFieldContainer',
+  'billingAddressSectionContainer',
+  'billingAddressFormContainer',
+  'reviewPurchaseButtonContainer',
+  'reviewPurchaseButtonLabel',
+] as const
 
 const { AddressContextProvider, useAddressContext } = AddressContext
 
@@ -77,11 +90,12 @@ const ExtraData: React.VFC<Props> = ({
   const { cardLastDigits, payment, paymentSystems } = useOrderPayment()
   const intl = useIntl()
   const [userDocument, setDocument] = useState<Field>(initialDocument)
+  const { handles } = useCssHandles(CSS_HANDLES)
 
   const documentIsRequired = useMemo(
     () =>
       paymentSystems.find(
-        paymentSystem => paymentSystem.id === payment.paymentSystem
+        (paymentSystem) => paymentSystem.id === payment.paymentSystem
       )?.requiresDocument ?? false,
     [payment.paymentSystem, paymentSystems]
   )
@@ -92,7 +106,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (!userDocument.value) {
-      setDocument(prevDocument => ({
+      setDocument((prevDocument) => ({
         ...prevDocument,
         showError: true,
         error: true,
@@ -102,7 +116,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (userDocument.error) {
-      setDocument(prevDocument => ({
+      setDocument((prevDocument) => ({
         ...prevDocument,
         showError: true,
         errorMessage: intl.formatMessage(messages.invalidDigits),
@@ -130,7 +144,7 @@ const ExtraData: React.VFC<Props> = ({
   const billingAddressesOptions = useMemo(
     () =>
       (
-        orderForm.shipping.availableAddresses?.map(availableAddress => ({
+        orderForm.shipping.availableAddresses?.map((availableAddress) => ({
           label: formatAddressToString(
             availableAddress!,
             rules[availableAddress!.country as string]
@@ -156,7 +170,7 @@ const ExtraData: React.VFC<Props> = ({
     billingAddressesOptions[0].value
   )
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = evt => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault()
 
     const documentIsValid = validateDocument()
@@ -177,8 +191,8 @@ const ExtraData: React.VFC<Props> = ({
   const mustShowDocumentField = cardType === 'new' && documentIsRequired
 
   return (
-    <div>
-      <span className="dib t-heading-6 mb5">
+    <div className={handles.extraDataContainer}>
+      <span className={`${handles.selectedPaymentLabel} dib t-heading-6 mb5`}>
         {intl.formatMessage(messages.selectedPaymentLabel)}
       </span>
 
@@ -193,14 +207,20 @@ const ExtraData: React.VFC<Props> = ({
         }
       />
 
-      <span className="dib mt5 t-body lh-copy">
+      <span
+        className={`${handles.creditCardExtraDataMessage} dib mt5 t-body lh-copy`}
+      >
         {intl.formatMessage(messages.creditCardExtraDataMessage)}
       </span>
 
       <form onSubmit={handleSubmit}>
         {mustShowDocumentField && (
-          <div className="mt6 flex items-center">
-            <div className="w-100 mw-100 mw5-ns">
+          <div
+            className={`${handles.documentFieldSectionContainer} mt6 flex items-center`}
+          >
+            <div
+              className={`${handles.documentFieldContainer} w-100 mw-100 mw5-ns`}
+            >
               <DocumentField
                 label={intl.formatMessage(messages.documentLabel)}
                 documentType="cpf"
@@ -216,7 +236,7 @@ const ExtraData: React.VFC<Props> = ({
           </div>
         )}
 
-        <div className="mt6">
+        <div className={`${handles.billingAddressSectionContainer} mt6`}>
           <Dropdown
             label={intl.formatMessage(messages.billingAddressLabel)}
             options={billingAddressesOptions}
@@ -230,15 +250,15 @@ const ExtraData: React.VFC<Props> = ({
           />
 
           {selectedBillingAddressId === NEW_ADDRESS_VALUE && (
-            <div className="mt6">
+            <div className={`${handles.billingAddressFormContainer} mt6`}>
               <BillingAddressForm />
             </div>
           )}
         </div>
 
-        <div className="mt7">
+        <div className={`${handles.reviewPurchaseButtonContainer} mt7`}>
           <Button size="large" block type="submit">
-            <span className="f5">
+            <span className={`${handles.reviewPurchaseButtonLabel} f5`}>
               {intl.formatMessage(messages.reviewPurchaseLabel)}
             </span>
           </Button>

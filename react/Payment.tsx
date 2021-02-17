@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import { Router, routes } from 'vtex.checkout-container'
 import { AvailableAccount, PaymentSystem, Address } from 'vtex.checkout-graphql'
+import { useCssHandles } from 'vtex.css-handles'
 
 import CreditCard, { CreditCardRef } from './CreditCard'
 import PaymentList from './PaymentList'
@@ -10,6 +11,8 @@ import InstallmentsModal from './components/InstallmentsModal'
 import ExtraData from './components/ExtraData'
 
 const { useHistory } = Router
+
+const CSS_HANDLES = ['creditCardContainer'] as const
 
 const Payment: React.FC = () => {
   const [cardType, setCardType] = useState<CardType>('new')
@@ -34,6 +37,8 @@ const Payment: React.FC = () => {
       history.push(routes.REVIEW)
     }
   }, [history, isFreePurchase])
+
+  const { handles } = useCssHandles(CSS_HANDLES)
 
   const handleCardFormCompleted = () => {
     setCardFormFilled(true)
@@ -112,7 +117,11 @@ const Payment: React.FC = () => {
 
   return (
     <>
-      <div className={stage === PaymentStage.CARD_FORM ? '' : 'dn'}>
+      <div
+        className={`${handles.creditCardContainer} ${
+          stage === PaymentStage.CARD_FORM ? '' : 'dn'
+        }`}
+      >
         <CreditCard
           ref={creditCardRef}
           onCardFormCompleted={handleCardFormCompleted}
