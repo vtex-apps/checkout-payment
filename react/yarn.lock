@@ -5386,6 +5386,14 @@ verror@1.10.0:
   version "0.56.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql#c1153ec5faf232f92abfe495f867019bfb7d510f"
 
+"vtex.checkout-shipping@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-shipping@0.6.6/public/@types/vtex.checkout-shipping":
+  version "0.6.6"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-shipping@0.6.6/public/@types/vtex.checkout-shipping#c71713765bf87c50bb64016738450171a6e91c12"
+
+"vtex.css-handles@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@1.0.0/public/@types/vtex.css-handles":
+  version "1.0.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@1.0.0/public/@types/vtex.css-handles#336b23ef3a9bcb2b809529ba736783acd405d081"
+
 "vtex.document-field@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.1/public/@types/vtex.document-field":
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.1/public/@types/vtex.document-field#222a1052f966f79209ee8ec998fcd43ecd7fbcce"

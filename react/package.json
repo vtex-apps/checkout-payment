@@ -30,6 +30,8 @@
     "vtex.checkout-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components",
     "vtex.checkout-container": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.7.0/public/@types/vtex.checkout-container",
     "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql",
+    "vtex.checkout-shipping": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-shipping@0.6.6/public/@types/vtex.checkout-shipping",
+    "vtex.css-handles": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@1.0.0/public/@types/vtex.css-handles",
     "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.1/public/@types/vtex.document-field",
     "vtex.formatted-price": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.formatted-price@0.4.0/public/@types/vtex.formatted-price",
     "vtex.order-manager": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.9.0/public/@types/vtex.order-manager",
