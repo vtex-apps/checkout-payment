@@ -25,5 +25,6 @@
   "store/checkout-payment.billingAddressLabel": "Billing address",
   "store/checkout-payment.newAddressLabel": "+ New address",
   "store/checkout-payment.cardFormTitle": "Container for credit card form",
-  "store/checkout-payment.freePurchase": "Your purchase is free"
+  "store/checkout-payment.freePurchase": "Your purchase is free",
+  "store/checkout-payment.informBillingAddress": "Please inform your billing address"
 }

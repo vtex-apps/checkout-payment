@@ -4,10 +4,9 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Button, Dropdown } from 'vtex.styleguide'
 import { DocumentField } from 'vtex.document-field'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
-import { useAddressRules } from 'vtex.checkout-shipping'
-import { AddressContext } from 'vtex.address-context'
+import { AddressContext, useAddressRules } from 'vtex.address-context'
 import { Address } from 'vtex.checkout-graphql'
-import { formatAddressToString } from 'vtex.place-components'
+import { formatAddressToString, useAddressForm } from 'vtex.place-components'
 import { Loading } from 'vtex.render-runtime'
 
 import CardSummary from '../CardSummary'
@@ -125,7 +124,7 @@ const ExtraData: React.VFC<Props> = ({
   }
 
   const { orderForm } = useOrderForm()
-  const { address, rules, invalidFields } = useAddressContext()
+  const { rules } = useAddressContext()
 
   const billingAddressesOptions = useMemo(
     () =>
@@ -146,29 +145,40 @@ const ExtraData: React.VFC<Props> = ({
     [orderForm.shipping.availableAddresses, intl, rules]
   )
 
-  useEffect(() => {
-    const { __typename, ...addressWithoutTypename } = address
-
-    onBillingAddressChange(addressWithoutTypename)
-  }, [address, onBillingAddressChange])
-
   const [selectedBillingAddressId, setSelectedBillingAddressId] = useState(
     billingAddressesOptions[0].value
   )
+
+  const billingForm = useAddressForm()
+
+  useEffect(() => {
+    const { __typename, ...addressWithoutTypename } = billingForm.address
+
+    onBillingAddressChange(addressWithoutTypename)
+  }, [billingForm.address, onBillingAddressChange])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = evt => {
     evt.preventDefault()
 
     const documentIsValid = validateDocument()
 
+    let shouldSubmit = true
+
     if (cardType === 'new' && !documentIsValid) {
-      return
+      shouldSubmit = false
     }
 
     if (
       selectedBillingAddressId === NEW_ADDRESS_VALUE &&
-      (invalidFields.length > 1 || !invalidFields.includes('receiverName'))
+      !billingForm.isValid
     ) {
+      billingForm.invalidFields.forEach(field => {
+        billingForm.onFieldBlur(field)
+      })
+      shouldSubmit = false
+    }
+
+    if (!shouldSubmit) {
       return
     }
 
@@ -231,7 +241,7 @@ const ExtraData: React.VFC<Props> = ({
 
           {selectedBillingAddressId === NEW_ADDRESS_VALUE && (
             <div className="mt6">
-              <BillingAddressForm />
+              <BillingAddressForm form={billingForm} />
             </div>
           )}
         </div>

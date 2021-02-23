@@ -26,19 +26,18 @@
     "@types/react-dom": "^16.9.9",
     "@vtex/test-tools": "^3.3.2",
     "apollo-client": "^2.5.1",
-    "vtex.address-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.5.0/public/@types/vtex.address-context",
+    "vtex.address-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.6.2/public/@types/vtex.address-context",
     "vtex.checkout-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components",
-    "vtex.checkout-container": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.6.2/public/@types/vtex.checkout-container",
-    "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.55.1/public/@types/vtex.checkout-graphql",
-    "vtex.checkout-shipping": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-shipping@0.6.5/public/@types/vtex.checkout-shipping",
+    "vtex.checkout-container": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-container@0.7.0/public/@types/vtex.checkout-container",
+    "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql",
     "vtex.document-field": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.document-field@0.1.1/public/@types/vtex.document-field",
     "vtex.formatted-price": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.formatted-price@0.4.0/public/@types/vtex.formatted-price",
     "vtex.order-manager": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.9.0/public/@types/vtex.order-manager",
     "vtex.order-payment": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-payment@0.8.0/public/@types/vtex.order-payment",
     "vtex.payment-flags": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.payment-flags@2.5.1/public/@types/vtex.payment-flags",
-    "vtex.place-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.place-components@0.13.9/public/@types/vtex.place-components",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.6/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.1/public/@types/vtex.styleguide"
+    "vtex.place-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.place-components@0.14.0/public/@types/vtex.place-components",
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.11/public/@types/vtex.render-runtime",
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.3/public/@types/vtex.styleguide"
   },
   "version": "0.13.0"
 }
