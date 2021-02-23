@@ -1,9 +1,11 @@
 import React from 'react'
-import { ShippingHeader } from 'vtex.checkout-shipping'
-import { LocationInput, AddressForm } from 'vtex.place-components'
-import { AddressContext, Utils } from 'vtex.address-context'
-
-const { useAddressContext } = AddressContext
+import {
+  LocationInput,
+  AddressForm,
+  useAddressForm,
+} from 'vtex.place-components'
+import { Utils } from 'vtex.address-context'
+import { FormattedMessage } from 'react-intl'
 
 export const createEmptyBillingAddress = () => {
   const { receiverName, ...address } = Utils.createEmptyAddress(true)
@@ -11,19 +13,22 @@ export const createEmptyBillingAddress = () => {
   return address
 }
 
-const BillingAddressForm: React.VFC = () => {
-  const { invalidFields, setAddress } = useAddressContext()
-
+const BillingAddressForm: React.VFC<{
+  form: ReturnType<typeof useAddressForm>
+}> = ({ form }) => {
   return (
     <>
-      {invalidFields.includes('postalCode') ? (
+      {form.invalidFields.includes('postalCode') ? (
         <>
-          <ShippingHeader />
-          <LocationInput />
+          <p className="t-body mt0 mb6">
+            <FormattedMessage id="store/checkout-payment.informBillingAddress" />
+          </p>
+          <LocationInput onSuccess={address => form.setAddress(address)} />
         </>
       ) : (
         <AddressForm
-          onResetAddress={() => setAddress(createEmptyBillingAddress())}
+          onResetAddress={() => form.setAddress(createEmptyBillingAddress())}
+          form={form}
         />
       )}
     </>

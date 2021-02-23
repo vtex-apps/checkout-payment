@@ -25,5 +25,6 @@
   "store/checkout-payment.billingAddressLabel": "Endereço de fatura",
   "store/checkout-payment.newAddressLabel": "+ Novo endereço",
   "store/checkout-payment.cardFormTitle": "Contêiner para o formulário de cartão de crédito",
-  "store/checkout-payment.freePurchase": "Sua compra é grátis"
+  "store/checkout-payment.freePurchase": "Sua compra é grátis",
+  "store/checkout-payment.informBillingAddress": "Por favor informe o endereço de faturamento"
 }
