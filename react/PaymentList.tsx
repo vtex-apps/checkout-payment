@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useIntl, defineMessages } from 'react-intl'
 import { GroupOption, ListGroup } from 'vtex.checkout-components'
+import { useCssHandles } from 'vtex.css-handles'
 import { AvailableAccount, PaymentSystem } from 'vtex.checkout-graphql'
 import { PaymentFlag } from 'vtex.payment-flags'
 import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
@@ -8,6 +9,13 @@ import { useOrderPayment } from 'vtex.order-payment/OrderPayment'
 import Header from './components/Header'
 import CardLabel from './components/CardLabel'
 import { slugify } from './utils/text'
+
+const CSS_HANDLES = [
+  'paymentListContainer',
+  'savedCreditCardOption',
+  'newCreditCardOption',
+  'bankInvoiceOption',
+] as const
 
 const messages = defineMessages({
   choosePaymentMethod: {
@@ -55,12 +63,14 @@ const PaymentList: React.FC<Props> = ({
 
   const { availableAccounts, paymentSystems } = useOrderPayment()
 
+  const { handles } = useCssHandles(CSS_HANDLES)
+
   const bankInvoicePayments = paymentSystems.filter(
     ({ groupName }) => groupName === 'bankInvoicePaymentGroup'
   )
 
   return (
-    <div>
+    <div className={handles.paymentListContainer}>
       <Header>{intl.formatMessage(messages.choosePaymentMethod)}</Header>
 
       <ListGroup>
@@ -75,6 +85,7 @@ const PaymentList: React.FC<Props> = ({
               onClick={() => onSavedCreditCard(payment)}
               key={payment.accountId}
               caretAlign="center"
+              className={handles.savedCreditCardOption}
             >
               <PaymentItem
                 paymentSystem={payment.paymentSystem}
@@ -84,7 +95,11 @@ const PaymentList: React.FC<Props> = ({
             </GroupOption>
           )
         })}
-        <GroupOption onClick={onNewCreditCard} caretAlign="center">
+        <GroupOption
+          onClick={onNewCreditCard}
+          caretAlign="center"
+          className={handles.newCreditCardOption}
+        >
           <PaymentItem
             label={intl.formatMessage(messages.newCreditCardLabel)}
           />
@@ -94,6 +109,7 @@ const PaymentList: React.FC<Props> = ({
             caretAlign="center"
             key={paymentSystem.id}
             onClick={() => onBankInvoiceSelect(paymentSystem)}
+            className={handles.bankInvoiceOption}
           >
             <PaymentItem
               label={paymentSystem.name}
