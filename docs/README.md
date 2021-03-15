@@ -1,6 +1,6 @@
 First of all (even before the block's name), its README.md should contain the following sentence at the very beginning:
 
-`=â Use this project, [contribute](https://github.com/{OrganizationName/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).`
+`=ï¿½ Use this project, [contribute](https://github.com/{OrganizationName/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).`
 
 # BLOCK NAME
 
@@ -38,13 +38,21 @@ The first thing that should be present in this section is the sentence below, sh
 Thereafter, you should add a single column table with the available CSS handles for that block:
 
 | CSS Handles |
-| ----------- | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` |
-
+| ----------- |
+| `paymentListContainer` |
+| `savedCreditCardOption` |
+| `newCreditCardOption` |
+| `bankInvoiceOption` |
+| `creditCardContainer` |
+| `extraDataContainer` |
+| `selectedPaymentLabel` |
+| `creditCardExtraDataMessage` |
+| `documentFieldSectionContainer` |
+| `documentFieldContainer` |
+| `billingAddressSectionContainer` |
+| `billingAddressFormContainer` |
+| `reviewPurchaseButtonContainer` |
+| `reviewPurchaseButtonLabel` |
 
 If there are none, add the following sentence instead:
 
