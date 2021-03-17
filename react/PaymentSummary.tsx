@@ -5,8 +5,11 @@ import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { Installment, InstallmentOption } from 'vtex.checkout-graphql'
 import { Alert } from 'vtex.styleguide'
 import { OrderForm } from 'vtex.order-manager'
+import { useCssHandles } from 'vtex.css-handles'
 
 const { useOrderForm } = OrderForm
+
+const CSS_HANDLES = ['customPaymentSystemName', 'summaryInstallmentsMessage']
 
 const messages = defineMessages({
   installmentValue: {
@@ -37,6 +40,8 @@ const PaymentSummary: React.FC = () => {
   const lastStepsValid = hasValidProfileData && hasValidShippingData
 
   const intl = useIntl()
+
+  const { handles } = useCssHandles(CSS_HANDLES)
 
   const selectedPaymentSystem = paymentSystems.find(
     paymentSystem => paymentSystem.id === paymentSystemId
@@ -107,11 +112,39 @@ const PaymentSummary: React.FC = () => {
       break
     }
     default:
-      return lastStepsValid && isFreePurchase ? (
-        <Alert type="success">
-          <FormattedMessage id="store/checkout-payment.freePurchase" />
-        </Alert>
-      ) : null
+      if (lastStepsValid && isFreePurchase) {
+        return (
+          <Alert type="success">
+            <FormattedMessage id="store/checkout-payment.freePurchase" />
+          </Alert>
+        )
+      }
+
+      if (selectedPaymentSystem?.groupName.startsWith('custom')) {
+        const installmentsMessage = intl.formatMessage(
+          messages.installmentValue,
+          {
+            installments: selectedInstallment?.count ?? 1,
+            value: formattedInstallmentValue,
+          }
+        )
+
+        summary = (
+          <>
+            <span className={handles.customPaymentSystemName}>
+              {selectedPaymentSystem.name}
+            </span>
+            <span className={handles.summaryInstallmentsMessage}>
+              {intl.formatMessage(messages.summaryInstallments, {
+                installmentsMessage,
+                hasInterestRate: selectedInstallment?.hasInterestRate ?? false,
+              })}
+            </span>
+          </>
+        )
+      } else {
+        return null
+      }
   }
 
   return <div className="c-muted-1 flex flex-column lh-copy">{summary}</div>

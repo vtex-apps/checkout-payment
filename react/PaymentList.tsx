@@ -15,7 +15,10 @@ const CSS_HANDLES = [
   'savedCreditCardOption',
   'newCreditCardOption',
   'bankInvoiceOption',
+  'customPaymentOption',
 ] as const
+
+const CASH_PAYMENT_SYSTEM_ID = '47'
 
 const messages = defineMessages({
   choosePaymentMethod: {
@@ -52,12 +55,14 @@ interface Props {
   onNewCreditCard: () => void
   onSavedCreditCard: (payment: AvailableAccount) => void
   onBankInvoiceSelect: (payment: PaymentSystem) => void
+  onCustomPaymentSelect: (payment: PaymentSystem) => void
 }
 
 const PaymentList: React.FC<Props> = ({
   onNewCreditCard,
   onSavedCreditCard,
   onBankInvoiceSelect,
+  onCustomPaymentSelect,
 }) => {
   const intl = useIntl()
 
@@ -68,6 +73,8 @@ const PaymentList: React.FC<Props> = ({
   const bankInvoicePayments = paymentSystems.filter(
     ({ groupName }) => groupName === 'bankInvoicePaymentGroup'
   )
+
+  const customPayments = paymentSystems.filter(({ isCustom }) => isCustom)
 
   return (
     <div className={handles.paymentListContainer}>
@@ -114,6 +121,19 @@ const PaymentList: React.FC<Props> = ({
             <PaymentItem
               label={paymentSystem.name}
               paymentSystem={paymentSystem.id}
+            />
+          </GroupOption>
+        ))}
+        {customPayments.map(paymentSystem => (
+          <GroupOption
+            caretAlign="center"
+            key={paymentSystem.id}
+            onClick={() => onCustomPaymentSelect(paymentSystem)}
+            className={handles.customPaymentOption}
+          >
+            <PaymentItem
+              label={paymentSystem.name}
+              paymentSystem={CASH_PAYMENT_SYSTEM_ID}
             />
           </GroupOption>
         ))}

@@ -100,6 +100,17 @@ const Payment: React.FC = () => {
     history.push(routes.REVIEW)
   }
 
+  const handleCustomPaymentSelect = async (payment: PaymentSystem) => {
+    await setPaymentField({
+      paymentSystem: payment.id,
+      installments: 1,
+      installmentsInterestRate: 0,
+      value,
+      referenceValue,
+    })
+    history.push(routes.REVIEW)
+  }
+
   const handleExtraDataSubmit = () => {
     history.push(routes.REVIEW)
   }
@@ -136,6 +147,7 @@ const Payment: React.FC = () => {
           onNewCreditCard={handleNewCreditCard}
           onSavedCreditCard={handleSavedCreditCard}
           onBankInvoiceSelect={handleBankInvoiceSelect}
+          onCustomPaymentSelect={handleCustomPaymentSelect}
         />
       ) : stage === PaymentStage.EXTRA_DATA ? (
         <ExtraData
