@@ -218,6 +218,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
         setCardLastDigits(lastDigits)
 
         await setPaymentField({
+          accountId: null,
           paymentSystem: selectedPaymentSystem.id,
           referenceValue,
           installments: null,
