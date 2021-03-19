@@ -219,6 +219,7 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
 
         await setPaymentField({
           accountId: null,
+          bin: null,
           paymentSystem: selectedPaymentSystem.id,
           referenceValue,
           installments: null,
