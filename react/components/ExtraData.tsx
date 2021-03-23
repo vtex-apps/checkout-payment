@@ -94,7 +94,7 @@ const ExtraData: React.VFC<Props> = ({
   const documentIsRequired = useMemo(
     () =>
       paymentSystems.find(
-        (paymentSystem) => paymentSystem.id === payment.paymentSystem
+        paymentSystem => paymentSystem.id === payment.paymentSystem
       )?.requiresDocument ?? false,
     [payment.paymentSystem, paymentSystems]
   )
@@ -105,7 +105,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (!userDocument.value) {
-      setDocument((prevDocument) => ({
+      setDocument(prevDocument => ({
         ...prevDocument,
         showError: true,
         error: true,
@@ -115,7 +115,7 @@ const ExtraData: React.VFC<Props> = ({
     }
 
     if (userDocument.error) {
-      setDocument((prevDocument) => ({
+      setDocument(prevDocument => ({
         ...prevDocument,
         showError: true,
         errorMessage: intl.formatMessage(messages.invalidDigits),
@@ -143,7 +143,7 @@ const ExtraData: React.VFC<Props> = ({
   const billingAddressesOptions = useMemo(
     () =>
       (
-        orderForm.shipping.availableAddresses?.map((availableAddress) => ({
+        orderForm.shipping.availableAddresses?.map(availableAddress => ({
           label: formatAddressToString(
             availableAddress!,
             rules[availableAddress!.country as string]
@@ -168,10 +168,15 @@ const ExtraData: React.VFC<Props> = ({
   useEffect(() => {
     const { __typename, ...addressWithoutTypename } = billingForm.address
 
-    onBillingAddressChange(addressWithoutTypename)
-  }, [billingForm.address, onBillingAddressChange])
+    if (selectedBillingAddressId !== NEW_ADDRESS_VALUE) {
+      onBillingAddressChange(selectedBillingAddressId)
+      return
+    }
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (evt) => {
+    onBillingAddressChange(addressWithoutTypename)
+  }, [selectedBillingAddressId, billingForm.address, onBillingAddressChange])
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = evt => {
     evt.preventDefault()
 
     const documentIsValid = validateDocument()
@@ -186,7 +191,7 @@ const ExtraData: React.VFC<Props> = ({
       selectedBillingAddressId === NEW_ADDRESS_VALUE &&
       !billingForm.isValid
     ) {
-      billingForm.invalidFields.forEach((field) => {
+      billingForm.invalidFields.forEach(field => {
         billingForm.onFieldBlur(field)
       })
       shouldSubmit = false

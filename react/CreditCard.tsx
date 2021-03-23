@@ -58,7 +58,7 @@ if (window?.document) {
   iFrameResize = require('iframe-resizer').iframeResize
 }
 
-const IFRAME_APP_VERSION = '0.9.0'
+const IFRAME_APP_VERSION = '0.9.1'
 const PORT = 3000
 
 const iframeURLProd = `https://io.vtexpayments.com.br/card-form-ui/${IFRAME_APP_VERSION}/index.html`
@@ -218,6 +218,8 @@ const CreditCard = forwardRef<CreditCardRef, Props>(function CreditCard(
         setCardLastDigits(lastDigits)
 
         await setPaymentField({
+          accountId: null,
+          bin: null,
           paymentSystem: selectedPaymentSystem.id,
           referenceValue,
           installments: null,
