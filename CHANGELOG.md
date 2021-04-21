@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- I18n Fi, Fr, Nl, No, Ro and Sl.
+
+### Changed
+- Crowdin configuration file.
+
 ## [0.14.1] - 2021-03-23
 ### Fixed
 - `bin` and `accountId` payment fields when the user enters a new credit card.
