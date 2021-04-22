@@ -8,7 +8,7 @@
   "store/checkout-payment.creditCardLabel": "Carte de crédit",
   "store/checkout-payment.viewInstallmentOptionsLabel": "Afficher les options d’installation",
   "store/checkout-payment.installmentsOptionsTitle": "Options d’installation",
-  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {avec intérêts de {taux d'interet}% mois}}",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {avec intérêts de {interestRate}% mois}}",
   "store/checkout-payment.installmentsTitle": "Versements",
   "store/checkout-payment.installmentOptionLabel": "Choisissez une option d’installation",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
