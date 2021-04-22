@@ -8,7 +8,7 @@
   "store/checkout-payment.creditCardLabel": "Kredietkaart ",
   "store/checkout-payment.viewInstallmentOptionsLabel": "Bekijk termijnopties",
   "store/checkout-payment.installmentsOptionsTitle": "Termijnopties",
-  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {met een rente van {Rentepercentage}% per maand}}",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {met een rente van {interestRate}% per maand}}",
   "store/checkout-payment.installmentsTitle": "Termijnen",
   "store/checkout-payment.installmentOptionLabel": "Kies een termijnoptie",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
