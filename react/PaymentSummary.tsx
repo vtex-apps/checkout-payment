@@ -62,6 +62,8 @@ const PaymentSummary: React.FC = () => {
 
   let summary = null
 
+  const PROMISSORY_PAYMENT_SYSTEM_REGEX = /^custom2([0][1-9]|10)/
+
   switch (selectedPaymentSystem?.groupName) {
     case 'creditCardPaymentGroup': {
       if (!selectedInstallment) {
@@ -120,7 +122,9 @@ const PaymentSummary: React.FC = () => {
         )
       }
 
-      if (selectedPaymentSystem?.groupName.startsWith('custom')) {
+      if (
+        selectedPaymentSystem?.groupName.match(PROMISSORY_PAYMENT_SYSTEM_REGEX)
+      ) {
         const installmentsMessage = intl.formatMessage(
           messages.installmentValue,
           {
