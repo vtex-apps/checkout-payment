@@ -137,7 +137,7 @@ const PaymentSummary: React.FC = () => {
             <span className={handles.summaryInstallmentsMessage}>
               {intl.formatMessage(messages.summaryInstallments, {
                 installmentsMessage,
-                hasInterestRate: selectedInstallment?.hasInterestRate ?? false,
+                hasInterestRate: !!selectedInstallment?.hasInterestRate,
               })}
             </span>
           </>
