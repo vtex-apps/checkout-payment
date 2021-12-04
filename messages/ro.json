@@ -8,7 +8,7 @@
   "store/checkout-payment.creditCardLabel": "Card de credit",
   "store/checkout-payment.viewInstallmentOptionsLabel": "Vezi opțiunile de rate",
   "store/checkout-payment.installmentsOptionsTitle": "Opțiuni rate",
-  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {without interest} true {cu dobândă de {interestRate}% lunar}}",
+  "store/checkout-payment.installmentWithoutValue": "{count}x {hasInterestRate, select, false {fără dobândă} true {cu dobândă de {interestRate}% lunar}}",
   "store/checkout-payment.installmentsTitle": "Rate",
   "store/checkout-payment.installmentOptionLabel": "Alege o opțiune de rate",
   "store/checkout-payment.installmentValue": "{installments}x {value}",
