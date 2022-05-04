@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `card-form-ui` version to `0.9.2`
+
 ## [0.16.0] - 2021-05-25
 
 ### Added
